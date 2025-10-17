@@ -1,5 +1,5 @@
 package com.example.negolatina
-import androidx.compose.material.icons.filled.Remove
+
 import androidx.compose.foundation.Image
 import androidx.compose.ui.res.painterResource
 import android.os.Bundle
@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove // ⭐️ CORRECCIÓN: Referencia 'Remove'
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -75,7 +76,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
-//@Preview(showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     NegolatinaTheme {
@@ -84,8 +85,8 @@ fun GreetingPreview() {
 }
 
 
-
-@Preview
+@OptIn(ExperimentalMaterial3Api::class)
+//@Preview
 @Composable
 fun productomanzana() {
     var count by remember { mutableStateOf(0) }
@@ -223,7 +224,7 @@ fun productomanzana() {
         }
     }
 }
-//@Preview
+@Preview
 @Composable
 fun bebidas() {
 
@@ -302,16 +303,15 @@ fun bebidas() {
                         Box(
                             Modifier.background(Color.White).weight(1f),
                             contentAlignment = Alignment.BottomCenter
+
                         )
                         {
                             Image(
                                 painter = painterResource(id = R.drawable.smirnoff),
                                 contentDescription = "smirnoff",
-                                modifier = Modifier.height(250.dp)
-                                    .padding(bottom = 25.dp)
+                                modifier = Modifier.height(250.dp).padding(bottom = 20.dp)
                             )
-
-                            Text("SMIRNOFF",color = Color.Black,fontWeight = FontWeight.Bold)
+                            Text("SMIRNOFF",color = Color.Black, fontWeight = FontWeight.Bold)
                         }
 
                         Box(
@@ -322,10 +322,9 @@ fun bebidas() {
                             Image(
                                 painter = painterResource(id = R.drawable.cola),
                                 contentDescription = "cocacola",
-                                modifier = Modifier.height(250.dp)
-                                    .padding(bottom = 25.dp)
+                                modifier = Modifier.height(250.dp).padding(bottom = 20.dp)
                             )
-                            Text("COCA COLA",color = Color.Black,fontWeight = FontWeight.Bold)
+                            Text("COCA COLA",color = Color.Black, fontWeight = FontWeight.Bold)
                         }
                     }
                     Row(
@@ -334,6 +333,7 @@ fun bebidas() {
                             .weight(1f)
                     )
                     {
+
                         Box(
                             Modifier.background(Color.White).weight(1f),
                             contentAlignment = Alignment.BottomCenter
@@ -342,10 +342,9 @@ fun bebidas() {
                             Image(
                                 painter = painterResource(id = R.drawable.power),
                                 contentDescription = "pOWER",
-                                modifier = Modifier.height(250.dp)
-                                    .padding(bottom = 25.dp)
+                                modifier = Modifier.height(250.dp).padding(bottom = 25.dp)
                             )
-                            Text("POWER",color = Color.Black,fontWeight = FontWeight.Bold)
+                            Text("POWER",color = Color.Black, fontWeight = FontWeight.Bold)
                         }
 
                         Box(
@@ -356,10 +355,9 @@ fun bebidas() {
                             Image(
                                 painter = painterResource(id = R.drawable.bacardi),
                                 contentDescription = "bacardi",
-                                modifier = Modifier.height(250.dp)
-                                    .padding(bottom = 25.dp)
+                                modifier = Modifier.height(250.dp).padding(bottom = 20.dp)
                             )
-                            Text("BACARDI",color = Color.Black,fontWeight = FontWeight.Bold)
+                            Text("BACARDI",color = Color.Black, fontWeight = FontWeight.Bold)
                         }
                     }
                     Row(
@@ -377,23 +375,24 @@ fun bebidas() {
                             Image(
                                 painter = painterResource(id = R.drawable.jack),
                                 contentDescription = "jack",
-                                modifier = Modifier.height(250.dp)
-                                    .padding(bottom = 25.dp)
+                                modifier = Modifier.height(250.dp).padding(bottom = 20.dp)
                             )
-                            Text("JACK DANIELS",color = Color.Black,fontWeight = FontWeight.Bold)
+                            Text("JACK DANIELS",color = Color.Black, fontWeight = FontWeight.Bold)
                         }
+
                         Box(
                             Modifier.background(Color.White).weight(1f),
-                            contentAlignment = Alignment.BottomCenter
+                            contentAlignment = Alignment.BottomCenter,
+
                         )
                         {
                             Image(
                                 painter = painterResource(id = R.drawable.yogurt),
                                 contentDescription = "yogurt",
-                                modifier = Modifier.height(250.dp)
-                                    .padding(bottom = 25.dp)
+                                modifier = Modifier.height(250.dp).padding(bottom = 20.dp)
+
                             )
-                            Text("YOGURT",color = Color.Black,fontWeight = FontWeight.Bold)
+                            Text("YOGURT",color = Color.Black, fontWeight = FontWeight.Bold)
                         }
                     }
                 }
