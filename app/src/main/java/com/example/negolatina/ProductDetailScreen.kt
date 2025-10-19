@@ -11,9 +11,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.negolatina.ui.theme.NegolatinaTheme
 
+@Preview(showBackground = true, name = "ProductDetail screen")
+@Composable
+fun ProductDetailScreen() {
+    NegolatinaTheme {
+       ProductDetailScreen(navController = rememberNavController(), productId="1")
+    }
+}
 @Composable
 fun ProductDetailScreen(navController: NavController, productId: String) {
     val product = sampleProducts.find { it.id == productId } ?: sampleProducts.first()

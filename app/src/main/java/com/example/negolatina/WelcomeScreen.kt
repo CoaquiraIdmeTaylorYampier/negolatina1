@@ -22,12 +22,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.negolatina.ui.theme.NegolatinaBlack
 import com.example.negolatina.ui.theme.NegolatinaRed
+import com.example.negolatina.ui.theme.NegolatinaTheme
 
+
+@Preview(showBackground = true, name = "Welcome screen")
+@Composable
+fun WelcomeScreen() {
+    NegolatinaTheme {
+        WelcomeScreen(navController = rememberNavController())
+    }
+}
 @Composable
 fun WelcomeScreen(navController: NavController) {
 
@@ -44,7 +55,7 @@ fun WelcomeScreen(navController: NavController) {
         ) {
 
             Image(
-                painter = painterResource(id = R.drawable.logo_pollito), // <-- ¡CAMBIA ESTO por el nombre de tu imagen!
+                painter = painterResource(id = R.drawable.logo_pollito),
                 contentDescription = "Logo de Negolatina",
                 modifier = Modifier.size(150.dp)
             )
@@ -74,7 +85,7 @@ fun WelcomeScreen(navController: NavController) {
                 text = "Bienvenido",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White // Texto blanco para que contraste con el fondo rojo
+                color = Color.White
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -104,7 +115,7 @@ fun WelcomeScreen(navController: NavController) {
                 ) {
                     Text(
                         "INICIAR SESIÓN",
-                        color = NegolatinaRed, // Color del texto
+                        color = NegolatinaRed,
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -130,3 +141,5 @@ fun WelcomeScreen(navController: NavController) {
         }
     }
 }
+
+

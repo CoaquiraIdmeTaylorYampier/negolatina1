@@ -9,9 +9,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.negolatina.ui.theme.NegolatinaTheme
 
+
+@Preview(showBackground = true, name = "Login screen")
+@Composable
+fun LoginScreen() {
+    NegolatinaTheme {
+        LoginScreen(navController = rememberNavController())
+    }
+}
 @Composable
 fun LoginScreen(navController: NavController) {
     val user = remember { mutableStateOf("") }
@@ -38,7 +49,14 @@ fun LoginScreen(navController: NavController) {
             }) {
                 Text("Iniciar sesión")
             }
-                //
+
+            Spacer(modifier = Modifier.height(8.dp))
+            Text("¿No tienes cuenta? Registrate aquí",
+                modifier = Modifier.padding(top = 8.dp))
+            Button(onClick = { navController.navigate("register") },
+                modifier = Modifier.padding(top = 8.dp)) {
+                Text("Registrate")
+            }
         }
     }
 }

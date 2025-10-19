@@ -17,12 +17,21 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
+
+@Preview(showSystemUi = true)
+@Composable
+fun HomeScreenPreview() {
+    val navController = rememberNavController()
+    HomeScreen(navController = navController)
+}
 data class Product(val id: String, val title: String, val price: String)
 
 val sampleProducts = listOf(
     Product("1", "Carne de Res", "S/.16.90 x Kg"),
     Product("2", "Smirnoff", "S/.25.40"),
     Product("3", "Avena tres osito", "S/.4.50"),
+    Product("4", "leche", "S/.3.90"),
+    Product("5", "yogurt", "S/.6.50"),
 
 )
 
@@ -56,11 +65,4 @@ fun HomeScreen(navController: NavController) {
             }
         }
     }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun HomeScreenPreview() {
-    val navController = rememberNavController()
-    HomeScreen(navController = navController)
 }
