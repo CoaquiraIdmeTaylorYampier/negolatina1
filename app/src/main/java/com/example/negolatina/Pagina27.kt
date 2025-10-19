@@ -1,5 +1,5 @@
 package com.example.negolatina
-
+/*
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -33,11 +33,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-data class Snack(
-    val name: String,
-    val imageRes: Int
-)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -159,8 +154,8 @@ fun SnackCard(snack: Snack) {
     }
 }
 
-// Theme.kt (opcional para personalización adicional)
-/*
+ Theme.kt (opcional para personalización adicional)
+
 @Composable
 fun SnacksAppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
