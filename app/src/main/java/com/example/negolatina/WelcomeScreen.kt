@@ -57,7 +57,7 @@ fun WelcomeScreen(navController: NavController) {
             Image(
                 painter = painterResource(id = R.drawable.logo_pollito),
                 contentDescription = "Logo de Negolatina",
-                modifier = Modifier.size(150.dp)
+                modifier = Modifier.size(320.dp)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -65,8 +65,8 @@ fun WelcomeScreen(navController: NavController) {
 
             Text(
                 text = "Negolatina",
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = 50.sp,
+                fontWeight = FontWeight.Black,
                 color = NegolatinaRed
             )
         }
