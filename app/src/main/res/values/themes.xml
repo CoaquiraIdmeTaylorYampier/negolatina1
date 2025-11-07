@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Negolatina" parent="Theme.Material3.Light.NoActionBar">
-    <!-- Colores principales -->
-    <item name="colorPrimary">#E31E24</item>
-    <item name="colorOnPrimary">#FFFFFF</item>
-    <item name="android:statusBarColor">?attr/colorPrimary</item>
-</style>
+    <style name="Theme.Negolatina" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>

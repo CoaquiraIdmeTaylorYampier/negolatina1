@@ -32,7 +32,7 @@ import com.example.negolatina.ui.theme.Breesefir
 
 @Preview
 @Composable
-fun abarrotes() {
+fun MeatsAndSausagesScreen() {
     Scaffold(
         topBar = {
             Box(
@@ -68,7 +68,7 @@ fun abarrotes() {
                         Modifier, contentAlignment = Alignment.Center
                     ){
                         Text(
-                            "Granos y Abarrotes",
+                            "Carnes y Embutidos",
                             style = TextStyle(color = Color.White, fontFamily = Breesefir,fontSize = 20.sp, fontWeight = FontWeight.Bold)
                         )}
                     Box(
@@ -116,13 +116,13 @@ fun abarrotes() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.aceite),
-                            contentDescription = "aceite",
-                            modifier = Modifier.height(140.dp)
+                            painter = painterResource(id = R.drawable.chuletacerdo),
+                            contentDescription = "chule",
+                            modifier = Modifier.height(130.dp).width(150.dp)
                         )
-                        Spacer(modifier = Modifier.height(11.dp))
+                        Spacer(modifier = Modifier.height(21.dp))
                         Text(
-                            "ACEITE",
+                            "CHULETA DE CERDO",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -143,13 +143,13 @@ fun abarrotes() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.arroz),
-                            contentDescription = "arroz",
-                            modifier = Modifier.height(145.dp)
+                            painter = painterResource(id = R.drawable.pollo),
+                            contentDescription = "pollo",
+                            modifier = Modifier.height(120.dp).width(140.dp)
                         )
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier.height(30.dp))
                         Text(
-                            "ARROZ",
+                            "POLLO",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -178,40 +178,40 @@ fun abarrotes() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.atun),
-                            contentDescription = "atun",
+                            painter = painterResource(id = R.drawable.hotdog),
+                            contentDescription = "salch",
+                            modifier = Modifier.height(135.dp)
+                        )
+                        Spacer(modifier = Modifier.height(5.dp))
+                        Text(
+                            "SALCHICHAS ",
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .width(180.dp)
+                        .height(250.dp)
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color(0xFFE3E3E3)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.bisteck),
+                            contentDescription = "bisteck",
                             modifier = Modifier.height(110.dp).width(150.dp)
                         )
                         Spacer(modifier = Modifier.height(30.dp))
                         Text(
-                            "ATUN ",
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-
-                Box(
-                    modifier = Modifier
-                        .width(180.dp)
-                        .height(250.dp)
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFFE3E3E3)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.azucar),
-                            contentDescription = "azucar",
-                            modifier = Modifier.height(130.dp)
-                        )
-                        Spacer(modifier = Modifier.height(20.dp))
-                        Text(
-                                "AZUCAR",
+                            "BISTECK",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -240,14 +240,13 @@ fun abarrotes() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.aconcagua),
-                            contentDescription = "aconcagua",
+                            painter = painterResource(id = R.drawable.carnemolida),
+                            contentDescription = "carnemoli",
                             modifier = Modifier.height(125.dp).width(150.dp)
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         Text(
-                            "ACONCAGUA DE\n"+
-                                    "       DURAZNO",
+                            "CARNE MOLIDA",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -268,13 +267,13 @@ fun abarrotes() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.tallarin),
-                            contentDescription = "tallarin",
-                            modifier = Modifier.height(140.dp)
+                            painter = painterResource(id = R.drawable.jamon),
+                            contentDescription = "jamon",
+                            modifier = Modifier.height(110.dp)
                         )
-                        Spacer(modifier = Modifier.height(15.dp))
+                        Spacer(modifier = Modifier.height(35.dp))
                         Text(
-                            "TALLARIN",
+                            "JAMON",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )

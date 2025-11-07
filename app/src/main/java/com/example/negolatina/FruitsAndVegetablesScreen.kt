@@ -31,7 +31,7 @@ import com.example.negolatina.ui.theme.Breesefir
 
 @Preview
 @Composable
-fun bebidas() {
+fun FruitsAndVegetablesScreen() {
     Scaffold(
         topBar = {
             Box(
@@ -67,7 +67,7 @@ fun bebidas() {
                         Modifier, contentAlignment = Alignment.Center
                     ){
                         Text(
-                            "Bebidas",
+                            "Frutas y Verduras",
                             style = TextStyle(color = Color.White, fontFamily = Breesefir,fontSize = 20.sp, fontWeight = FontWeight.Bold)
                         )}
                     Box(
@@ -115,13 +115,13 @@ fun bebidas() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.smirnoff),
-                            contentDescription = "smirnoff",
-                            modifier = Modifier.height(180.dp)
+                            painter = painterResource(id = R.drawable.manzana),
+                            contentDescription = "manzana",
+                            modifier = Modifier.height(130.dp).width(150.dp)
                         )
-                        Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(26.dp))
                         Text(
-                            "SMIRNOFF",
+                            "MANZANA",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -142,13 +142,13 @@ fun bebidas() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.cola),
-                            contentDescription = "cocacola",
-                            modifier = Modifier.height(195.dp).width(150.dp)
+                            painter = painterResource(id = R.drawable.uva),
+                            contentDescription = "uva",
+                            modifier = Modifier.height(150.dp).width(150.dp)
                         )
-
+                        Spacer(modifier = Modifier.height(10.dp))
                         Text(
-                            "COCA COLA",
+                            "UVA",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -177,13 +177,13 @@ fun bebidas() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.power),
-                            contentDescription = "power",
-                            modifier = Modifier.height(170.dp)
+                            painter = painterResource(id = R.drawable.tomate),
+                            contentDescription = "tomate",
+                            modifier = Modifier.height(120.dp)
                         )
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier.height(25.dp))
                         Text(
-                            "POWER ADE",
+                            "TOMATE",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -204,13 +204,13 @@ fun bebidas() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.bacardi),
-                            contentDescription = "bacardi",
-                            modifier = Modifier.height(180.dp).width(200.dp)
+                            painter = painterResource(id = R.drawable.cebolla),
+                            contentDescription = "cebolla",
+                            modifier = Modifier.height(110.dp)
                         )
-                        Spacer(modifier = Modifier.height(5.dp))
+                        Spacer(modifier = Modifier.height(30.dp))
                         Text(
-                            "BACARDI",
+                            "CEBOLLA",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -239,13 +239,13 @@ fun bebidas() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.jack),
-                            contentDescription = "jack",
-                            modifier = Modifier.height(180.dp)
+                            painter = painterResource(id = R.drawable.papaya),
+                            contentDescription = "papaya",
+                            modifier = Modifier.height(140.dp)
                         )
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier.height(20.dp))
                         Text(
-                            "JACK DANIELS",
+                            "PAPAYA",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -266,13 +266,13 @@ fun bebidas() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.black),
-                            contentDescription = "black",
-                            modifier = Modifier.height(180.dp)
+                            painter = painterResource(id = R.drawable.platano),
+                            contentDescription = "paltano",
+                            modifier = Modifier.height(120.dp)
                         )
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier.height(35.dp))
                         Text(
-                            "BLACK LABEL",
+                            "PLATANO",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )

@@ -10,23 +10,19 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.appcompat.widget.Toolbar // <-- LA IMPORTACIÓN CORRECTA
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import com.google.android.material.button.MaterialButton
 
-// ============================================================
-//  CHECKOUT ACTIVITY
-// ============================================================
-
-class CheckoutActivity : AppCompatActivity() {
+class CheckoutLegacyActivity : AppCompatActivity() {
 
     private var cantidad = 1
     private val precioUnitario = 16.90
 
-    private lateinit var toolbar: Toolbar
+    private lateinit var toolbar: Toolbar // Gracias a la importación, esto ahora es un androidx.appcompat.widget.Toolbar
     private lateinit var tvProductName: TextView
     private lateinit var tvProductDescription: TextView
     private lateinit var tvPrecio: TextView
@@ -291,7 +287,7 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbar) // <-- AHORA ESTO ES VÁLIDO
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             title = "Finalizar compra"
@@ -439,6 +435,7 @@ class PurchaseSuccessActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         finishAffinity()
     }
 }

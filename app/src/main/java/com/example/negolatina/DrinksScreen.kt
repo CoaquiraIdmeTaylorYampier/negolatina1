@@ -29,10 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.negolatina.ui.theme.Breesefir
 
-
 @Preview
 @Composable
-fun lacteos() {
+fun DrinksScreen() {
     Scaffold(
         topBar = {
             Box(
@@ -68,7 +67,7 @@ fun lacteos() {
                         Modifier, contentAlignment = Alignment.Center
                     ){
                         Text(
-                            "Lacteos y Huevos",
+                            "Bebidas",
                             style = TextStyle(color = Color.White, fontFamily = Breesefir,fontSize = 20.sp, fontWeight = FontWeight.Bold)
                         )}
                     Box(
@@ -116,13 +115,13 @@ fun lacteos() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.leche),
-                            contentDescription = "leche",
-                            modifier = Modifier.height(130.dp).width(150.dp)
+                            painter = painterResource(id = R.drawable.smirnoff),
+                            contentDescription = "smirnoff",
+                            modifier = Modifier.height(180.dp)
                         )
-                        Spacer(modifier = Modifier.height(26.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            "LECHE",
+                            "SMIRNOFF",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -143,13 +142,75 @@ fun lacteos() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.huevos),
-                            contentDescription = "HUEVO",
-                            modifier = Modifier.height(150.dp).width(150.dp)
+                            painter = painterResource(id = R.drawable.cola),
+                            contentDescription = "cocacola",
+                            modifier = Modifier.height(195.dp).width(150.dp)
+                        )
+
+                        Text(
+                            "COCA COLA",
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            )
+            {
+                Box(
+                    modifier = Modifier
+                        .width(180.dp)
+                        .height(250.dp)
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color(0xFFE3E3E3)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.power),
+                            contentDescription = "power",
+                            modifier = Modifier.height(170.dp)
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
-                            "HUEVOS",
+                            "POWER ADE",
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .width(180.dp)
+                        .height(250.dp)
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color(0xFFE3E3E3)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.bacardi),
+                            contentDescription = "bacardi",
+                            modifier = Modifier.height(180.dp).width(200.dp)
+                        )
+                        Spacer(modifier = Modifier.height(5.dp))
+                        Text(
+                            "BACARDI",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -178,13 +239,13 @@ fun lacteos() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.yogurt),
-                            contentDescription = "yogurt",
-                            modifier = Modifier.height(145.dp)
+                            painter = painterResource(id = R.drawable.jack),
+                            contentDescription = "jack",
+                            modifier = Modifier.height(180.dp)
                         )
-                        Spacer(modifier = Modifier.height(0.dp))
+                        Spacer(modifier = Modifier.height(10.dp))
                         Text(
-                            "YOGURT",
+                            "JACK DANIELS",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -205,75 +266,13 @@ fun lacteos() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.queso),
-                            contentDescription = "queso",
-                            modifier = Modifier.height(110.dp).width(150.dp)
+                            painter = painterResource(id = R.drawable.black),
+                            contentDescription = "black",
+                            modifier = Modifier.height(180.dp)
                         )
-                        Spacer(modifier = Modifier.height(30.dp))
+                        Spacer(modifier = Modifier.height(10.dp))
                         Text(
-                            "QUESO",
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            )
-            {
-                Box(
-                    modifier = Modifier
-                        .width(180.dp)
-                        .height(250.dp)
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFFE3E3E3)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.condensada),
-                            contentDescription = "condensada",
-                            modifier = Modifier.height(125.dp)
-                        )
-                        Spacer(modifier = Modifier.height(20.dp))
-                        Text(
-                            "CONDENSADA",
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-
-                Box(
-                    modifier = Modifier
-                        .width(180.dp)
-                        .height(250.dp)
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFFE3E3E3)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.mantequilla),
-                            contentDescription = "mantequilla",
-                            modifier = Modifier.height(110.dp)
-                        )
-                        Spacer(modifier = Modifier.height(35.dp))
-                        Text(
-                            "MANTEQUILLA",
+                            "BLACK LABEL",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )

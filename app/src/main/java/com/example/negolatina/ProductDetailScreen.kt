@@ -17,16 +17,28 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.negolatina.ui.theme.NegolatinaTheme
 
+// Se necesita definir la clase Product aquí también
+data class Product(val id: String, val title: String, val price: String)
+
+// Lista de productos de ejemplo para que la pantalla funcione
+val sampleProductsList = listOf(
+    Product("1", "Carne de Res", "S/.16.90 x Kg"),
+    Product("2", "Smirnoff", "S/.25.40"),
+    Product("3", "Avena tres osito", "S/.4.50"),
+    Product("4", "leche", "S/.3.90"),
+    Product("5", "yogurt", "S/.6.50"),
+)
+
 @Preview(showBackground = true, name = "ProductDetail screen")
 @Composable
-fun ProductDetailScreen() {
+fun ProductDetailScreenPreview() {
     NegolatinaTheme {
        ProductDetailScreen(navController = rememberNavController(), productId="1")
     }
 }
 @Composable
 fun ProductDetailScreen(navController: NavController, productId: String) {
-    val product = sampleProducts.find { it.id == productId } ?: sampleProducts.first()
+    val product = sampleProductsList.find { it.id == productId } ?: sampleProductsList.first()
     val qty = remember { mutableStateOf("1") }
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {

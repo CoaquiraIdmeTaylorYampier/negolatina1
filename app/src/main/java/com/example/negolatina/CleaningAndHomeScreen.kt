@@ -32,7 +32,7 @@ import com.example.negolatina.ui.theme.Breesefir
 
 @Preview
 @Composable
-fun panaderia() {
+fun CleaningAndHomeScreen() {
     Scaffold(
         topBar = {
             Box(
@@ -68,7 +68,7 @@ fun panaderia() {
                         Modifier, contentAlignment = Alignment.Center
                     ){
                         Text(
-                            "Panaderia",
+                            "Limpieza y Hogar",
                             style = TextStyle(color = Color.White, fontFamily = Breesefir,fontSize = 20.sp, fontWeight = FontWeight.Bold)
                         )}
                     Box(
@@ -116,13 +116,13 @@ fun panaderia() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.panpulque),
-                            contentDescription = "pulque",
-                            modifier = Modifier.height(120.dp)
+                            painter = painterResource(id = R.drawable.clorox),
+                            contentDescription = "clorox",
+                            modifier = Modifier.height(130.dp).width(150.dp)
                         )
-                        Spacer(modifier = Modifier.height(35.dp))
+                        Spacer(modifier = Modifier.height(21.dp))
                         Text(
-                            "PAN DE PULQUE",
+                            "CLOROX",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -143,137 +143,137 @@ fun panaderia() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.panmolde),
-                            contentDescription = "pan modle",
-                            modifier = Modifier.height(155.dp)
-                        )
-                        Spacer(modifier = Modifier.height(10.dp))
-                        Text(
-                            "PAN MOLDE",
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            )
-            {
-                Box(
-                    modifier = Modifier
-                        .width(180.dp)
-                        .height(250.dp)
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFFE3E3E3)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.pancuernitos),
-                            contentDescription = "cuernitOs",
-                            modifier = Modifier.height(125.dp).width(140.dp)
-                        )
-                        Spacer(modifier = Modifier.height(30.dp))
-                        Text(
-                            "CUERNITOS ",
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-
-                Box(
-                    modifier = Modifier
-                        .width(180.dp)
-                        .height(250.dp)
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFFE3E3E3)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.harina),
-                            contentDescription = "HARINa",
-                            modifier = Modifier.height(155.dp)
-                        )
-                        Spacer(modifier = Modifier.height(5.dp))
-                        Text(
-                            "HARINA",
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            )
-            {
-                Box(
-                    modifier = Modifier
-                        .width(180.dp)
-                        .height(250.dp)
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFFE3E3E3)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.panintegral),
-                            contentDescription = "pan integral",
-                            modifier = Modifier.height(115.dp).width(150.dp)
-                        )
-                        Spacer(modifier = Modifier.height(30.dp))
-                        Text(
-                            "PAN INETEGRAL",
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-
-                Box(
-                    modifier = Modifier
-                        .width(180.dp)
-                        .height(250.dp)
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFFE3E3E3)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.levadura),
-                            contentDescription = "LEVADURA",
-                            modifier = Modifier.height(130.dp)
+                            painter = painterResource(id = R.drawable.pastadental),
+                            contentDescription = "colino",
+                            modifier = Modifier.height(135.dp)
                         )
                         Spacer(modifier = Modifier.height(15.dp))
                         Text(
-                            "LEVADURA",
+                            "PASTA DENTAL",
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            )
+            {
+                Box(
+                    modifier = Modifier
+                        .width(180.dp)
+                        .height(250.dp)
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color(0xFFE3E3E3)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.guantes),
+                            contentDescription = "guants",
+                            modifier = Modifier.height(135.dp)
+                        )
+                        Spacer(modifier = Modifier.height(5.dp))
+                        Text(
+                            "GUANTES DE LATEX ",
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .width(180.dp)
+                        .height(250.dp)
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color(0xFFE3E3E3)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.trapeador),
+                            contentDescription = "trapeador",
+                            modifier = Modifier.height(130.dp).width(150.dp)
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(
+                            "TRAPEADOR",
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            )
+            {
+                Box(
+                    modifier = Modifier
+                        .width(180.dp)
+                        .height(250.dp)
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color(0xFFE3E3E3)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.limpiavidrios),
+                            contentDescription = "limpiavidrios",
+                            modifier = Modifier.height(125.dp).width(150.dp)
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                            "LIMPIA VIDRIOS",
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .width(180.dp)
+                        .height(250.dp)
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color(0xFFE3E3E3)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.shampoo),
+                            contentDescription = "shampoo",
+                            modifier = Modifier.height(120.dp)
+                        )
+                        Spacer(modifier = Modifier.height(25.dp))
+                        Text(
+                            "SHAMPOO HS",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )

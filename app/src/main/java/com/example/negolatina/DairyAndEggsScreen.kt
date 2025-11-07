@@ -32,7 +32,7 @@ import com.example.negolatina.ui.theme.Breesefir
 
 @Preview
 @Composable
-fun carnes() {
+fun DairyAndEggsScreen() {
     Scaffold(
         topBar = {
             Box(
@@ -68,7 +68,7 @@ fun carnes() {
                         Modifier, contentAlignment = Alignment.Center
                     ){
                         Text(
-                            "Carnes y Embutidos",
+                            "Lacteos y Huevos",
                             style = TextStyle(color = Color.White, fontFamily = Breesefir,fontSize = 20.sp, fontWeight = FontWeight.Bold)
                         )}
                     Box(
@@ -116,13 +116,13 @@ fun carnes() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.chuletacerdo),
-                            contentDescription = "chule",
+                            painter = painterResource(id = R.drawable.leche),
+                            contentDescription = "leche",
                             modifier = Modifier.height(130.dp).width(150.dp)
                         )
-                        Spacer(modifier = Modifier.height(21.dp))
+                        Spacer(modifier = Modifier.height(26.dp))
                         Text(
-                            "CHULETA DE CERDO",
+                            "LECHE",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -143,13 +143,13 @@ fun carnes() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.pollo),
-                            contentDescription = "pollo",
-                            modifier = Modifier.height(120.dp).width(140.dp)
+                            painter = painterResource(id = R.drawable.huevos),
+                            contentDescription = "HUEVO",
+                            modifier = Modifier.height(150.dp).width(150.dp)
                         )
-                        Spacer(modifier = Modifier.height(30.dp))
+                        Spacer(modifier = Modifier.height(10.dp))
                         Text(
-                            "POLLO",
+                            "HUEVOS",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -178,13 +178,13 @@ fun carnes() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.hotdog),
-                            contentDescription = "salch",
-                            modifier = Modifier.height(135.dp)
+                            painter = painterResource(id = R.drawable.yogurt),
+                            contentDescription = "yogurt",
+                            modifier = Modifier.height(145.dp)
                         )
-                        Spacer(modifier = Modifier.height(5.dp))
+                        Spacer(modifier = Modifier.height(0.dp))
                         Text(
-                            "SALCHICHAS ",
+                            "YOGURT",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -205,13 +205,13 @@ fun carnes() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.bisteck),
-                            contentDescription = "bisteck",
+                            painter = painterResource(id = R.drawable.queso),
+                            contentDescription = "queso",
                             modifier = Modifier.height(110.dp).width(150.dp)
                         )
                         Spacer(modifier = Modifier.height(30.dp))
                         Text(
-                            "BISTECK",
+                            "QUESO",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -240,13 +240,13 @@ fun carnes() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.carnemolida),
-                            contentDescription = "carnemoli",
-                            modifier = Modifier.height(125.dp).width(150.dp)
+                            painter = painterResource(id = R.drawable.condensada),
+                            contentDescription = "condensada",
+                            modifier = Modifier.height(125.dp)
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         Text(
-                            "CARNE MOLIDA",
+                            "CONDENSADA",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -267,13 +267,13 @@ fun carnes() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.jamon),
-                            contentDescription = "jamon",
+                            painter = painterResource(id = R.drawable.mantequilla),
+                            contentDescription = "mantequilla",
                             modifier = Modifier.height(110.dp)
                         )
                         Spacer(modifier = Modifier.height(35.dp))
                         Text(
-                            "JAMON",
+                            "MANTEQUILLA",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
