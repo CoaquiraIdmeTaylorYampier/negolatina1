@@ -10,18 +10,13 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import com.google.android.material.button.MaterialButton
 
-// ============================================================
-//  CHECKOUT ACTIVITY
-// ============================================================
-
-class CheckoutActivity : AppCompatActivity() {
+class CheckoutLegacyActivity : AppCompatActivity() {
 
     private var cantidad = 1
     private val precioUnitario = 16.90
@@ -439,6 +434,7 @@ class PurchaseSuccessActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         finishAffinity()
     }
 }

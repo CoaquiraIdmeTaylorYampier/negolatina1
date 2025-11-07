@@ -32,7 +32,7 @@ import com.example.negolatina.ui.theme.Breesefir
 
 @Preview
 @Composable
-fun limpieza() {
+fun GrainsAndGroceriesScreen() {
     Scaffold(
         topBar = {
             Box(
@@ -68,7 +68,7 @@ fun limpieza() {
                         Modifier, contentAlignment = Alignment.Center
                     ){
                         Text(
-                            "Limpieza y Hogar",
+                            "Granos y Abarrotes",
                             style = TextStyle(color = Color.White, fontFamily = Breesefir,fontSize = 20.sp, fontWeight = FontWeight.Bold)
                         )}
                     Box(
@@ -116,13 +116,13 @@ fun limpieza() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.clorox),
-                            contentDescription = "clorox",
-                            modifier = Modifier.height(130.dp).width(150.dp)
+                            painter = painterResource(id = R.drawable.aceite),
+                            contentDescription = "aceite",
+                            modifier = Modifier.height(140.dp)
                         )
-                        Spacer(modifier = Modifier.height(21.dp))
+                        Spacer(modifier = Modifier.height(11.dp))
                         Text(
-                            "CLOROX",
+                            "ACEITE",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -143,75 +143,13 @@ fun limpieza() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.pastadental),
-                            contentDescription = "colino",
-                            modifier = Modifier.height(135.dp)
-                        )
-                        Spacer(modifier = Modifier.height(15.dp))
-                        Text(
-                            "PASTA DENTAL",
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            )
-            {
-                Box(
-                    modifier = Modifier
-                        .width(180.dp)
-                        .height(250.dp)
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFFE3E3E3)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.guantes),
-                            contentDescription = "guants",
-                            modifier = Modifier.height(135.dp)
-                        )
-                        Spacer(modifier = Modifier.height(5.dp))
-                        Text(
-                            "GUANTES DE LATEX ",
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-
-                Box(
-                    modifier = Modifier
-                        .width(180.dp)
-                        .height(250.dp)
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFFE3E3E3)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.trapeador),
-                            contentDescription = "trapeador",
-                            modifier = Modifier.height(130.dp).width(150.dp)
+                            painter = painterResource(id = R.drawable.arroz),
+                            contentDescription = "arroz",
+                            modifier = Modifier.height(145.dp)
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
-                            "TRAPEADOR",
+                            "ARROZ",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -240,13 +178,76 @@ fun limpieza() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.limpiavidrios),
-                            contentDescription = "limpiavidrios",
+                            painter = painterResource(id = R.drawable.atun),
+                            contentDescription = "atun",
+                            modifier = Modifier.height(110.dp).width(150.dp)
+                        )
+                        Spacer(modifier = Modifier.height(30.dp))
+                        Text(
+                            "ATUN ",
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .width(180.dp)
+                        .height(250.dp)
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color(0xFFE3E3E3)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.azucar),
+                            contentDescription = "azucar",
+                            modifier = Modifier.height(130.dp)
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                                "AZUCAR",
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalArrangement = Alignment.CenterVertically
+            )
+            {
+                Box(
+                    modifier = Modifier
+                        .width(180.dp)
+                        .height(250.dp)
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color(0xFFE3E3E3)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.aconcagua),
+                            contentDescription = "aconcagua",
                             modifier = Modifier.height(125.dp).width(150.dp)
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         Text(
-                            "LIMPIA VIDRIOS",
+                            "ACONCAGUA DE\n"+
+                                    "       DURAZNO",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )
@@ -267,13 +268,13 @@ fun limpieza() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.shampoo),
-                            contentDescription = "shampoo",
-                            modifier = Modifier.height(120.dp)
+                            painter = painterResource(id = R.drawable.tallarin),
+                            contentDescription = "tallarin",
+                            modifier = Modifier.height(140.dp)
                         )
-                        Spacer(modifier = Modifier.height(25.dp))
+                        Spacer(modifier = Modifier.height(15.dp))
                         Text(
-                            "SHAMPOO HS",
+                            "TALLARIN",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
                         )

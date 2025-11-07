@@ -1,8 +1,5 @@
 package com.example.negolatina
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -27,18 +24,9 @@ import androidx.compose.ui.unit.sp
 
 data class Snack(val name: String, val imageRes: Int)
 
-class Pagina27 : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            SnacksApp()
-        }
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SnacksApp() {
+fun SnacksScreen() {
     val snacks = listOf(
         Snack("Chetos Flamig Hot", R.drawable.chetos),
         Snack("Papas Lay's", R.drawable.lays),
@@ -152,15 +140,4 @@ fun SnackCard(snack: Snack) {
             )
         }
     }
-}
-
-@Composable
-fun SnacksAppTheme(content: @Composable () -> Unit) {
-    MaterialTheme(
-        colorScheme = lightColorScheme(
-            primary = Color(0xFFED1C24),
-            background = Color(0xFFF5F5F5)
-        ),
-        content = content
-    )
 }

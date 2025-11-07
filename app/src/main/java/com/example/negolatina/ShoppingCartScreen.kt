@@ -1,5 +1,6 @@
 package com.example.negolatina
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -48,7 +50,7 @@ import com.example.negolatina.ui.theme.Popins
 
 @Preview
 @Composable
-fun Carrito() {
+fun ShoppingCartScreen() {
 
     var countBacardi by remember { mutableStateOf(0) }
     var countCheetos by remember { mutableStateOf(0) }
@@ -56,6 +58,7 @@ fun Carrito() {
     val priceBacardi = 37.00
     val priceCheetos = 2.00
     val total = countBacardi * priceBacardi + countCheetos * priceCheetos
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -141,7 +144,7 @@ fun Carrito() {
                             horizontalArrangement = Arrangement.Center
                         ) {
                             Button(
-                                onClick = { },
+                                onClick = { context.startActivity(Intent(context, CheckoutLegacyActivity::class.java)) },
                                 modifier = Modifier
                                 .height(56.dp)
                                 .width(300.dp)
@@ -151,7 +154,7 @@ fun Carrito() {
                             )
                         )
                         {
-                            Text("Añadir al carrito", fontSize = 20.sp, fontFamily = Breesefir)
+                            Text("Finalizar Compra", fontSize = 20.sp, fontFamily = Breesefir)
                         }
                     }
                 }
