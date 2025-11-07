@@ -10,8 +10,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.negolatina"
-        minSdk = 27
-        targetSdk = 36
+        minSdk = 26
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -35,25 +35,14 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
-        compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion= "1.5.8"
     }
 }
-val composeVersion ="1.6.8"
 
 dependencies {
-
-    implementation("androidx.compose.ui:ui:$composeVersion")
-    implementation("androidx.compose.material3:material3:1.2.1") // M3 tiene su propio ciclo de versiones, 1.2.1 es estable
-    implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
-    implementation("androidx.activity:activity-compose:1.9.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
-    implementation("androidx.navigation:navigation-compose:2.7.7")
-    
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
