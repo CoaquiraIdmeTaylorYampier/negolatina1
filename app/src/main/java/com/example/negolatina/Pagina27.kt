@@ -1,5 +1,5 @@
 package com.example.negolatina
-/*
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,7 +25,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-class MainActivity : ComponentActivity() {
+data class Snack(val name: String, val imageRes: Int)
+
+class Pagina27 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -87,7 +89,6 @@ fun SnacksApp() {
                 .background(Color(0xFFF5F5F5))
                 .padding(paddingValues)
         ) {
-            // Formas decorativas en la parte superior
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -95,7 +96,6 @@ fun SnacksApp() {
                     .background(Color(0xFFED1C24))
             )
 
-            // Grid de productos
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 contentPadding = PaddingValues(16.dp),
@@ -154,8 +154,6 @@ fun SnackCard(snack: Snack) {
     }
 }
 
- Theme.kt (opcional para personalización adicional)
-
 @Composable
 fun SnacksAppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
@@ -166,4 +164,3 @@ fun SnacksAppTheme(content: @Composable () -> Unit) {
         content = content
     )
 }
-*/

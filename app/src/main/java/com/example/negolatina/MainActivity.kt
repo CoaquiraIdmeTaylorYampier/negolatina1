@@ -3,7 +3,6 @@ package com.example.negolatina
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -78,9 +77,7 @@ fun SplashScreen(navController: NavController) {
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
-//@Preview
 @Composable
 fun productomanzana() {
     var count by remember { mutableStateOf(0) }
