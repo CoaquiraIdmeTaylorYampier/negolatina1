@@ -223,7 +223,7 @@ fun GrainsAndGroceriesScreen() {
                     .fillMaxWidth()
                     .weight(1f),
                 horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
+                verticalArrangement = Alignment.CenterVertically
             )
             {
                 Box(
