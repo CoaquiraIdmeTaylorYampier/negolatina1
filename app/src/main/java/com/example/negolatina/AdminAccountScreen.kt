@@ -47,7 +47,8 @@ fun AdminAccountScreen(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            OutlinedTextField(value = "", onValueChange = {}, modifier = Modifier.fillMaxWidth(), readOnly = true)
+            OutlinedTextField(value = "", onValueChange = {},
+                modifier = Modifier.fillMaxWidth(), readOnly = true)
             Spacer(modifier = Modifier.height(24.dp))
 
             AdminProductsSection()
@@ -74,3 +75,4 @@ private fun AdminProductsSection() {
         }
     }
 }
+

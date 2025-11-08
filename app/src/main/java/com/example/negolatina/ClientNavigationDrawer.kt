@@ -1,56 +1,45 @@
 package com.example.negolatina
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.negolatina.ui.theme.NegolatinaTheme
+import androidx.navigation.NavController
 
-
-@Preview(showBackground = true, name = "Menú del Cliente")
-@Composable
-fun ClientNavigationDrawerPreview() {
-    NegolatinaTheme {
-        ClientNavigationDrawer(onItemSelected = {})
-    }
-}
 @Composable
 fun ClientNavigationDrawer(
-    onItemSelected: (String) -> Unit
+    navController: NavController,
+    closeDrawer: () -> Unit
 ) {
     val menuItems = listOf(
-        DrawerMenuItem(titulo = "Inicio", icono = Icons.Filled.Home),
-        DrawerMenuItem(titulo = "Buscar", icono = Icons.Filled.Search),
-        DrawerMenuItem(titulo = "Notificaciones", icono = Icons.Filled.Notifications),
-        DrawerMenuItem(titulo = "Mis compras", icono = Icons.Filled.ShoppingCart),
-        DrawerMenuItem(titulo = "Favoritos", icono = Icons.Filled.Favorite),
-        DrawerMenuItem(titulo = "Ofertas", icono = Icons.Filled.Star),
-        DrawerMenuItem(titulo = "Mi cuenta", icono = Icons.Filled.AccountCircle),
-        DrawerMenuItem(titulo = "Categorias", icono = Icons.AutoMirrored.Filled.List),
-        DrawerMenuItem(titulo = "🌿 Modo ecológico", icono = null),
-        DrawerMenuItem(titulo = "Cerrar sesión", icono = Icons.AutoMirrored.Filled.ExitToApp)
+        DrawerMenuItem("home", "Inicio", Icons.Filled.Home),
+        DrawerMenuItem("all_products", "Productos", Icons.AutoMirrored.Filled.List),
+        DrawerMenuItem("client_account", "Mi cuenta", Icons.Filled.AccountCircle),
+        DrawerMenuItem("offers", "Ofertas", Icons.Filled.Star),
+        DrawerMenuItem("about_us", "Acerca de", Icons.Filled.Info),
+        DrawerMenuItem("welcome", "Cerrar sesión", Icons.AutoMirrored.Filled.ExitToApp)
     )
 
     Column(modifier = Modifier.fillMaxSize()) {
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -58,17 +47,17 @@ fun ClientNavigationDrawer(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = "Foto de perfil del cliente",
-                modifier = Modifier.size(80.dp).clip(CircleShape)
+            Icon(
+                imageVector = Icons.Default.AccountCircle,
+                contentDescription = "foto de perfil",
+                modifier = Modifier.size(80.dp),
+                tint = Color.White
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Text("Emerson A. F", color = Color.White,
-                fontWeight = FontWeight.Bold, fontSize = 20.sp)
-            Text("Cliente", color = Color.White, fontSize = 14.sp)
+            Text("Usuario Cliente", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
         }
 
+        // Lista de items del menú
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
@@ -79,33 +68,20 @@ fun ClientNavigationDrawer(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { onItemSelected(menuItem.titulo) }
+                        .clickable { 
+                            closeDrawer()
+                            navController.navigate(menuItem.route) {
+                                popUpTo("home")
+                            }
+                        }
                         .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    if (menuItem.icono != null) {
-                        Icon(imageVector = menuItem.icono,
-                            contentDescription = menuItem.titulo)
-                        Spacer(modifier = Modifier.width(16.dp))
-                    } else {
-                        Spacer(modifier = Modifier.width(16.dp)) // Spacer for alignment even without icon
-                    }
-                    Text(menuItem.titulo, style = MaterialTheme.typography.bodyLarge)
+                    Icon(imageVector = menuItem.icon, contentDescription = menuItem.title)
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(menuItem.title, style = MaterialTheme.typography.bodyLarge)
                 }
             }
         }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surface)
-                .clickable { onItemSelected("Ayuda") }
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Spacer(modifier = Modifier.width(16.dp))
-            Text("Ayuda", style = MaterialTheme.typography.bodyLarge)
-        }
     }
 }
-

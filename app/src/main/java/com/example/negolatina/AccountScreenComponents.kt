@@ -1,12 +1,16 @@
 package com.example.negolatina
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
@@ -17,8 +21,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.negolatina.ui.theme.NegolatinaTheme
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,20 +46,39 @@ fun AccountAppBar(title: String, onBackClicked: () -> Unit, onEditClicked: () ->
     )
 }
 
+@Preview(name = "AccountAppBarPreview")
+@Composable
+fun AccountAppBarPreview() {
+    NegolatinaTheme {
+        AccountAppBar(title = "Cuenta", onBackClicked = {}, onEditClicked = {})
+    }
+}
+
 
 @Composable
 fun ProfileHeader(userName: String, userEmail: String, userRole: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+        Icon(
+            imageVector = Icons.Default.AccountCircle,
             contentDescription = "Profile Picture",
-            modifier = Modifier.size(80.dp).clip(CircleShape)
+            modifier = Modifier.size(80.dp),
+            tint = Color.White
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(userName, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
         Text(userEmail, color = Color.White, fontSize = 14.sp)
         Text(userRole, color = Color.White, fontSize = 12.sp)
+    }
+}
+
+@Preview(showBackground = true, name = "ProfileHeaderPreview")
+@Composable
+fun ProfileHeaderPreview() {
+    NegolatinaTheme {
+        Box(modifier = Modifier.background(Color.Red).padding(16.dp)) {
+            ProfileHeader("Vidal", "vidal@example.com", "Admin")
+        }
     }
 }

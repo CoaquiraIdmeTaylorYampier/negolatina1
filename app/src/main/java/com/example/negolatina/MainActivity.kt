@@ -29,27 +29,39 @@ class MainActivity : ComponentActivity() {
             NegolatinaTheme {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "splash") {
+                    // inicio
                     composable("splash") { SplashScreen(navController) }
                     composable("welcome") { WelcomeScreen(navController) }
                     composable("login") { LoginScreen(navController) }
                     composable("register") { RegisterScreen(navController) }
                     composable("onboarding_sell") { OnboardingSellScreen(navController) }
                     composable("onboarding_buy") { OnboardingBuyScreen(navController) }
+                    
+                    // principla
                     composable("home") { HomeScreen(navController) }
+                    composable("admin_account") { AdminAccountScreen(navController) }
+                    composable("client_account") { ClientAccountScreen(navController) }
+
+                    //ver mas
+                    composable("all_categories") { AllCategoriesScreen(navController) }
+                    composable("all_products") { AllProductsScreen(navController) }
+
+                    // Categorías
+                    composable("snacks") { SnacksScreen(navController) }
+                    composable("drinks") { DrinksScreen(navController) }
+                    composable("fruits_vegetables") { FruitsAndVegetablesScreen(navController) }
+                    composable("dairy_eggs") { DairyAndEggsScreen(navController) }
+                    composable("meats_sausages") { MeatsAndSausagesScreen(navController) }
+                    composable("cleaning_home") { CleaningAndHomeScreen(navController) }
+                    composable("grains_groceries") { GrainsAndGroceriesScreen(navController) }
+                    composable("bakery") { BakeryScreen(navController) }
+                    composable("shopping_cart") { ShoppingCartScreen() }
+                    //produtp
                     composable("product/{productId}") { backStackEntry ->
                         val id = backStackEntry.arguments?.getString("productId") ?: "0"
                         ProductDetailScreen(navController, id)
                     }
-                    composable("snacks") { SnacksScreen() }
                     composable("apple_product") { AppleProductScreen() }
-                    composable("drinks") { DrinksScreen() }
-                    composable("fruits_vegetables") { FruitsAndVegetablesScreen() }
-                    composable("dairy_eggs") { DairyAndEggsScreen() }
-                    composable("meats_sausages") { MeatsAndSausagesScreen() }
-                    composable("shopping_cart") { ShoppingCartScreen() }
-                    composable("cleaning_home") { CleaningAndHomeScreen() }
-                    composable("grains_groceries") { GrainsAndGroceriesScreen() }
-                    composable("bakery") { BakeryScreen() }
                 }
             }
         }

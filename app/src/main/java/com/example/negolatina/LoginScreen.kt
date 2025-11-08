@@ -62,10 +62,13 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(24.dp))
             Button(
                 onClick = {
-                    if (user.value.isNotBlank()) {
-                        navController.navigate("home") {
-                            popUpTo("login") { inclusive = true }
-                        }
+                    val route = if (user.value.equals("admin", ignoreCase = true)) {
+                        "admin_account"
+                    } else {
+                        "onboarding_buy"
+                    }
+                    navController.navigate(route) {
+                        popUpTo("welcome") { inclusive = true }
                     }
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE31E24)),

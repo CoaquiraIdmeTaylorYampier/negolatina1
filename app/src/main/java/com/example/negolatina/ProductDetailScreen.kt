@@ -1,60 +1,175 @@
 package com.example.negolatina
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.negolatina.ui.theme.NegolatinaTheme
 
-// Se necesita definir la clase Product aquí también
-data class Product(val id: String, val title: String, val price: String)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ProductDetailScreen(navController: NavController, productId: String) {
 
-// Lista de productos de ejemplo para que la pantalla funcione
-val sampleProductsList = listOf(
-    Product("1", "Carne de Res", "S/.16.90 x Kg"),
-    Product("2", "Smirnoff", "S/.25.40"),
-    Product("3", "Avena tres osito", "S/.4.50"),
-    Product("4", "leche", "S/.3.90"),
-    Product("5", "yogurt", "S/.6.50"),
-)
+    val product = allProducts.find { it.id == productId } ?: allProducts.first()
+    var quantity by remember { mutableStateOf(1) }
+    var userRating by remember { mutableStateOf(product.rating) }
 
-@Preview(showBackground = true, name = "ProductDetail screen")
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Detalle del producto") },
+                navigationIcon = { IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Atrás")
+                } },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFFE31E24), titleContentColor = Color.White, navigationIconContentColor = Color.White)
+            )
+        },
+        bottomBar = {
+            BottomAppBar(
+                containerColor = Color(0xFFF0F0F0),
+                modifier = Modifier.height(70.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("Cantidad", fontWeight = FontWeight.Medium)
+                        Spacer(modifier = Modifier.width(16.dp))
+                        IconButton(onClick = { if (quantity > 1) quantity-- }) {
+                           Icon(Icons.Default.Remove, contentDescription = "Restar")
+                        }
+                        Text(quantity.toString(), fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                        IconButton(onClick = { quantity++ }) {
+                            Icon(Icons.Default.Add, contentDescription = "Añadir")
+                        }
+                    }
+                    Button(
+                        onClick = { /*  Lógica para añadir al carrito */ },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Text("Añadir al carrito", modifier = Modifier.padding(vertical = 4.dp))
+                    }
+                }
+            }
+        }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .background(Color.White)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.5f)
+                    .background(Color(0xFFF2DCD8))
+            )
+
+            Column {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.5f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = product.imageRes),
+                        contentDescription = product.title,
+                        modifier = Modifier.size(300.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                    Surface(
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(16.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        color = Color.White,
+                        shadowElevation = 4.dp
+                    ) {
+                        Text(
+                            text = product.price,
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+
+                Card(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .offset(y = (-32).dp),
+                    shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                ) {
+                    Column(modifier = Modifier.padding(24.dp)) {
+                        Text(product.title, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(product.description, fontSize = 16.sp, color = Color.Gray)
+                        Spacer(modifier = Modifier.height(24.dp))
+                        Text("Valoración", fontWeight = FontWeight.Medium)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        RatingBar(
+                            rating = userRating,
+                            onRatingChanged = { newRating -> userRating = newRating }
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun RatingBar(rating: Int, onRatingChanged: (Int) -> Unit, maxRating: Int = 5) {
+    Row {
+        for (i in 1..maxRating) {
+            IconButton(onClick = { onRatingChanged(i) }) {
+                Icon(
+                    imageVector = if (i <= rating) Icons.Filled.Star else Icons.Filled.StarBorder,
+                    contentDescription = "Rate $i",
+                    tint = if (i <= rating) Color(0xFFFFC700) else Color.Gray,
+                    modifier = Modifier.size(32.dp)
+                )
+            }
+        }
+    }
+}
+
+@Preview(showSystemUi = true)
 @Composable
 fun ProductDetailScreenPreview() {
     NegolatinaTheme {
-       ProductDetailScreen(navController = rememberNavController(), productId="1")
+        ProductDetailScreen(navController = rememberNavController(), productId = "c1")
     }
 }
+
+@Preview(showBackground = true)
 @Composable
-fun ProductDetailScreen(navController: NavController, productId: String) {
-    val product = sampleProductsList.find { it.id == productId } ?: sampleProductsList.first()
-    val qty = remember { mutableStateOf("1") }
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "product", modifier = Modifier.size(100.dp))
-            Spacer(modifier = Modifier.width(12.dp))
-            Column {
-                Text(product.title)
-                Text(product.price)
-            }
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        Text("Cantidad")
-        OutlinedTextField(value = qty.value, onValueChange = { qty.value = it })
-        Spacer(modifier = Modifier.height(12.dp))
-        Button(onClick = { /*añadir a carrito */ }) {
-            Text("Añadir al carrito")
-        }
-    }
+fun InteractiveRatingBarPreview() {
+    var rating by remember { mutableStateOf(3) }
+    RatingBar(rating = rating, onRatingChanged = { rating = it })
 }

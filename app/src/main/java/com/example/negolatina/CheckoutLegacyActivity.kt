@@ -17,11 +17,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import com.google.android.material.button.MaterialButton
 
-// ============================================================
-//  CHECKOUT ACTIVITY
-// ============================================================
-
-class CheckoutActivity : AppCompatActivity() {
+class CheckoutLegacyActivity : AppCompatActivity() {
 
     private var cantidad = 1
     private val precioUnitario = 16.90
@@ -49,7 +45,8 @@ class CheckoutActivity : AppCompatActivity() {
             setupButtons()
             actualizarTotal()
         } catch (e: Exception) {
-            Toast.makeText(this, "Error al cargar la vista: ${e.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Error al cargar la vista: ${e.message}",
+                Toast.LENGTH_LONG).show()
             e.printStackTrace()
         }
     }
@@ -63,7 +60,6 @@ class CheckoutActivity : AppCompatActivity() {
             setBackgroundColor(Color.WHITE)
         }
 
-        // ===== TOOLBAR =====
         toolbar = Toolbar(this).apply {
             id = ViewCompat.generateViewId()
             setBackgroundColor(Color.parseColor("#E31E24"))
@@ -73,44 +69,63 @@ class CheckoutActivity : AppCompatActivity() {
             0, getActionBarSize()
         ))
 
-        // ===== SCROLLVIEW =====
         val scrollView = ScrollView(this).apply {
             id = ViewCompat.generateViewId()
         }
 
         val scrollContent = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(dpToPx(16), dpToPx(16), dpToPx(16), dpToPx(16))
+            setPadding(dpToPx(16), dpToPx(16),
+                dpToPx(16), dpToPx(16))
         }
 
         val cardView = createProductCard()
         scrollContent.addView(cardView)
         scrollView.addView(scrollContent)
 
-        constraintLayout.addView(scrollView, ConstraintLayout.LayoutParams(
+        constraintLayout.addView(scrollView,
+            ConstraintLayout.LayoutParams(
             0, 0
         ))
 
-        // ===== LAYOUT TOTAL =====
         val layoutTotal = createTotalLayout()
         constraintLayout.addView(layoutTotal)
 
-        // ===== CONSTRAINTS =====
         val constraintSet = ConstraintSet()
         constraintSet.clone(constraintLayout)
 
-        constraintSet.connect(toolbar.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-        constraintSet.connect(toolbar.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
-        constraintSet.connect(toolbar.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
+        constraintSet.connect(toolbar.id,
+            ConstraintSet.TOP, ConstraintSet.PARENT_ID,
+            ConstraintSet.TOP)
+        constraintSet.connect(toolbar.id,
+            ConstraintSet.START, ConstraintSet.PARENT_ID,
+            ConstraintSet.START)
+        constraintSet.connect(toolbar.id,
+            ConstraintSet.END, ConstraintSet.PARENT_ID,
+            ConstraintSet.END)
 
-        constraintSet.connect(scrollView.id, ConstraintSet.TOP, toolbar.id, ConstraintSet.BOTTOM)
-        constraintSet.connect(scrollView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
-        constraintSet.connect(scrollView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
-        constraintSet.connect(scrollView.id, ConstraintSet.BOTTOM, layoutTotal.id, ConstraintSet.TOP)
+        constraintSet.connect(scrollView.id,
+            ConstraintSet.TOP, toolbar.id,
+            ConstraintSet.BOTTOM)
+        constraintSet.connect(scrollView.id,
+            ConstraintSet.START, ConstraintSet.PARENT_ID,
+            ConstraintSet.START)
+        constraintSet.connect(scrollView.id,
+            ConstraintSet.END, ConstraintSet.PARENT_ID,
+            ConstraintSet.END)
+        constraintSet.connect(scrollView.id,
+            ConstraintSet.BOTTOM, layoutTotal.id,
+            ConstraintSet.TOP)
 
-        constraintSet.connect(layoutTotal.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
-        constraintSet.connect(layoutTotal.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
-        constraintSet.connect(layoutTotal.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
+        constraintSet.connect(layoutTotal.id,
+            ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID,
+            ConstraintSet.BOTTOM)
+        constraintSet.connect(layoutTotal.id,
+            ConstraintSet.START, ConstraintSet.PARENT_ID,
+            ConstraintSet.START)
+        constraintSet.connect(layoutTotal.id,
+            ConstraintSet.END, ConstraintSet.PARENT_ID,
+            ConstraintSet.END)
 
         constraintSet.applyTo(constraintLayout)
         return constraintLayout
@@ -131,7 +146,8 @@ class CheckoutActivity : AppCompatActivity() {
 
         val cardContent = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(dpToPx(16), dpToPx(16), dpToPx(16), dpToPx(16))
+            setPadding(dpToPx(16), dpToPx(16),
+                dpToPx(16), dpToPx(16))
         }
 
         val header = LinearLayout(this).apply {
@@ -147,7 +163,8 @@ class CheckoutActivity : AppCompatActivity() {
             textSize = 18f
             setTextColor(Color.parseColor("#333333"))
             setTypeface(typeface, Typeface.BOLD)
-            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            layoutParams = LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         }
 
         btnOpciones = ImageButton(this).apply {
@@ -201,7 +218,8 @@ class CheckoutActivity : AppCompatActivity() {
             id = ViewCompat.generateViewId()
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
-            setPadding(dpToPx(8), dpToPx(8), dpToPx(8), dpToPx(8))
+            setPadding(dpToPx(8), dpToPx(8),
+                dpToPx(8), dpToPx(8))
         }
 
         tvCantidad = TextView(this).apply {
@@ -212,7 +230,8 @@ class CheckoutActivity : AppCompatActivity() {
 
         val arrowDown = ImageView(this).apply {
             setImageResource(android.R.drawable.arrow_down_float)
-            layoutParams = LinearLayout.LayoutParams(dpToPx(20), dpToPx(20)).apply {
+            layoutParams = LinearLayout.LayoutParams(dpToPx(20),
+                dpToPx(20)).apply {
                 marginStart = dpToPx(4)
             }
         }
@@ -247,7 +266,8 @@ class CheckoutActivity : AppCompatActivity() {
         val layoutTotal = LinearLayout(this).apply {
             id = ViewCompat.generateViewId()
             orientation = LinearLayout.VERTICAL
-            setPadding(dpToPx(16), dpToPx(16), dpToPx(16), dpToPx(16))
+            setPadding(dpToPx(16), dpToPx(16),
+                dpToPx(16), dpToPx(16))
         }
 
         val totalRow = LinearLayout(this).apply {
@@ -262,7 +282,8 @@ class CheckoutActivity : AppCompatActivity() {
             text = "Total:"
             textSize = 18f
             setTypeface(typeface, Typeface.BOLD)
-            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            layoutParams = LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         }
 
         tvTotal = TextView(this).apply {
@@ -308,7 +329,8 @@ class CheckoutActivity : AppCompatActivity() {
 
     private fun setupButtons() {
         btnEliminar.setOnClickListener { mostrarDialogoEliminar() }
-        btnOpciones.setOnClickListener { Toast.makeText(this, "Opciones del producto", Toast.LENGTH_SHORT).show() }
+        btnOpciones.setOnClickListener { Toast.makeText(this,
+            "Opciones del producto", Toast.LENGTH_SHORT).show() }
         spinnerCantidad.setOnClickListener { mostrarDialogoCantidad() }
         btnFinalizarCompra.setOnClickListener { finalizarCompra() }
     }
@@ -318,7 +340,8 @@ class CheckoutActivity : AppCompatActivity() {
             .setTitle("Eliminar producto")
             .setMessage("¿Estás seguro de eliminar este producto?")
             .setPositiveButton("Eliminar") { d, _ ->
-                Toast.makeText(this, "Producto eliminado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Producto eliminado",
+                    Toast.LENGTH_SHORT).show()
                 d.dismiss(); finish()
             }
             .setNegativeButton("Cancelar", null)
@@ -349,7 +372,8 @@ class CheckoutActivity : AppCompatActivity() {
             .setMessage("Procesando compra:\n$cantidad kg por S/. ${String.format("%.2f", total)}")
             .setPositiveButton("Confirmar") { dialog, _ ->
                 dialog.dismiss()
-                val intent = Intent(this, PurchaseSuccessActivity::class.java)
+                val intent = Intent(this,
+                    PurchaseSuccessActivity::class.java)
                 startActivity(intent)
                 finish()
             }.setNegativeButton("Cancelar", null).show()
@@ -367,10 +391,6 @@ class CheckoutActivity : AppCompatActivity() {
         return actionBarSize
     }
 }
-
-// ============================================================
-//  PURCHASE SUCCESS ACTIVITY
-// ============================================================
 
 class PurchaseSuccessActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -439,6 +459,7 @@ class PurchaseSuccessActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         finishAffinity()
     }
 }

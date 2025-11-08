@@ -24,30 +24,34 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.negolatina.ui.theme.NegolatinaTheme
 
 @Preview(showBackground = true, name = "Menú del Admin")
 @Composable
 fun AdminNavigationDrawerPreview() {
     NegolatinaTheme {
-        AdminNavigationDrawer(onItemSelected = {})
+        val navController = rememberNavController()
+        AdminNavigationDrawer(navController = navController, closeDrawer = {})
     }
 }
 
 @Composable
 fun AdminNavigationDrawer(
-    onItemSelected: (String) -> Unit
+    navController: NavController,
+    closeDrawer: () -> Unit
 ) {
     val menuItems = listOf(
-        DrawerMenuItem(titulo = "Inicio", icono = Icons.Filled.Home),
-        DrawerMenuItem(titulo = "Buscar", icono = Icons.Filled.Search),
-        DrawerMenuItem(titulo = "Notificaciones", icono = Icons.Filled.Notifications),
-        DrawerMenuItem(titulo = "Ofertas", icono = Icons.Filled.Star),
-        DrawerMenuItem(titulo = "Vender", icono = Icons.Filled.AddCircle),
-        DrawerMenuItem(titulo = "Mi cuenta", icono = Icons.Filled.AccountCircle),
-        DrawerMenuItem(titulo = "Categorias", icono = Icons.AutoMirrored.Filled.List),
-        DrawerMenuItem(titulo = "🌿 Modo ecológico", icono = null),
-        DrawerMenuItem(titulo = "Cerrar sesión", icono = Icons.AutoMirrored.Filled.ExitToApp)
+        DrawerMenuItem(route = "home", title = "Inicio", icon = Icons.Filled.Home),
+        DrawerMenuItem(route = "search", title = "Buscar", icon = Icons.Filled.Search),
+        DrawerMenuItem(route = "notifications", title = "Notificaciones", icon = Icons.Filled.Notifications),
+        DrawerMenuItem(route = "offers", title = "Ofertas", icon = Icons.Filled.Star),
+        DrawerMenuItem(route = "sell", title = "Vender", icon = Icons.Default.Add),
+        DrawerMenuItem(route = "admin_account", title = "Mi cuenta", icon = Icons.Filled.AccountCircle),
+        DrawerMenuItem(route = "all_categories", title = "Categorias", icon = Icons.AutoMirrored.Filled.List),
+        DrawerMenuItem(route = "eco_mode", title = "🌿 Modo ecológico", icon = Icons.Filled.EnergySavingsLeaf), 
+        DrawerMenuItem(route = "welcome", title = "Cerrar sesión", icon = Icons.AutoMirrored.Filled.ExitToApp)
     )
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -82,15 +86,16 @@ fun AdminNavigationDrawer(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { onItemSelected(menuItem.titulo) }
+                        .clickable { 
+                            closeDrawer()
+                            navController.navigate(menuItem.route)
+                        }
                         .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    menuItem.icono?.let {
-                        Icon(imageVector = it, contentDescription = menuItem.titulo)
-                        Spacer(modifier = Modifier.width(16.dp))
-                    }
-                    Text(menuItem.titulo, style = MaterialTheme.typography.bodyLarge)
+                    Icon(imageVector = menuItem.icon, contentDescription = menuItem.title)
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(menuItem.title, style = MaterialTheme.typography.bodyLarge)
                 }
             }
         }
@@ -99,7 +104,10 @@ fun AdminNavigationDrawer(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.surface)
-                .clickable { onItemSelected("Ayuda") }
+                .clickable { 
+                    closeDrawer()
+                    navController.navigate("help")
+                }
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -107,4 +115,3 @@ fun AdminNavigationDrawer(
         }
     }
 }
-

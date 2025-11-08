@@ -69,7 +69,7 @@ fun ShoppingCartScreen() {
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.encabezado),
-                    contentDescription = "Encabezado",
+                    contentDescription = "",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.FillBounds
                 )
@@ -277,7 +277,7 @@ fun ShoppingCartScreen() {
                             }
                             Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center)
                             {
-                                Text("       Los Cheetos Flamin' Hot son \n"+
+                                Text("       Los Cheetos Flamin\' Hot son \n"+
                                     "       bocadillos crujientes con sabor\n"+"" +
                                         "       a queso y un característico  \n"+
                                         "       picante especiado.", fontFamily = Popins)

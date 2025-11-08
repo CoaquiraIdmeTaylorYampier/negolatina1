@@ -9,12 +9,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
+        android.supportsRtl="true"
         android:theme="@style/Theme.Negolatina">
 
-        <!-- Actividad principal (pantalla de checkout) -->
+        <!-- Actividad Principal con Compose y Navegación -->
         <activity
-            android:name=".CheckoutActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Negolatina">
             <intent-filter>
@@ -23,8 +23,15 @@
             </intent-filter>
         </activity>
 
-        <!-- Pantalla de confirmación -->
-        <activity android:name=".PurchaseSuccessActivity" />
+        <!-- Pantalla de Checkout (Legacy) -->
+        <activity
+            android:name=".CheckoutLegacyActivity"
+            android:exported="false" />
+
+        <!-- Pantalla de Compra Exitosa (Legacy) -->
+        <activity
+            android:name=".PurchaseSuccessActivity"
+            android:exported="false" />
 
     </application>
 </manifest>
