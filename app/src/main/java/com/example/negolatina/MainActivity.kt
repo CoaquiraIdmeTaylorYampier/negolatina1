@@ -13,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -80,17 +81,15 @@ fun SplashScreen(navController: NavController) {
         }
     }
     Box(
-        modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
+        modifier = Modifier.fillMaxSize().background(Color.Red),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                painter = painterResource(id = R.drawable.ic_launcher_pollo),
                 contentDescription = "logo",
-                modifier = Modifier.size(120.dp).alpha(alpha.value)
+                modifier = Modifier.size(400.dp).alpha(alpha.value)
             )
-            Spacer(Modifier.height(12.dp))
-            Text("Negolatina", style = MaterialTheme.typography.headlineSmall)
         }
     }
 }

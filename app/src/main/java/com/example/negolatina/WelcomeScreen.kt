@@ -55,7 +55,7 @@ fun WelcomeScreen(navController: NavController) {
         ) {
 
             Image(
-                painter = painterResource(id = R.drawable.logo_pollito),
+                painter = painterResource(id = R.drawable.pollo_negolatina),//img mejor calidad
                 contentDescription = "Logo de Negolatina",
                 modifier = Modifier.size(320.dp)
             )

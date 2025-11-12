@@ -54,10 +54,14 @@ fun ClientNavigationDrawer(
                 tint = Color.White
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Text("Usuario Cliente", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+            Text(
+                text = "Usuario Cliente",
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
+            )
         }
 
-        // Lista de items del menú
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
@@ -72,6 +76,7 @@ fun ClientNavigationDrawer(
                             closeDrawer()
                             navController.navigate(menuItem.route) {
                                 popUpTo("home")
+                                launchSingleTop = true
                             }
                         }
                         .padding(16.dp),

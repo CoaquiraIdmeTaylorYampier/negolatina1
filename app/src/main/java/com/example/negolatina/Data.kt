@@ -22,24 +22,42 @@ data class Category(
     val color: Color
 )
 
+//  items del menu
+data class DrawerMenuItem(
+    val route: String,
+    val title: String,
+    val icon: ImageVector
+)
+
+// modelo pa' usuarios
+data class User(
+    val id: String,
+    val name: String,
+    val email: String,
+    val isAdmin: Boolean = false
+)
 
 
-
+// Base d usuarios
+val allUsers = listOf(
+    User(id = "1", name = "Vidal", email = "vidal@cliente.com", isAdmin = false),
+    User(id = "2", name = "admin", email = "admin@negolatina.com", isAdmin = true)
+)
 
 val allCategories = listOf(
-    Category("Bebidas", "drinks", R.drawable.power, Color(0xFF00D5E3)),
-    Category("Frutas", "fruits_vegetables", R.drawable.uva, Color(0xFFF900FF)),
-    Category("Carne", "meats_sausages", R.drawable.carnemolida, Color(0xFFFFC700)),
-    Category("Lácteos", "dairy_eggs", R.drawable.leche, Color(0xFF8B4513)),
-    Category("Snacks", "snacks", R.drawable.pringles, Color(0xFF4CAF50)),
-    Category("Panadería", "bakery", R.drawable.panintegral, Color(0xFFFF9800)),
-    Category("Limpieza", "cleaning_home", R.drawable.guantes, Color(0xFF2196F3)),
-    Category("Abarrotes", "grains_groceries", R.drawable.arroz, Color(0xFF9C27B0))
+    Category("Bebidas", "drinks", R.drawable.bebida_general, Color(0xFF00D5E3)),
+    Category("Frutas y Verduras", "fruits_vegetables",R.drawable.frutas_y_verduras_general, Color(0xFFF900FF)),
+    Category("Carnes", "meats_sausages", R.drawable.carnes_general, Color(0xFFFFC700)),
+    Category("Lácteos", "dairy_eggs", R.drawable.leche, Color(0xFF8B4513)),//cambiar rdrwable.producto por uno general
+    Category("Snacks", "snacks", R.drawable.pringles, Color(0xFF4CAF50)),//cambiar rdrwable.producto por uno general
+    Category("Panadería", "bakery", R.drawable.panintegral, Color(0xFFFF9800)),//cambiar rdrwable.producto por uno general
+    Category("Limpieza", "cleaning_home", R.drawable.limpiavidrios, Color(0xFF2196F3)),//cambiar rdrwable.producto por uno general
+    Category("Abarrotes", "grains_groceries", R.drawable.arroz, Color(0xFF9C27B0))//cambiar rdrwable.producto por uno general
 )
 
 val allProducts = listOf(
     // Carnes
-    Product("c1", "Chuletas de cerdo", "Cortes frescos de carne de cerdo, ideales para parrillas, guisos y recetas caseras.", "S/.16.90 x Kg", 3, R.drawable.carne_res, "Carnes", "5%"),
+    Product("c1", "Chuletas de cerdo", "Cortes frescos de carne de cerdo, ideales para parrillas, guisos y recetas caseras.", "S/.16.90 x Kg", 3, R.drawable.chuletacerdo, "Carnes", "5%"),
     Product("c2", "Pollo Entero", "Pollo fresco y de granja, listo para hornear o trozar para tus guisos.", "S/.12.50 x Kg", 4, R.drawable.pollo, "Carnes"),
     Product("c3", "Bisteck de Res", "Finos cortes de res para freír, apanar o para un delicioso lomo saltado.", "S/.22.00 x Kg", 5, R.drawable.bisteck, "Carnes"),
 
@@ -54,7 +72,7 @@ val allProducts = listOf(
     Product("fv3", "Tomate Italiano", "Tomate fresco y jugoso, perfecto para ensaladas, salsas y guisos.", "S/.3.00 x Kg", 4, R.drawable.tomate, "Frutas y Verduras"),
 
     // Abarrotes
-    Product("a1", "Avena tres ositos", "Hojuelas de avena pre-cocida de grano entero, fuente de fibra y proteína para un desayuno saludable.", "S/.4.50", 4, R.drawable.harina, "Abarrotes", "25%"),
+    Product("a1", "Avena tres ositos", "Hojuelas de avena pre-cocida de grano entero, fuente de fibra y proteína para un desayuno saludable.", "S/.4.50", 4, R.drawable.avena, "Abarrotes", "25%"),
     Product("a2", "Arroz Costeño", "Arroz extra, ideal para acompañar todos tus platos. Bolsa de 5kg.", "S/.18.00", 5, R.drawable.arroz, "Abarrotes"),
     
     // Lácteos

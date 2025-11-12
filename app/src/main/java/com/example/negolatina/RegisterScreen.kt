@@ -1,5 +1,6 @@
 package com.example.negolatina
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -11,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +31,8 @@ fun RegisterScreenPreview() {
 }
 @Composable
 fun RegisterScreen(navController: NavController) {
+    var fullname by remember {
+        mutableStateOf("") }
     var email by remember {
         mutableStateOf("") }
     var password by remember {
@@ -43,12 +47,21 @@ fun RegisterScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            Image(painter = painterResource(id = R.drawable.registrarse),
+                contentDescription = "imagen de venta ",
+                modifier = Modifier.size(450.dp))
             Text("Crear una cuenta",
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(16.dp))
-
+            OutlinedTextField(
+                value = fullname,
+                onValueChange = { fullname = it },
+                label = { Text("Nombre completo") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
@@ -76,7 +89,7 @@ fun RegisterScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
-                onClick = { /*logica de registro */ navController.navigate("home") },
+                onClick = { /*añadir logica de registro */ navController.navigate("home") },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE31E24)),
                 modifier = Modifier.fillMaxWidth().height(50.dp)
             ) {

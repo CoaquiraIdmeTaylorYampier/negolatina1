@@ -72,7 +72,7 @@ fun HomeScreen(navController: NavController) {
             val categoriesForHome = allCategories.take(3)
 
             Column(modifier = Modifier.fillMaxSize().background(Color.White).padding(it)) {
-                // --- Top Bar ---
+                // BAR
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -103,7 +103,7 @@ fun HomeScreen(navController: NavController) {
 
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
 
-                    // --- Promotional Banners ---
+                    // PROMOCION
                     item {
                         LazyRow(
                             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
@@ -128,7 +128,8 @@ fun HomeScreen(navController: NavController) {
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(text = "Categorias", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                                Text(text = "Ver mas", fontSize = 14.sp, color = Color.Gray, modifier = Modifier.clickable { navController.navigate("all_categories") })
+                                Text(text = "Ver mas", fontSize = 14.sp, color = Color.Gray,
+                                    modifier = Modifier.clickable { navController.navigate("all_categories") })
                             }
                             Spacer(modifier = Modifier.height(12.dp))
                             LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -147,7 +148,8 @@ fun HomeScreen(navController: NavController) {
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(text = "Productos", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                                Text(text = "Ver mas", fontSize = 14.sp, color = Color.Gray, modifier = Modifier.clickable { navController.navigate("all_products") })
+                                Text(text = "Ver mas", fontSize = 14.sp, color = Color.Gray,
+                                    modifier = Modifier.clickable { navController.navigate("all_products") })
                             }
                         }
                     }
@@ -176,7 +178,7 @@ fun CategoryCard(category: Category, navController: NavController) {
                 Image(
                     painter = painterResource(id = category.imageRes),
                     contentDescription = category.name,
-                    modifier = Modifier.size(80.dp),
+                    modifier = Modifier.size(105.dp),
                     contentScale = ContentScale.Fit
                 )
             }
