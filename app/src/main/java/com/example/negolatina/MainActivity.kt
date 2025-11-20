@@ -120,6 +120,7 @@ class MainActivity : ComponentActivity() {
                     composable("sell") { SellScreen(navController) }
                     composable("eco_mode") { EcoModeScreen(navController) }
                     composable("help") { HelpScreen(navController) }
+                    composable("favorites") { FavoritesScreen(navController) }
                    }
             }
         }

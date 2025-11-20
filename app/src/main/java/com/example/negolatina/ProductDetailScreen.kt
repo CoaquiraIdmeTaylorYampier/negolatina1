@@ -7,6 +7,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
@@ -34,13 +36,17 @@ fun ProductDetailScreen(navController: NavController, productId: String) {
     var quantity by remember { mutableStateOf(1) }
     var userRating by remember { mutableStateOf(product.rating) }
     var showSnackbar by remember { mutableStateOf(false) }
+    var snackbarMessage by remember { mutableStateOf("") }
     val snackbarHostState = remember { SnackbarHostState() }
 
-    // Mostrar snackbar cuando se agrega al carrito
+    // Estado de favorito
+    var isFavorite by remember { mutableStateOf(FavoritesManager.isFavorite(product.id)) }
+
+    // Mostrar snackbar cuando se agrega al carrito o favoritos
     LaunchedEffect(showSnackbar) {
         if (showSnackbar) {
             snackbarHostState.showSnackbar(
-                message = "Producto agregado al carrito",
+                message = snackbarMessage,
                 duration = SnackbarDuration.Short
             )
             showSnackbar = false
@@ -58,6 +64,29 @@ fun ProductDetailScreen(navController: NavController, productId: String) {
                             Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Atrás",
                             tint = Color.White
+                        )
+                    }
+                },
+                actions = {
+                    // Botón de favoritos en el AppBar
+                    IconButton(
+                        onClick = {
+                            FavoritesManager.toggleFavorite(product)
+                            isFavorite = FavoritesManager.isFavorite(product.id)
+                            snackbarMessage = if (isFavorite) {
+                                "Agregado a favoritos"
+                            } else {
+                                "Eliminado de favoritos"
+                            }
+                            showSnackbar = true
+                        }
+                    ) {
+                        Icon(
+                            imageVector = if (isFavorite) Icons.Default.Favorite
+                            else Icons.Default.FavoriteBorder,
+                            contentDescription = if (isFavorite) "Quitar de favoritos"
+                            else "Agregar a favoritos",
+                            tint = if (isFavorite) Color(0xFFFFD700) else Color.White
                         )
                     }
                 },
@@ -97,6 +126,7 @@ fun ProductDetailScreen(navController: NavController, productId: String) {
                         onClick = {
                             // Agregar al carrito
                             CartManager.addProduct(product, quantity)
+                            snackbarMessage = "Producto agregado al carrito"
                             showSnackbar = true
                         },
                         colors = ButtonDefaults.buttonColors(

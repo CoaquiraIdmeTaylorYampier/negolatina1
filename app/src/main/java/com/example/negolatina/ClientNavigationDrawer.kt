@@ -50,7 +50,7 @@ fun ClientNavigationDrawer(
         DrawerMenuItem("search", "Buscar", Icons.Filled.Search),
         DrawerMenuItem("notifications", "Notificaciones", Icons.Filled.Notifications),
         DrawerMenuItem("My purchases", "Mis compras", Icons.Filled.ShoppingCart),
-        DrawerMenuItem("favorite", "Favoritos", Icons.Filled.Favorite),
+        DrawerMenuItem("favorites", "Favoritos", Icons.Filled.Favorite),
         DrawerMenuItem("offers", "Ofertas", Icons.Filled.Star),
         DrawerMenuItem("client_account", "Mi cuenta", Icons.Filled.AccountCircle),
         DrawerMenuItem("categories", "Categorias", Icons.Filled.Category),
