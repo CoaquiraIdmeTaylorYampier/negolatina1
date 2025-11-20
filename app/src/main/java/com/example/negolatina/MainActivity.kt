@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -31,6 +32,7 @@ class MainActivity : ComponentActivity() {
             NegolatinaTheme {
 
                 val navController = rememberNavController()
+                val profileViewModel: ProfileViewModel = viewModel()
 
                 NavHost(
                     navController = navController,
@@ -48,8 +50,11 @@ class MainActivity : ComponentActivity() {
                     composable("onboarding_sell") { OnboardingSellScreen(navController) }
                     composable("onboarding_buy") { OnboardingBuyScreen(navController) }
 
-                    // Inicio
-                    composable("home") { HomeScreen(navController) }
+                    // CONECTAMOS EL VIEWMODEL A LAS PANTALLAS
+                    composable("home") { HomeScreen(navController, profileViewModel) }
+                    composable("client_account") { ClientAccountScreen(navController, profileViewModel) }
+                    composable("edit_profile") { EditProfileScreen(navController, profileViewModel) }
+                    composable("avatar_picker") { AvatarPickerScreen(navController, profileViewModel) }
 
                     // Detalle
                     composable(
@@ -105,9 +110,8 @@ class MainActivity : ComponentActivity() {
                     composable("all_categories") { AllCategoriesScreen(navController) }
                     composable("all_products") { AllProductsScreen(navController) }
 
-                    // Usuario - ACTUALIZADO
+                    // Usuario
                     composable("admin_account") { AdminAccountScreen(navController) }
-                    composable("client_account") { ClientAccountScreen(navController) }
 
                     // Extras
                     composable("search") { SearchScreen(navController) }
@@ -123,7 +127,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// --- SplashScreen ---
+//  SplashScreen
 @Composable
 fun SplashScreen(navController: NavController) {
 
@@ -163,7 +167,7 @@ fun SplashScreen(navController: NavController) {
     }
 }
 
-// --- Placeholder screens ---
+// Placeholder
 @Composable fun SearchScreen(navController: NavController) { CenterText("Pantalla de Búsqueda - En desarrollo") }
 @Composable fun NotificationsScreen(navController: NavController) { CenterText("Notificaciones - En desarrollo") }
 @Composable fun OffersScreen(navController: NavController) { CenterText("Ofertas - En desarrollo") }

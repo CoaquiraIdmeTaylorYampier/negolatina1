@@ -56,7 +56,7 @@ dependencies {
     implementation(libs.androidx.appcompat) 
     implementation(libs.androidx.cardview)
     implementation(libs.androidx.constraintlayout)
-    implementation("androidx.compose.material:material-icons-extended") // <-- AÑADIDO DE NUEVO
+    implementation("androidx.compose.material:material-icons-extended")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

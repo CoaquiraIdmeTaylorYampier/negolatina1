@@ -27,7 +27,7 @@ fun AdminAccountScreenPreview() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)   // ⬅️ ESTA LÍNEA SOLUCIONA TU ERROR
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdminAccountScreen(navController: NavController) {
     Column(Modifier.fillMaxSize()) {
