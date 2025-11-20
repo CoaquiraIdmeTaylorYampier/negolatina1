@@ -169,7 +169,6 @@ fun SplashScreen(navController: NavController) {
 @Composable fun OffersScreen(navController: NavController) { CenterText("Ofertas - En desarrollo") }
 @Composable fun SellScreen(navController: NavController) { CenterText("Vender Producto - En desarrollo") }
 @Composable fun EcoModeScreen(navController: NavController) { CenterText("Modo Ecológico - En desarrollo") }
-@Composable fun HelpScreen(navController: NavController) { CenterText("Ayuda - En desarrollo") }
 @Composable fun AboutUsScreen(navController: NavController) { CenterText("Acerca de Nosotros - En desarrollo") }
 
 @Composable
