@@ -105,7 +105,7 @@ class MainActivity : ComponentActivity() {
                     composable("all_categories") { AllCategoriesScreen(navController) }
                     composable("all_products") { AllProductsScreen(navController) }
 
-                    // Usuario
+                    // Usuario - ACTUALIZADO
                     composable("admin_account") { AdminAccountScreen(navController) }
                     composable("client_account") { ClientAccountScreen(navController) }
 

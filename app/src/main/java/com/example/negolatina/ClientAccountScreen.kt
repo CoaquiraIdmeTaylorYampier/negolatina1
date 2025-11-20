@@ -1,15 +1,22 @@
 package com.example.negolatina
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,98 +35,190 @@ fun ClientAccountScreenPreview() {
 
 @Composable
 fun ClientAccountScreen(navController: NavController) {
-    Column(Modifier.fillMaxSize()) {
-        AccountAppBar(
-            title = "Mi cuenta",
-            onBackClicked = { navController.popBackStack() },
-            onEditClicked = { /* aun por configurar */ }
-        )
-
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Red)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.fillMaxSize()
         ) {
-            ClientProfileHeader()
-            Spacer(modifier = Modifier.height(24.dp))
-            ClientDataSection()
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Button(
-                onClick = { /* cerrar sesión */ },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+            // Header con perfil (fondo rojo)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        Color(0xFFFF0000),
+                        shape = RoundedCornerShape(bottomStart = 0.dp, bottomEnd = 0.dp)
+                    )
+                    .padding(top = 40.dp, bottom = 24.dp, start = 24.dp, end = 24.dp)
             ) {
-                Icon(Icons.Default.ExitToApp, contentDescription = "Cerrar sesión", tint = Color.Red)
-                Spacer(modifier = Modifier.width(8.dp))
-                Text("Cerrar sesión", color = Color.Red)
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    // Foto de perfil circular
+                    Box(
+                        modifier = Modifier
+                            .size(80.dp)
+                            .clip(CircleShape)
+                            .background(Color.White),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.AccountCircle,
+                            contentDescription = "Foto de perfil",
+                            modifier = Modifier.size(80.dp),
+                            tint = Color.Gray
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // Nombre
+                    Text(
+                        text = "Emerson A. F",
+                        style = MaterialTheme.typography.headlineSmall.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            fontSize = 20.sp
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    // Rol
+                    Text(
+                        text = "Cliente",
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = Color.White,
+                            fontSize = 14.sp
+                        )
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Menú de opciones
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 0.dp)
+            ) {
+                MenuOption(
+                    icon = Icons.Default.Home,
+                    text = "Inicio",
+                    onClick = { navController.navigate("home") }
+                )
+
+                MenuOption(
+                    icon = Icons.Default.Search,
+                    text = "Buscar",
+                    onClick = { navController.navigate("search") }
+                )
+
+                MenuOption(
+                    icon = Icons.Default.Notifications,
+                    text = "Notificaciones",
+                    onClick = { navController.navigate("notifications") }
+                )
+
+                MenuOption(
+                    icon = Icons.Default.ShoppingCart,
+                    text = "Mis compras",
+                    onClick = { navController.navigate("shopping_cart") }
+                )
+
+                MenuOption(
+                    icon = Icons.Default.Favorite,
+                    text = "Favoritos",
+                    onClick = { /* Implementar favoritos */ }
+                )
+
+                MenuOption(
+                    icon = Icons.Default.LocalOffer,
+                    text = "Ofertas",
+                    onClick = { navController.navigate("offers") }
+                )
+
+                MenuOption(
+                    icon = Icons.Default.Person,
+                    text = "Mi cuenta",
+                    onClick = { /* Ya estamos aquí */ }
+                )
+
+                MenuOption(
+                    icon = Icons.Default.Category,
+                    text = "Categorías",
+                    onClick = { navController.navigate("all_categories") }
+                )
+
+                MenuOption(
+                    icon = Icons.Default.EmojiNature,
+                    text = "Modo ecológico",
+                    onClick = { navController.navigate("eco_mode") }
+                )
+
+                MenuOption(
+                    icon = Icons.Default.ExitToApp,
+                    text = "Cerrar sesión",
+                    onClick = {
+                        navController.navigate("welcome") {
+                            popUpTo("home") { inclusive = true }
+                        }
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Divider(
+                    color = Color.LightGray,
+                    thickness = 1.dp,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                MenuOption(
+                    icon = Icons.Default.HelpOutline,
+                    text = "Ayuda",
+                    onClick = { navController.navigate("help") }
+                )
             }
         }
     }
 }
 
 @Composable
-private fun ClientProfileHeader() {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+fun MenuOption(
+    icon: ImageVector,
+    text: String,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 24.dp, vertical = 14.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Icon(
-            imageVector = Icons.Default.AccountCircle,
-            contentDescription = "Profile Picture",
-            modifier = Modifier.size(80.dp),
-            tint = Color.White
+            imageVector = icon,
+            contentDescription = text,
+            modifier = Modifier.size(24.dp),
+            tint = Color(0xFF333333)
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text("Cliente", color = Color.White,
-            fontSize = 16.sp, fontWeight = FontWeight.Medium)
-    }
-}
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun ClientDataSection() {
-    val textFieldColors = OutlinedTextFieldDefaults.colors(
+        Spacer(modifier = Modifier.width(20.dp))
 
-        focusedContainerColor = Color.White,
-        unfocusedContainerColor = Color.White,
-
-        focusedTextColor = Color.Black,
-        unfocusedTextColor = Color.Black,
-
-        focusedLabelColor = Color.White,
-        unfocusedLabelColor = Color.White,
-
-        focusedBorderColor = Color.White,
-        unfocusedBorderColor = Color.White.copy(alpha = 0.7f),
-
-        cursorColor = Color.Red
-    )
-
-    Column(modifier = Modifier.fillMaxWidth()) {
-        OutlinedTextField(
-            value = "usuario name",
-            onValueChange = {},
-            label = { Text("Nombre completo") },
-            colors = textFieldColors,
-            modifier = Modifier.fillMaxWidth(),
-            readOnly = true
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(
-            value = "usuario@cliente.com",
-            onValueChange = {},
-            label = { Text("Correo electrónico") },
-            colors = textFieldColors,
-            modifier = Modifier.fillMaxWidth(),
-            readOnly = true
-        )
-        OutlinedTextField(
-            value = "avenida....",
-            onValueChange = {},
-            label = { Text("Direccion") },
-            colors = textFieldColors,
-            modifier = Modifier.fillMaxWidth(),
-            readOnly = true
-            
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyLarge.copy(
+                fontSize = 16.sp,
+                color = Color(0xFF333333),
+                fontWeight = FontWeight.Normal
+            )
         )
     }
 }
