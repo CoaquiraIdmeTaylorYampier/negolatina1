@@ -7,8 +7,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,6 +14,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -29,6 +28,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             NegolatinaTheme {
                 val navController = rememberNavController()
+                val profileViewModel: ProfileViewModel = viewModel()
+
                 NavHost(navController = navController, startDestination = "splash") {
                     // inicio
                     composable("splash") { SplashScreen(navController) }
@@ -38,16 +39,15 @@ class MainActivity : ComponentActivity() {
                     composable("onboarding_sell") { OnboardingSellScreen(navController) }
                     composable("onboarding_buy") { OnboardingBuyScreen(navController) }
                     
-                    // principla
-                    composable("home") { HomeScreen(navController) }
-                    composable("admin_account") { AdminAccountScreen(navController) }
-                    composable("client_account") { ClientAccountScreen(navController) }
+                    // principales y viewmode
+                    composable("home") { HomeScreen(navController, profileViewModel) }
+                    composable("client_account") { ClientAccountScreen(navController, profileViewModel) }
+                    composable("edit_profile") { EditProfileScreen(navController, profileViewModel) }
+                    composable("avatar_picker") { AvatarPickerScreen(navController, profileViewModel) }
 
-                    //ver mas
+                    composable("admin_account") { AdminAccountScreen(navController) }
                     composable("all_categories") { AllCategoriesScreen(navController) }
                     composable("all_products") { AllProductsScreen(navController) }
-
-                    // Categorías
                     composable("snacks") { SnacksScreen(navController) }
                     composable("drinks") { DrinksScreen(navController) }
                     composable("fruits_vegetables") { FruitsAndVegetablesScreen(navController) }
@@ -57,7 +57,6 @@ class MainActivity : ComponentActivity() {
                     composable("grains_groceries") { GrainsAndGroceriesScreen(navController) }
                     composable("bakery") { BakeryScreen(navController) }
                     composable("shopping_cart") { ShoppingCartScreen() }
-                    //produtp
                     composable("product/{productId}") { backStackEntry ->
                         val id = backStackEntry.arguments?.getString("productId") ?: "0"
                         ProductDetailScreen(navController, id)

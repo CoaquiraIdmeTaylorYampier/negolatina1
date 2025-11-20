@@ -40,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
@@ -50,8 +51,9 @@ val promotions = listOf(
     Promotion(R.drawable.banner_carne)
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(navController: NavController, profileViewModel: ProfileViewModel) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -61,7 +63,8 @@ fun HomeScreen(navController: NavController) {
             ModalDrawerSheet {
                 ClientNavigationDrawer(
                     navController = navController,
-                    closeDrawer = { scope.launch { drawerState.close() } }
+                    closeDrawer = { scope.launch { drawerState.close() } },
+                    profileViewModel = profileViewModel
                 )
             }
         },
@@ -226,5 +229,5 @@ fun ProductItemRow(product: Product, navController: NavController) {
 @Composable
 fun HomeScreenPreview() {
     val navController = rememberNavController()
-    HomeScreen(navController = navController)
+    HomeScreen(navController = navController, profileViewModel = viewModel())
 }
