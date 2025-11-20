@@ -120,8 +120,7 @@ class MainActivity : ComponentActivity() {
                     composable("sell") { SellScreen(navController) }
                     composable("eco_mode") { EcoModeScreen(navController) }
                     composable("help") { HelpScreen(navController) }
-                    composable("about_us") { AboutUsScreen(navController) }
-                }
+                   }
             }
         }
     }
@@ -173,8 +172,6 @@ fun SplashScreen(navController: NavController) {
 @Composable fun OffersScreen(navController: NavController) { CenterText("Ofertas - En desarrollo") }
 @Composable fun SellScreen(navController: NavController) { CenterText("Vender Producto - En desarrollo") }
 @Composable fun EcoModeScreen(navController: NavController) { CenterText("Modo Ecológico - En desarrollo") }
-@Composable fun AboutUsScreen(navController: NavController) { CenterText("Acerca de Nosotros - En desarrollo") }
-
 @Composable
 fun CenterText(text: String) {
     Box(

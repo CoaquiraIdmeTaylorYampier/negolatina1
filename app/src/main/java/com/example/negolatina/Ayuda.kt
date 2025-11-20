@@ -220,11 +220,10 @@ fun HelpScreen(navController: NavController) {
             ) {
                 Text(
                     text = "El Modo Ecológico te ayuda a:\n\n" +
-                            "• Identificar productos con empaques sostenibles\n" +
-                            "• Encontrar opciones de bajo impacto ambiental\n" +
+                            "• Cuidar el Medio Ambiente\n" +
                             "• Apoyar a vendedores con prácticas ecológicas\n" +
                             "• Reducir la huella de carbono en tus compras\n\n" +
-                            "Activa el Modo Ecológico desde el menú principal para ver productos certificados.",
+                            "Activa el Modo Ecológico desde el menú principal para ver tu amigo sostenible.",
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color(0xFF666666),
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)

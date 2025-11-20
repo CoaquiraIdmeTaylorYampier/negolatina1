@@ -56,8 +56,8 @@ fun ClientNavigationDrawer(
         DrawerMenuItem("categories", "Categorias", Icons.Filled.Category),
         DrawerMenuItem("all_products", "Productos", Icons.AutoMirrored.Filled.List),
         DrawerMenuItem("mode ecologic", "Modo ecologico", Icons.Filled.EnergySavingsLeaf),
-        DrawerMenuItem("welcome", "Cerrar sesión", Icons.AutoMirrored.Filled.ExitToApp),
-        DrawerMenuItem("about_us", "Acerca de", Icons.Filled.Info),
+        DrawerMenuItem("help", "Ayuda", Icons.Filled.Help), // ✅ CAMBIADO: "about_us" → "help" con ícono Help
+        DrawerMenuItem("welcome", "Cerrar sesión", Icons.AutoMirrored.Filled.ExitToApp)
     )
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -101,7 +101,7 @@ fun ClientNavigationDrawer(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { 
+                        .clickable {
                             closeDrawer()
                             navController.navigate(menuItem.route) {
                                 popUpTo("home")
