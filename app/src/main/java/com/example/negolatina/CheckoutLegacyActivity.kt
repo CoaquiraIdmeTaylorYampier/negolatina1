@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import com.google.android.material.button.MaterialButton
+import androidx.core.graphics.toColorInt
 
 class CheckoutLegacyActivity : AppCompatActivity() {
 
@@ -242,7 +243,7 @@ class CheckoutLegacyActivity : AppCompatActivity() {
         val labelKg = TextView(this).apply {
             text = "Kg"
             textSize = 14f
-            setTextColor(Color.parseColor("#666666"))
+            setTextColor("#666666".toColorInt())
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -301,7 +302,7 @@ class CheckoutLegacyActivity : AppCompatActivity() {
             text = "Finalizar compra"
             textSize = 16f
             setTextColor(Color.WHITE)
-            setBackgroundColor(Color.parseColor("#E31E24"))
+            setBackgroundColor("#E31E24".toColorInt())
             isAllCaps = false
             cornerRadius = dpToPx(8)
         }
