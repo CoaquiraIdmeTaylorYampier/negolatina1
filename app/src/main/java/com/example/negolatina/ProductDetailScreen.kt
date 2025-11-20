@@ -33,15 +33,37 @@ fun ProductDetailScreen(navController: NavController, productId: String) {
     val product = allProducts.find { it.id == productId } ?: allProducts.first()
     var quantity by remember { mutableStateOf(1) }
     var userRating by remember { mutableStateOf(product.rating) }
+    var showSnackbar by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    // Mostrar snackbar cuando se agrega al carrito
+    LaunchedEffect(showSnackbar) {
+        if (showSnackbar) {
+            snackbarHostState.showSnackbar(
+                message = "Producto agregado al carrito",
+                duration = SnackbarDuration.Short
+            )
+            showSnackbar = false
+        }
+    }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             TopAppBar(
-                title = { Text("Detalle del producto") },
-                navigationIcon = { IconButton(onClick = { navController.popBackStack() }) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Atrás")
-                } },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFFE31E24), titleContentColor = Color.White, navigationIconContentColor = Color.White)
+                title = { Text("Detalle del producto", color = Color.White) },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Atrás",
+                            tint = Color.White
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFFE31E24)
+                )
             )
         },
         bottomBar = {
@@ -50,7 +72,9 @@ fun ProductDetailScreen(navController: NavController, productId: String) {
                 modifier = Modifier.height(70.dp)
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -58,19 +82,32 @@ fun ProductDetailScreen(navController: NavController, productId: String) {
                         Text("Cantidad", fontWeight = FontWeight.Medium)
                         Spacer(modifier = Modifier.width(16.dp))
                         IconButton(onClick = { if (quantity > 1) quantity-- }) {
-                           Icon(Icons.Default.Remove, contentDescription = "Restar")
+                            Icon(Icons.Default.Remove, contentDescription = "Restar")
                         }
-                        Text(quantity.toString(), fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                        Text(
+                            quantity.toString(),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp
+                        )
                         IconButton(onClick = { quantity++ }) {
                             Icon(Icons.Default.Add, contentDescription = "Añadir")
                         }
                     }
                     Button(
-                        onClick = { /*  Lógica para añadir al carrito */ },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                        onClick = {
+                            // Agregar al carrito
+                            CartManager.addProduct(product, quantity)
+                            showSnackbar = true
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFE31E24)
+                        ),
                         shape = RoundedCornerShape(8.dp)
                     ) {
-                        Text("Añadir al carrito", modifier = Modifier.padding(vertical = 4.dp))
+                        Text(
+                            "Añadir al carrito",
+                            modifier = Modifier.padding(vertical = 4.dp)
+                        )
                     }
                 }
             }
@@ -112,9 +149,35 @@ fun ProductDetailScreen(navController: NavController, productId: String) {
                     ) {
                         Text(
                             text = product.price,
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                            fontWeight = FontWeight.Bold
+                            modifier = Modifier.padding(
+                                horizontal = 12.dp,
+                                vertical = 6.dp
+                            ),
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFE31E24)
                         )
+                    }
+
+                    // Badge de descuento
+                    product.discount?.let { discount ->
+                        Surface(
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(16.dp),
+                            shape = RoundedCornerShape(8.dp),
+                            color = Color(0xFFE31E24),
+                            shadowElevation = 4.dp
+                        ) {
+                            Text(
+                                text = "-$discount",
+                                modifier = Modifier.padding(
+                                    horizontal = 12.dp,
+                                    vertical = 6.dp
+                                ),
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                        }
                     }
                 }
 
@@ -122,15 +185,31 @@ fun ProductDetailScreen(navController: NavController, productId: String) {
                     modifier = Modifier
                         .fillMaxSize()
                         .offset(y = (-32).dp),
-                    shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                    shape = RoundedCornerShape(
+                        topStart = 32.dp,
+                        topEnd = 32.dp
+                    ),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    )
                 ) {
                     Column(modifier = Modifier.padding(24.dp)) {
-                        Text(product.title, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                        Text(
+                            product.title,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                         Spacer(modifier = Modifier.height(16.dp))
-                        Text(product.description, fontSize = 16.sp, color = Color.Gray)
+                        Text(
+                            product.description,
+                            fontSize = 16.sp,
+                            color = Color.Gray
+                        )
                         Spacer(modifier = Modifier.height(24.dp))
-                        Text("Valoración", fontWeight = FontWeight.Medium)
+                        Text(
+                            "Valoración",
+                            fontWeight = FontWeight.Medium
+                        )
                         Spacer(modifier = Modifier.height(8.dp))
                         RatingBar(
                             rating = userRating,
@@ -144,14 +223,20 @@ fun ProductDetailScreen(navController: NavController, productId: String) {
 }
 
 @Composable
-fun RatingBar(rating: Int, onRatingChanged: (Int) -> Unit, maxRating: Int = 5) {
+fun RatingBar(
+    rating: Int,
+    onRatingChanged: (Int) -> Unit,
+    maxRating: Int = 5
+) {
     Row {
         for (i in 1..maxRating) {
             IconButton(onClick = { onRatingChanged(i) }) {
                 Icon(
-                    imageVector = if (i <= rating) Icons.Filled.Star else Icons.Filled.StarBorder,
+                    imageVector = if (i <= rating) Icons.Filled.Star
+                    else Icons.Filled.StarBorder,
                     contentDescription = "Rate $i",
-                    tint = if (i <= rating) Color(0xFFFFC700) else Color.Gray,
+                    tint = if (i <= rating) Color(0xFFFFC700)
+                    else Color.Gray,
                     modifier = Modifier.size(32.dp)
                 )
             }
@@ -163,13 +248,9 @@ fun RatingBar(rating: Int, onRatingChanged: (Int) -> Unit, maxRating: Int = 5) {
 @Composable
 fun ProductDetailScreenPreview() {
     NegolatinaTheme {
-        ProductDetailScreen(navController = rememberNavController(), productId = "c1")
+        ProductDetailScreen(
+            navController = rememberNavController(),
+            productId = "c1"
+        )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun InteractiveRatingBarPreview() {
-    var rating by remember { mutableStateOf(3) }
-    RatingBar(rating = rating, onRatingChanged = { rating = it })
 }

@@ -29,13 +29,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             NegolatinaTheme {
+
                 val navController = rememberNavController()
 
                 NavHost(
                     navController = navController,
                     startDestination = "splash"
                 ) {
-                    // Pantalla de inicio
+
                     composable("splash") { SplashScreen(navController) }
                     composable("welcome") { WelcomeScreen(navController) }
 
@@ -47,57 +48,68 @@ class MainActivity : ComponentActivity() {
                     composable("onboarding_sell") { OnboardingSellScreen(navController) }
                     composable("onboarding_buy") { OnboardingBuyScreen(navController) }
 
-                    // Pantalla principal
+                    // Inicio
                     composable("home") { HomeScreen(navController) }
 
-                    // Detalles de producto
+                    // Detalle
                     composable(
-                        route = "product/{productId}",
+                        "product/{productId}",
                         arguments = listOf(navArgument("productId") { type = NavType.StringType })
-                    ) { backStackEntry ->
-                        val productId = backStackEntry.arguments?.getString("productId") ?: "c1"
+                    ) { entry ->
+                        val productId = entry.arguments?.getString("productId") ?: "c1"
                         ProductDetailScreen(navController, productId)
                     }
 
-                    // Categorías - Usando pantalla unificada
+                    // Categorías
                     composable("snacks") {
                         CategoryProductsScreen(navController, "Snacks", "Snacks y Golosinas")
                     }
+
                     composable("drinks") {
                         CategoryProductsScreen(navController, "Bebidas", "Bebidas")
                     }
+
                     composable("fruits_vegetables") {
                         CategoryProductsScreen(navController, "Frutas y Verduras", "Frutas y Verduras")
                     }
+
                     composable("dairy_eggs") {
                         CategoryProductsScreen(navController, "Lácteos", "Lácteos y Huevos")
                     }
+
                     composable("meats_sausages") {
                         CategoryProductsScreen(navController, "Carnes", "Carnes y Embutidos")
                     }
+
                     composable("cleaning_home") {
                         CategoryProductsScreen(navController, "Limpieza", "Limpieza y Hogar")
                     }
+
                     composable("grains_groceries") {
-                        GrainsAndGroceriesScreen(navController) // Esta tiene diseño especial
+                        GrainsAndGroceriesScreen(navController)
                     }
+
                     composable("bakery") {
                         CategoryProductsScreen(navController, "Panadería", "Panadería")
                     }
 
-                    // Pantallas especiales
+                    // Especiales
                     composable("apple_product") { AppleProductScreen(navController) }
-                    composable("shopping_cart") { ShoppingCartScreen(navController) }
+                    composable("shopping_cart") { ImprovedShoppingCartScreen(navController) }
 
-                    // Listados completos
+                    // Flujo de compra
+                    composable("checkout") { CheckoutScreen(navController) }
+                    composable("purchase_success") { PurchaseSuccessScreen(navController) }
+
+                    // Listados
                     composable("all_categories") { AllCategoriesScreen(navController) }
                     composable("all_products") { AllProductsScreen(navController) }
 
-                    // Cuentas de usuario
+                    // Usuario
                     composable("admin_account") { AdminAccountScreen(navController) }
                     composable("client_account") { ClientAccountScreen(navController) }
 
-                    // Otras rutas
+                    // Extras
                     composable("search") { SearchScreen(navController) }
                     composable("notifications") { NotificationsScreen(navController) }
                     composable("offers") { OffersScreen(navController) }
@@ -111,11 +123,15 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// SplashScreen mejorado
+// --- SplashScreen ---
 @Composable
 fun SplashScreen(navController: NavController) {
+
     var start by remember { mutableStateOf(false) }
-    val alpha by animateFloatAsState(targetValue = if (start) 1f else 0f, label = "splash_alpha")
+    val alpha by animateFloatAsState(
+        targetValue = if (start) 1f else 0f,
+        label = "splash_alpha"
+    )
 
     LaunchedEffect(Unit) {
         start = true
@@ -132,6 +148,7 @@ fun SplashScreen(navController: NavController) {
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
                 contentDescription = "logo",
@@ -139,58 +156,28 @@ fun SplashScreen(navController: NavController) {
                     .size(120.dp)
                     .alpha(alpha)
             )
+
             Spacer(Modifier.height(12.dp))
             Text("Negolatina", style = MaterialTheme.typography.headlineSmall)
         }
     }
 }
 
-// Pantallas placeholder para rutas faltantes
-@Composable
-fun SearchScreen(navController: NavController) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Pantalla de Búsqueda - En desarrollo")
-    }
-}
+// --- Placeholder screens ---
+@Composable fun SearchScreen(navController: NavController) { CenterText("Pantalla de Búsqueda - En desarrollo") }
+@Composable fun NotificationsScreen(navController: NavController) { CenterText("Notificaciones - En desarrollo") }
+@Composable fun OffersScreen(navController: NavController) { CenterText("Ofertas - En desarrollo") }
+@Composable fun SellScreen(navController: NavController) { CenterText("Vender Producto - En desarrollo") }
+@Composable fun EcoModeScreen(navController: NavController) { CenterText("Modo Ecológico - En desarrollo") }
+@Composable fun HelpScreen(navController: NavController) { CenterText("Ayuda - En desarrollo") }
+@Composable fun AboutUsScreen(navController: NavController) { CenterText("Acerca de Nosotros - En desarrollo") }
 
 @Composable
-fun NotificationsScreen(navController: NavController) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Notificaciones - En desarrollo")
-    }
-}
-
-@Composable
-fun OffersScreen(navController: NavController) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Ofertas - En desarrollo")
-    }
-}
-
-@Composable
-fun SellScreen(navController: NavController) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Vender Producto - En desarrollo")
-    }
-}
-
-@Composable
-fun EcoModeScreen(navController: NavController) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Modo Ecológico - En desarrollo")
-    }
-}
-
-@Composable
-fun HelpScreen(navController: NavController) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Ayuda - En desarrollo")
-    }
-}
-
-@Composable
-fun AboutUsScreen(navController: NavController) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Acerca de Nosotros - En desarrollo")
+fun CenterText(text: String) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(text)
     }
 }
