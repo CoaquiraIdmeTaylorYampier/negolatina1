@@ -87,13 +87,15 @@ private fun ClientDataSection(profileViewModel: ProfileViewModel) {
         unfocusedContainerColor = Color.White.copy(alpha = 0.9f),
         focusedTextColor = Color.Black,
         unfocusedTextColor = Color.Black,
-        focusedLabelColor = Color.Red,
-        unfocusedLabelColor = Color.DarkGray,
+
+        focusedLabelColor = Color.White, // Color de la etiqueta cuando el campo está seleccionado (flotando)
+        unfocusedLabelColor = Color.White.copy(alpha = 0.7f), // Color de la etiqueta cuando no está seleccionado
+        disabledLabelColor = Color.White.copy(alpha = 0.7f), // Asegura que se vea bien en modo read-only
+        
         cursorColor = Color.Red,
-        focusedBorderColor = Color.Red,
-        unfocusedBorderColor = Color.LightGray,
-        disabledTextColor = Color.Black.copy(alpha = 0.8f),
-        disabledLabelColor = Color.DarkGray
+        focusedBorderColor = Color.White,
+        unfocusedBorderColor = Color.White.copy(alpha = 0.5f),
+        disabledTextColor = Color.Black.copy(alpha = 0.8f)
     )
 
     Column(modifier = Modifier.fillMaxWidth()) {

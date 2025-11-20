@@ -12,7 +12,6 @@ data class CartItem(
 ) {
     val subtotal: Double
         get() {
-            // Extraer el precio numérico del string "S/. XX.XX x Kg"
             val priceString = product.price
                 .replace("S/.", "")
                 .replace("x Kg", "")
@@ -34,7 +33,6 @@ data class CartItem(
  */
 object CartManager {
 
-    // Lista observable de items en el carrito
     private val _items: SnapshotStateList<CartItem> = mutableStateListOf()
     val items: List<CartItem> get() = _items
 
