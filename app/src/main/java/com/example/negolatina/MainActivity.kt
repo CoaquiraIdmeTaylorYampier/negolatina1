@@ -13,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -127,7 +128,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//  SplashScreen
+//  SplashScreen Restaurada
 @Composable
 fun SplashScreen(navController: NavController) {
 
@@ -148,22 +149,16 @@ fun SplashScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .background(Color(0xFFE31E24)),
         contentAlignment = Alignment.Center
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = "logo",
-                modifier = Modifier
-                    .size(120.dp)
-                    .alpha(alpha)
-            )
-
-            Spacer(Modifier.height(12.dp))
-            Text("Negolatina", style = MaterialTheme.typography.headlineSmall)
-        }
+        Image(
+            painter = painterResource(id = R.drawable.ic_launcher_pollo),
+            contentDescription = "logo",
+            modifier = Modifier
+                .size(400.dp)
+                .alpha(alpha)
+        )
     }
 }
 

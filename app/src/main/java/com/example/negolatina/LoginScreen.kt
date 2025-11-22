@@ -2,13 +2,13 @@ package com.example.negolatina
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,18 +33,20 @@ fun LoginScreenPreview() {
 fun LoginScreen(navController: NavController) {
     val user = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
+    
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 32.dp, vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             Image(painter = painterResource(id = R.drawable.iniciar_sesion),
                 contentDescription = "imagen de venta ",
-                modifier = Modifier.size(450.dp))
+                modifier = Modifier.size(250.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
                 "Iniciar sesión",
                 fontSize = 24.sp,
@@ -68,7 +70,6 @@ fun LoginScreen(navController: NavController) {
             Button(
                 onClick = {
                     if (user.value.equals("admin", ignoreCase = true)) {
-                        // Navegar a Home pasando isAdmin=true
                         navController.navigate("home?isAdmin=true") {
                             popUpTo("welcome") { inclusive = true }
                         }
@@ -92,6 +93,7 @@ fun LoginScreen(navController: NavController) {
             ) {
                 Text("REGÍSTRATE")
             }
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

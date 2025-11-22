@@ -2,6 +2,8 @@ package com.example.negolatina
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -40,16 +42,19 @@ fun RegisterScreen(navController: NavController) {
     var confirmPassword by remember {
         mutableStateOf("") }
 
-    Box(modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 32.dp, vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             Image(painter = painterResource(id = R.drawable.registrarse),
                 contentDescription = "imagen de venta ",
-                modifier = Modifier.size(450.dp))
+                modifier = Modifier.size(250.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Text("Crear una cuenta",
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
@@ -100,6 +105,7 @@ fun RegisterScreen(navController: NavController) {
             TextButton(onClick = { navController.navigate("login") }) {
                 Text("¿Ya tienes una cuenta? Inicia sesión")
             }
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

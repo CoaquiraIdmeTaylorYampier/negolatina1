@@ -34,7 +34,7 @@ import com.example.negolatina.ui.theme.NegolatinaTheme
 
 @Preview(showBackground = true, name = "Welcome screen")
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreenPreview() {
     NegolatinaTheme {
         WelcomeScreen(navController = rememberNavController())
     }
@@ -55,7 +55,7 @@ fun WelcomeScreen(navController: NavController) {
         ) {
 
             Image(
-                painter = painterResource(id = R.drawable.pollo_negolatina),//img mejor calidad
+                painter = painterResource(id = R.drawable.pollo_negolatina),
                 contentDescription = "Logo de Negolatina",
                 modifier = Modifier.size(320.dp)
             )
@@ -141,5 +141,3 @@ fun WelcomeScreen(navController: NavController) {
         }
     }
 }
-
-
