@@ -1,22 +1,27 @@
 package com.example.negolatina
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.negolatina.ui.theme.NegolatinaTheme
@@ -30,9 +35,32 @@ fun LoginScreenPreview() {
     }
 }
 @Composable
-fun LoginScreen(navController: NavController) {
-    val user = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
+fun LoginScreen(
+    navController: NavController,
+    authViewModel: AuthViewModel = viewModel()
+) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
+    // estado de Login
+    val loginState by authViewModel.loginState.collectAsState()
+    val context = LocalContext.current
+
+    // CAMBIOS DE ESTADO
+    LaunchedEffect(loginState) {
+        when (val state = loginState) {
+            is LoginState.Success -> {
+                Toast.makeText(context, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
+                navController.navigate("home") { popUpTo("welcome") { inclusive = true } }
+                authViewModel.resetLoginState()
+            }
+            is LoginState.Error -> {
+                Toast.makeText(context, "Error: ${state.message}", Toast.LENGTH_LONG).show()
+                authViewModel.resetLoginState()
+            }
+            else -> Unit
+        }
+    }
     
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -54,35 +82,33 @@ fun LoginScreen(navController: NavController) {
                 modifier = Modifier.padding(bottom = 24.dp)
             )
             OutlinedTextField(
-                value = user.value,
-                onValueChange = { user.value = it },
-                label = { Text("Usuario") },
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("Correo electrónico") },
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
             OutlinedTextField(
-                value = password.value,
-                onValueChange = { password.value = it },
+                value = password,
+                onValueChange = { password = it },
                 label = { Text("Contraseña") },
+                visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(24.dp))
+
+            // viewmodel (llamada)
             Button(
-                onClick = {
-                    if (user.value.equals("admin", ignoreCase = true)) {
-                        navController.navigate("home?isAdmin=true") {
-                            popUpTo("welcome") { inclusive = true }
-                        }
-                    } else {
-                        navController.navigate("onboarding_buy") {
-                            popUpTo("welcome") { inclusive = true }
-                        }
-                    }
-                },
+                onClick = { authViewModel.loginUser(email, password) },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE31E24)),
-                modifier = Modifier.fillMaxWidth().height(50.dp)
+                modifier = Modifier.fillMaxWidth().height(50.dp),
+                enabled = loginState != LoginState.Loading
             ) {
-                Text("INICIAR SESIÓN", fontWeight = FontWeight.Bold)
+                if (loginState == LoginState.Loading) {
+                    CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
+                } else {
+                    Text("INICIAR SESIÓN", fontWeight = FontWeight.Bold)
+                }
             }
 
             Spacer(modifier = Modifier.height(16.dp))

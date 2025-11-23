@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    // 1. AÑADIMOS EL PLUGIN DE GOOGLE SERVICES
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -67,4 +69,9 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    // 2. AÑADIMOS LAS DEPENDENCIAS DE FIREBASE
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation("com.google.firebase:firebase-auth") // Para Autenticación
+    implementation("com.google.firebase:firebase-firestore") // Para la Base de Datos
 }

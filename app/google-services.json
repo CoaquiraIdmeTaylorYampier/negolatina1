@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "210486603390",
+    "project_id": "negolatina-app",
+    "storage_bucket": "negolatina-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210486603390:android:9649b46365e627dfaff22f",
+        "android_client_info": {
+          "package_name": "com.example.negolatina"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4jaco7g8R66s7okM7IRn2VDDEDPs2uKc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
