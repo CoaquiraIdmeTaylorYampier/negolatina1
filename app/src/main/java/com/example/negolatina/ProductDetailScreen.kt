@@ -24,13 +24,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.negolatina.ui.theme.NegolatinaTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductDetailScreen(navController: NavController, productId: String) {
+fun ProductDetailScreen(navController: NavController, productId: String, productViewModel: ProductViewModel= viewModel()) {
 
     val product = allProducts.find { it.id == productId } ?: allProducts.first()
     var quantity by remember { mutableStateOf(1) }
@@ -243,8 +244,9 @@ fun ProductDetailScreen(navController: NavController, productId: String) {
                         Spacer(modifier = Modifier.height(8.dp))
                         RatingBar(
                             rating = userRating,
-                            onRatingChanged = { newRating -> userRating = newRating }
-                        )
+                            onRatingChanged = { newRating ->
+                                userRating = newRating
+                            productViewModel.rateProduct(productId,newRating)})
                     }
                 }
             }
