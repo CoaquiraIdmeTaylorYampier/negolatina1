@@ -92,7 +92,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("grains_groceries") {
-                        GrainsAndGroceriesScreen(navController)
+                        CategoryProductsScreen(navController, "Abarrotes", "Granos y Abarrotes")
                     }
 
                     composable("bakery") {
