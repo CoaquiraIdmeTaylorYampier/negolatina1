@@ -52,7 +52,9 @@ val allCategories = listOf(
     Category("Snacks", "snacks", R.drawable.snacksgeneral, Color(0xFF4CAF50)),
     Category("Panadería", "bakery", R.drawable.panaderiageneral, Color(0xFFFF9800)),
     Category("Limpieza", "cleaning_home", R.drawable.limpiezageneral, Color(0xFF2196F3)),
-    Category("Abarrotes", "grains_groceries", R.drawable.abarrotesgeneral, Color(0xFF9C27B0))
+    Category("Abarrotes", "grains_groceries", R.drawable.abarrotesgeneral, Color(0xFF9C27B0)),
+    Category("Emprendedores Locales", "Local_emprend", R.drawable.avatar_de_empresaria,Color(0xFAD12387))
+
 )
 
 val allProducts = listOf(
