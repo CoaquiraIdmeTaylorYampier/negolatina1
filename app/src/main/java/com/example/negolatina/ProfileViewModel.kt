@@ -141,8 +141,7 @@ class ProfileViewModel : ViewModel() {
             R.drawable.avatar_viajero
         )
     }
-    
-    // Función de limpieza corregida
+
     fun clearData(){
         _name.value = "Cargando..."
         _email.value = "..."

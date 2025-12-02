@@ -4,10 +4,17 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -15,11 +22,15 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -27,14 +38,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.negolatina.ui.theme.NegolatinaTheme
 
-
-@Preview(showBackground = true, name = "Register screen")
-@Composable
-fun RegisterScreenPreview() {
-    NegolatinaTheme {
-        RegisterScreen(navController = rememberNavController())
-    }
-}
 @Composable
 fun RegisterScreen(
     navController: NavController,
@@ -44,9 +47,12 @@ fun RegisterScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+    var passwordVisible by remember {mutableStateOf(false)}
+    var confirmPasswordVisible by remember {mutableStateOf(false)}
 
     val registrationState by authViewModel.registrationState.collectAsState()
     val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(registrationState) {
         when (val state = registrationState) {
@@ -88,14 +94,20 @@ fun RegisterScreen(
                 value = fullname,
                 onValueChange = { fullname = it },
                 label = { Text("Nombre completo") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(onNext = {focusManager.moveFocus(FocusDirection.Down)})
             )
             Spacer(modifier = Modifier.height(8.dp))
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
                 label = { Text("Correo electrónico") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(onNext = {focusManager.moveFocus(FocusDirection.Down)})
             )
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -103,8 +115,24 @@ fun RegisterScreen(
                 value = password,
                 onValueChange = { password = it },
                 label = { Text("Contraseña") },
-                visualTransformation = PasswordVisualTransformation(),
-                modifier = Modifier.fillMaxWidth()
+                visualTransformation = if (passwordVisible) VisualTransformation.None
+                else PasswordVisualTransformation(),
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(onNext = {focusManager.moveFocus(FocusDirection.Down)}),
+                trailingIcon = {
+                    val image = if (passwordVisible)
+                        Icons.Filled.Visibility
+                    else
+                        Icons.Filled.VisibilityOff
+                    val description= if (passwordVisible) "Ocultar contraseña"
+                    else "mostrar contraseña"
+                    IconButton(onClick = { passwordVisible =! passwordVisible})
+                    {
+                        Icon(imageVector = image, contentDescription = description)
+                    }
+                }
             )
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -112,15 +140,43 @@ fun RegisterScreen(
                 value = confirmPassword,
                 onValueChange = { confirmPassword = it },
                 label = { Text("Confirmar contraseña") },
-                visualTransformation = PasswordVisualTransformation(),
+                visualTransformation = if (confirmPasswordVisible) VisualTransformation.None
+                    else PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
-                isError = password != confirmPassword
+                singleLine = true,
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = {focusManager.clearFocus()
+                    if (password==confirmPassword){
+                        authViewModel.registerUser(email,password,fullname)
+                    } else {
+                        Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                ),
+                trailingIcon = {
+                    val image = if (confirmPasswordVisible)
+                        Icons.Filled.Visibility
+                    else Icons.Filled.VisibilityOff
+                    val description = if (confirmPasswordVisible) "Ocultar contraseña "
+                    else "Mostrar contraseña"
+                    IconButton(onClick = {confirmPasswordVisible=!confirmPasswordVisible}) {
+                        Icon(imageVector = image, contentDescription = description)
+                    }
+                },
+
+                isError =password.isNotEmpty()&& confirmPassword.isNotEmpty()
+                        && password != confirmPassword
             )
             Spacer(modifier = Modifier.height(24.dp))
 
-            // LLAMADA PARA INCLUIR EL NOMBRE COMPLETO
+
             Button(
-                onClick = { authViewModel.registerUser(email, password, fullname) },
+                onClick = {
+                    if (password==confirmPassword){
+                        authViewModel.registerUser(email, password, fullname)
+                    } else{
+                        Toast.makeText(context,"Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+                    } },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE31E24)),
                 modifier = Modifier.fillMaxWidth().height(50.dp),
                 enabled = registrationState != RegistrationState.Loading && password == confirmPassword

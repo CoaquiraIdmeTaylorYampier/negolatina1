@@ -53,7 +53,7 @@ val allCategories = listOf(
     Category("Panadería", "bakery", R.drawable.panaderiageneral, Color(0xFFFF9800)),
     Category("Limpieza", "cleaning_home", R.drawable.limpiezageneral, Color(0xFF2196F3)),
     Category("Abarrotes", "grains_groceries", R.drawable.abarrotesgeneral, Color(0xFF9C27B0)),
-    Category("Emprendedores Locales", "Local_emprend", R.drawable.avatar_de_empresaria,Color(0xFAD12387))
+    Category("Emprendedores Locales", "Local_Emprend", R.drawable.emprendedores_locales,Color(0xFAD12387)) //imagen referencial, cambiar luego
 
 )
 
@@ -115,5 +115,7 @@ val allProducts = listOf(
     Product("p4", "Harina blanca Blanca Flor 1kg", " Harina de trigo refinada, en polvo, para preparación de panes, repostería y masas.", "S/.6.00 x Kg", 4, R.drawable.harina, "Panadería", ),
     Product("p5", "Pan integral", "Pan hecho con harina integral, miga más densa y corteza más rústica.", "S/. 5.50 x Kg", 5, R.drawable.panintegral, "Panadería"),
     Product("p6", "Levadura Royal", "Polvo leudante (gasificantes) para masas, mezcla en seco con harina — viene en sobres o envase compacto.", "S/. 3.00", 3, R.drawable.levadura, "Panadería"),
+    //Emprendedores Locales
+    Product("EmpLoc1","Cafe Cola", "Bebida local con un sabor agradable y refrescante","S/. 2.50",4,R.drawable.cafe_cola,"Emprendedores Locales")
 
     )

@@ -98,6 +98,9 @@ class MainActivity : ComponentActivity() {
                     composable("bakery") {
                         CategoryProductsScreen(navController, "Panadería", "Panadería")
                     }
+                    composable("Local_Emprend"){
+                        CategoryProductsScreen(navController,"Emprendedores Locales","Emprendedores Locales")
+                    }
 
                     // Especiales
                     composable("apple_product") { AppleProductScreen(navController) }
