@@ -108,6 +108,38 @@ class MainActivity : ComponentActivity() {
 
                     // Flujo de compra
                     composable("checkout") { CheckoutScreen(navController) }
+                    // AGREGA ESTAS 4 RUTAS NUEVAS:
+                    composable(
+                        "payment_card/{address}",
+                        arguments = listOf(navArgument("address") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        val address = backStackEntry.arguments?.getString("address") ?: ""
+                        CardPaymentScreen(navController, address)
+                    }
+
+                    composable(
+                        "payment_yape/{address}",
+                        arguments = listOf(navArgument("address") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        val address = backStackEntry.arguments?.getString("address") ?: ""
+                        YapePaymentScreen(navController, address)
+                    }
+
+                    composable(
+                        "payment_plin/{address}",
+                        arguments = listOf(navArgument("address") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        val address = backStackEntry.arguments?.getString("address") ?: ""
+                        PlinPaymentScreen(navController, address)
+                    }
+
+                    composable(
+                        "payment_cash/{address}",
+                        arguments = listOf(navArgument("address") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        val address = backStackEntry.arguments?.getString("address") ?: ""
+                        CashOnDeliveryScreen(navController, address)
+                    }
                     composable("purchase_success") { PurchaseSuccessScreen(navController) }
 
                     // Listados
