@@ -61,20 +61,29 @@ fun HomeScreen(navController: NavController, profileViewModel: ProfileViewModel)
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                ClientNavigationDrawer(
-                    navController = navController,
-                    closeDrawer = { scope.launch { drawerState.close() } },
-                    profileViewModel = profileViewModel
-                )
+                // Añadimos un Box con ancho fijo o maximo para evitar problemas de layout
+                Box(modifier = Modifier.fillMaxWidth(0.8f)) {
+                    ClientNavigationDrawer(
+                        navController = navController,
+                        closeDrawer = { scope.launch { drawerState.close() } },
+                        profileViewModel = profileViewModel
+                    )
+                }
             }
         },
+        gesturesEnabled = true // Asegura que los gestos funcionen
     ) {
-        Scaffold {
+        Scaffold { paddingValues ->
             var searchText by remember { mutableStateOf("") }
             val productsWithDiscount = allProducts.filter { it.discount != null }
             val categoriesForHome = allCategories.take(3)
 
-            Column(modifier = Modifier.fillMaxSize().background(Color.White).padding(it)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+                    .padding(paddingValues) // Usamos el paddingValues del Scaffold
+            ) {
                 // BAR
                 Row(
                     modifier = Modifier
@@ -91,7 +100,9 @@ fun HomeScreen(navController: NavController, profileViewModel: ProfileViewModel)
                         onValueChange = { searchText = it },
                         placeholder = { Text("Buscar") },
                         leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
-                        modifier = Modifier.weight(1f).height(50.dp),
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(50.dp),
                         shape = RoundedCornerShape(50),
                         colors = TextFieldDefaults.colors(
                             focusedIndicatorColor = Color.Transparent,
@@ -116,7 +127,9 @@ fun HomeScreen(navController: NavController, profileViewModel: ProfileViewModel)
                                 Image(
                                     painter = painterResource(id = promotion.imageRes),
                                     contentDescription = null,
-                                    modifier = Modifier.height(150.dp).clip(RoundedCornerShape(12.dp)),
+                                    modifier = Modifier
+                                        .height(150.dp)
+                                        .clip(RoundedCornerShape(12.dp)),
                                     contentScale = ContentScale.Crop
                                 )
                             }
@@ -144,7 +157,8 @@ fun HomeScreen(navController: NavController, profileViewModel: ProfileViewModel)
                     }
 
                     item {
-                        Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 24.dp, bottom = 16.dp)) {
+                        Column(modifier = Modifier
+                            .padding(start = 16.dp, end = 16.dp, top = 24.dp, bottom = 16.dp)) {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -203,7 +217,9 @@ fun ProductItemRow(product: Product, navController: NavController) {
         Image(
             painter = painterResource(id = product.imageRes),
             contentDescription = product.title,
-            modifier = Modifier.size(64.dp).clip(RoundedCornerShape(8.dp)),
+            modifier = Modifier
+                .size(64.dp)
+                .clip(RoundedCornerShape(8.dp)),
             contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.width(16.dp))

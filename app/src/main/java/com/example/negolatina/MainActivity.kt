@@ -7,6 +7,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -30,7 +31,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            NegolatinaTheme {
+            // Instanciamos el ViewModel de configuración aquí para que el estado sea global
+            val settingsViewModel: SettingsViewModel = viewModel()
+            val isEcoMode by settingsViewModel.isEcoModeEnabled
+            
+            // Si el modo eco está activo, forzamos el tema oscuro (o la lógica que prefieras)
+            val useDarkTheme = isEcoMode || isSystemInDarkTheme()
+
+            NegolatinaTheme(darkTheme = useDarkTheme) {
 
                 val navController = rememberNavController()
                 val profileViewModel: ProfileViewModel = viewModel()
@@ -154,7 +162,14 @@ class MainActivity : ComponentActivity() {
                     composable("notifications") { NotificationsScreen(navController) }
                     composable("offers") { OffersScreen(navController) }
                     composable("sell") { SellScreen(navController) }
-                    composable("eco_mode") { EcoModeScreen(navController) }
+                    
+                    // Modificamos cómo se llama a EcoModeScreen
+                    composable("eco_mode") { 
+                        EcoModeScreen(
+                            navController = navController
+                        ) 
+                    }
+                    
                     composable("help") { HelpScreen(navController) }
                     composable("favorites") { FavoritesScreen(navController) }
                    }
@@ -202,7 +217,6 @@ fun SplashScreen(navController: NavController) {
 @Composable fun NotificationsScreen(navController: NavController) { CenterText("Notificaciones - En desarrollo") }
 @Composable fun OffersScreen(navController: NavController) { CenterText("Ofertas - En desarrollo") }
 @Composable fun SellScreen(navController: NavController) { CenterText("Vender Producto - En desarrollo") }
-@Composable fun EcoModeScreen(navController: NavController) { CenterText("Modo Ecológico - En desarrollo") }
 @Composable
 fun CenterText(text: String) {
     Box(

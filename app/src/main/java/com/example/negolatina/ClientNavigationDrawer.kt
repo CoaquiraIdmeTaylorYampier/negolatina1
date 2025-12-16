@@ -49,14 +49,14 @@ fun ClientNavigationDrawer(
         DrawerMenuItem("home", "Inicio", Icons.Filled.Home),
         DrawerMenuItem("search", "Buscar", Icons.Filled.Search),
         DrawerMenuItem("notifications", "Notificaciones", Icons.Filled.Notifications),
-        DrawerMenuItem("My purchases", "Mis compras", Icons.Filled.ShoppingCart),
+        // DrawerMenuItem("My purchases", "Mis compras", Icons.Filled.ShoppingCart), // Corregido: esta ruta no existe en tu MainActivity
         DrawerMenuItem("favorites", "Favoritos", Icons.Filled.Favorite),
         DrawerMenuItem("offers", "Ofertas", Icons.Filled.Star),
         DrawerMenuItem("client_account", "Mi cuenta", Icons.Filled.AccountCircle),
-        DrawerMenuItem("categories", "Categorias", Icons.Filled.Category),
+        DrawerMenuItem("all_categories", "Categorias", Icons.Filled.Category), // Corregido: categories -> all_categories
         DrawerMenuItem("all_products", "Productos", Icons.AutoMirrored.Filled.List),
-        DrawerMenuItem("mode ecologic", "Modo ecologico", Icons.Filled.EnergySavingsLeaf),
-        DrawerMenuItem("help", "Ayuda", Icons.Filled.Help), // ✅ CAMBIADO: "about_us" → "help" con ícono Help
+        DrawerMenuItem("eco_mode", "Modo ecologico", Icons.Filled.EnergySavingsLeaf), // Corregido: mode ecologic -> eco_mode
+        DrawerMenuItem("help", "Ayuda", Icons.Filled.Help),
         DrawerMenuItem("welcome", "Cerrar sesión", Icons.AutoMirrored.Filled.ExitToApp)
     )
 
@@ -103,9 +103,15 @@ fun ClientNavigationDrawer(
                         .fillMaxWidth()
                         .clickable {
                             closeDrawer()
-                            navController.navigate(menuItem.route) {
-                                popUpTo("home")
-                                launchSingleTop = true
+                            if (menuItem.route == "welcome") {
+                                // Lógica especial para logout si es necesario (ej: limpiar datos)
+                                navController.navigate("welcome") {
+                                    popUpTo("home") { inclusive = true }
+                                }
+                            } else {
+                                navController.navigate(menuItem.route) {
+                                    launchSingleTop = true
+                                }
                             }
                         }
                         .padding(16.dp),
