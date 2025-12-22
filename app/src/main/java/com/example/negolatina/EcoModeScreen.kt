@@ -25,18 +25,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.negolatina.EcoViewModel
 import com.example.negolatina.ui.theme.NegolatinaTheme
+import androidx.compose.runtime.collectAsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EcologicalModeScreen(ecoViewModel: EcoViewModel = viewModel()) {
+fun EcoModeScreen(navController: NavController,settingsViewModel: SettingsViewModel) {
+    val currentPoints by settingsViewModel.currentPoints.collectAsState()
+    val currentLevel by settingsViewModel.currentLevel.collectAsState()
+    val treeProgress by settingsViewModel.treeProgress.collectAsState()
+    val pointsForNextLevel = settingsViewModel.pointsForNextLevel
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Modo Ecológico") },
                 navigationIcon = {
-                    IconButton(onClick = { /* Handle back */ }) {
+                    IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Atrás")
                     }
                 },
@@ -52,7 +59,7 @@ fun EcologicalModeScreen(ecoViewModel: EcoViewModel = viewModel()) {
         },
         containerColor = Color(0xFFDFFFE0),
         floatingActionButton = {
-            FloatingActionButton(onClick = { ecoViewModel.addPoints(10) }) {
+            FloatingActionButton(onClick = { settingsViewModel.addPoints(10) }) {
                 Icon(
                     painter = painterResource(id = R.drawable.regadera),
                     contentDescription = "Añadir Puntos",
@@ -71,9 +78,9 @@ fun EcologicalModeScreen(ecoViewModel: EcoViewModel = viewModel()) {
         ) {
             ProfileHeader()
             Spacer(modifier = Modifier.height(16.dp))
-            TreeSection(ecoViewModel.treeProgress.value, ecoViewModel.currentLevel.value)
+            TreeSection(treeProgress, currentLevel)
             Spacer(modifier = Modifier.height(16.dp))
-            ProgressSection(ecoViewModel.currentPoints.value, ecoViewModel.pointsForNextLevel)
+            ProgressSection(currentPoints, pointsForNextLevel)
             Spacer(modifier = Modifier.height(16.dp))
             RecommendationsSection()
             Spacer(modifier = Modifier.height(16.dp))
@@ -110,7 +117,6 @@ fun ProfileHeader() {
         }
     }
 }
-
 @Composable
 fun TreeSection(progress: Float, currentLevel: Int) {
     val minSize = 30.dp // Tamaño base para la animación

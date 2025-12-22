@@ -166,7 +166,8 @@ class MainActivity : ComponentActivity() {
                     // Modificamos cómo se llama a EcoModeScreen
                     composable("eco_mode") { 
                         EcoModeScreen(
-                            navController = navController
+                            navController = navController,
+                            settingsViewModel=settingsViewModel
                         ) 
                     }
                     

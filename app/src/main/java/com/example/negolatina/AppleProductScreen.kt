@@ -128,7 +128,7 @@
                     ) {
 
                         Image(
-                            painter = painterResource(id = R.drawable.manzana),
+                            painter = painterResource(id = R.drawable.frutverd_manzana),
                             contentDescription = "Ima de Manzana",
                             modifier = Modifier.height(300.dp).width(250.dp)
                         )
