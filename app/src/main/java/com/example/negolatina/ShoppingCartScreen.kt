@@ -68,12 +68,7 @@ fun ShoppingCartScreen(navController: NavController) {
                     .fillMaxWidth()
                     .height(80.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.encabezado),
-                    contentDescription = "",
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.FillBounds
-                )
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -176,7 +171,7 @@ fun ShoppingCartScreen(navController: NavController) {
             {
                 Box(Modifier.fillMaxHeight().weight(1f), contentAlignment = Alignment.Center){
                     Image(
-                        painter = painterResource(id = R.drawable.bacardi),
+                        painter = painterResource(id = R.drawable.bebidas_bacardi),
                         contentDescription = "bacardi",
                         modifier = Modifier.height(180.dp)
                     )
@@ -266,7 +261,7 @@ fun ShoppingCartScreen(navController: NavController) {
                 {
                     Box(Modifier.fillMaxHeight().weight(1f), contentAlignment = Alignment.Center){
                         Image(
-                            painter = painterResource(id = R.drawable.cheetos)
+                            painter = painterResource(id = R.drawable.snacks_cheetos)
                             ,contentDescription = "cheetos",
                             modifier= Modifier.height(150.dp)
                         )

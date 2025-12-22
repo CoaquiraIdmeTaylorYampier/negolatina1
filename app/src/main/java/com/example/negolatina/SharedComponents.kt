@@ -102,7 +102,7 @@ fun ProductCardPreview() {
         description = "Manzanas frescas y deliciosas",
         price = "S/. 5.40 x Kg",
         rating = 4,
-        imageRes = R.drawable.manzana,
+        imageRes = R.drawable.frutverd_manzana,
         category = "Frutas y Verduras",
         discount = "15%"
     )

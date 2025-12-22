@@ -2,7 +2,6 @@ package com.example.negolatina
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateDpAsState
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -21,22 +20,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.negolatina.EcoViewModel
-import com.example.negolatina.ui.theme.NegolatinaTheme
-import androidx.compose.runtime.collectAsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EcoModeScreen(navController: NavController,settingsViewModel: SettingsViewModel) {
-    val currentPoints by settingsViewModel.currentPoints.collectAsState()
-    val currentLevel by settingsViewModel.currentLevel.collectAsState()
-    val treeProgress by settingsViewModel.treeProgress.collectAsState()
-    val pointsForNextLevel = settingsViewModel.pointsForNextLevel
+fun EcoModeScreen(navController: NavController, ecoViewModel: EcoViewModel = viewModel()) {
+    val currentPoints by ecoViewModel.currentPoints
+    val currentLevel by ecoViewModel.currentLevel
+    val treeProgress by ecoViewModel.treeProgress
+    val pointsForNextLevel = ecoViewModel.pointsForNextLevel
 
     Scaffold(
         topBar = {
@@ -59,7 +54,7 @@ fun EcoModeScreen(navController: NavController,settingsViewModel: SettingsViewMo
         },
         containerColor = Color(0xFFDFFFE0),
         floatingActionButton = {
-            FloatingActionButton(onClick = { settingsViewModel.addPoints(10) }) {
+            FloatingActionButton(onClick = { ecoViewModel.addPoints(10) }) {
                 Icon(
                     painter = painterResource(id = R.drawable.regadera),
                     contentDescription = "Añadir Puntos",
