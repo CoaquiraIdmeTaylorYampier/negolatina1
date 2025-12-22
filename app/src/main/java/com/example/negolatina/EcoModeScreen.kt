@@ -2,8 +2,8 @@ package com.example.negolatina
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateDpAsState
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -11,7 +11,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Opacity
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,22 +25,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.example.negolatina.EcoViewModel
 import com.example.negolatina.ui.theme.NegolatinaTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EcoModeScreen(
-    navController: NavController,
-    ecoViewModel: EcoViewModel = viewModel()
-) {
+fun EcologicalModeScreen(ecoViewModel: EcoViewModel = viewModel()) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Modo Ecológico") },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { /* Handle back */ }) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Atrás")
                     }
                 },
@@ -58,12 +53,11 @@ fun EcoModeScreen(
         containerColor = Color(0xFFDFFFE0),
         floatingActionButton = {
             FloatingActionButton(onClick = { ecoViewModel.addPoints(10) }) {
-                // Usamos Opacity que es una gota y viene en el set básico
                 Icon(
-                    imageVector = Icons.Filled.Opacity,
+                    painter = painterResource(id = R.drawable.regadera),
                     contentDescription = "Añadir Puntos",
                     modifier = Modifier.size(36.dp),
-                    tint = Color.Unspecified
+                    tint = Color.Unspecified // Evita que el FAB tiña la imagen
                 )
             }
         }
@@ -134,24 +128,32 @@ fun TreeSection(progress: Float, currentLevel: Int) {
                 .fillMaxWidth(),
             contentAlignment = Alignment.BottomCenter
         ) {
-            // Suelo placeholder (reemplazando R.drawable.suelo que no existe)
-            Box(
+            Image(
+                painter = painterResource(id = R.drawable.suelo),
+                contentDescription = "Suelo de pasto",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(80.dp)
-                    .background(Color(0xFF8D6E63)) // Color tierra
+                    .height(80.dp),
+                contentScale = ContentScale.FillWidth
             )
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                              .padding(bottom = 35.dp)
+                    .padding(bottom = 35.dp)
             ) {
                 Crossfade(targetState = currentLevel, label = "tree-evolution") { level ->
-                    // Usamos un placeholder seguro ya que las imágenes del árbol no existen
-                    val imageRes = R.drawable.ic_launcher_foreground 
-                    
+                    val imageRes = when {
+                        level in 1..2 -> R.drawable.semilla
+                        level in 3..5 -> R.drawable.germinacion
+                        level in 6..8 -> R.drawable.brote
+                        level in 9..10 -> R.drawable.arbol_joven
+                        level in 11..12 -> R.drawable.arbol_crecimiento
+                        level in 13..14 -> R.drawable.arbol_maduro
+                        else -> R.drawable.arbol_ecologico // Nivel 15
+                    }
+
                     val isTreeStage = level >= 9
 
                     val imageModifier = when {
@@ -189,7 +191,7 @@ fun ProgressSection(currentPoints: Int, pointsForNextLevel: Int) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LinearProgressIndicator(
-            progress = { (currentPoints.toFloat() / pointsForNextLevel.toFloat()) },
+            progress = (currentPoints.toFloat() / pointsForNextLevel.toFloat()),
             modifier = Modifier.fillMaxWidth()
         )
         Text("Puntos verdes: $currentPoints/$pointsForNextLevel")
@@ -239,13 +241,5 @@ fun DetailsSection() {
             Spacer(modifier = Modifier.height(8.dp))
             Text("Descubre a tu nuevo mejor amigo en las compras: ¡la Mascota Interactiva que crece contigo! Cada compra que realizas te acerca más a tu mascota. Gana puntos con tus transacciones y conviértelos en recompensas exclusivas para tu compañera.")
         }
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun EcoModeScreenPreview() {
-    NegolatinaTheme {
-        EcoModeScreen(navController = rememberNavController())
     }
 }
