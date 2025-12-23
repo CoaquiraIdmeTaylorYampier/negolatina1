@@ -49,13 +49,12 @@ fun ClientNavigationDrawer(
         DrawerMenuItem("home", "Inicio", Icons.Filled.Home),
         DrawerMenuItem("search", "Buscar", Icons.Filled.Search),
         DrawerMenuItem("notifications", "Notificaciones", Icons.Filled.Notifications),
-        // DrawerMenuItem("My purchases", "Mis compras", Icons.Filled.ShoppingCart), // Corregido: esta ruta no existe en tu MainActivity
         DrawerMenuItem("favorites", "Favoritos", Icons.Filled.Favorite),
         DrawerMenuItem("offers", "Ofertas", Icons.Filled.Star),
         DrawerMenuItem("client_account", "Mi cuenta", Icons.Filled.AccountCircle),
-        DrawerMenuItem("all_categories", "Categorias", Icons.Filled.Category), // Corregido: categories -> all_categories
+        DrawerMenuItem("all_categories", "Categorias", Icons.Filled.Category),
         DrawerMenuItem("all_products", "Productos", Icons.AutoMirrored.Filled.List),
-        DrawerMenuItem("eco_mode", "Modo ecologico", Icons.Filled.EnergySavingsLeaf), // Corregido: mode ecologic -> eco_mode
+        DrawerMenuItem("eco_mode", "Modo ecologico", Icons.Filled.EnergySavingsLeaf),
         DrawerMenuItem("help", "Ayuda", Icons.Filled.Help),
         DrawerMenuItem("welcome", "Cerrar sesión", Icons.AutoMirrored.Filled.ExitToApp)
     )
@@ -104,7 +103,6 @@ fun ClientNavigationDrawer(
                         .clickable {
                             closeDrawer()
                             if (menuItem.route == "welcome") {
-                                // Lógica especial para logout si es necesario (ej: limpiar datos)
                                 navController.navigate("welcome") {
                                     popUpTo("home") { inclusive = true }
                                 }

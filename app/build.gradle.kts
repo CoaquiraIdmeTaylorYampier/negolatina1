@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    // 1. AÑADIMOS EL PLUGIN DE GOOGLE SERVICES
     id("com.google.gms.google-services")
 }
 
@@ -61,6 +60,7 @@ dependencies {
     implementation(libs.filament.android)
     implementation(libs.material)
     implementation(libs.androidx.ui)
+    implementation(libs.coil.compose)
     testImplementation(libs.junit)
     implementation("androidx.compose.material:material-icons-extended")
     androidTestImplementation(libs.androidx.junit)

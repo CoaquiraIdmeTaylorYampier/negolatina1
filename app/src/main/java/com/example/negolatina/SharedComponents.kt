@@ -24,11 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-
-/**
- * Tarjeta de producto reutilizable
- * Se usa en: AllProductsScreen, CategoryProductsScreen, HomeScreen
- */
+import coil.compose.AsyncImage
 @Composable
 fun ProductCard(product: Product, navController: NavController) {
     Card(
@@ -44,14 +40,25 @@ fun ProductCard(product: Product, navController: NavController) {
             modifier = Modifier.padding(16.dp)
         ) {
             // Imagen del producto
-            Image(
-                painter = painterResource(id = product.imageRes),
-                contentDescription = product.title,
-                modifier = Modifier
-                    .height(120.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Crop
-            )
+            if (product.imageUri != null) {
+                AsyncImage(
+                    model = product.imageUri,
+                    contentDescription = product.title,
+                    modifier = Modifier
+                        .height(120.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Image(
+                    painter = painterResource(id = product.imageRes),
+                    contentDescription = product.title,
+                    modifier = Modifier
+                        .height(120.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop
+                )
+            }
 
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -90,8 +97,6 @@ fun ProductCard(product: Product, navController: NavController) {
         }
     }
 }
-
-// ========== PREVIEW ==========
 
 @Preview(showBackground = true, name = "Tarjeta de Producto")
 @Composable

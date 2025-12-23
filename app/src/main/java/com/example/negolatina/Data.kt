@@ -12,7 +12,8 @@ data class Product(
     val rating: Int,
     @DrawableRes val imageRes: Int,
     val category: String,
-    val discount: String? = null
+    val discount: String? = null,
+    val imageUri: String? = null
 )
 
 data class Category(

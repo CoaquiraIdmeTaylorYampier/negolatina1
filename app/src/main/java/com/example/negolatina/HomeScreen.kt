@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
 
 data class Promotion(val imageRes: Int)
@@ -53,15 +55,15 @@ val promotions = listOf(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController, profileViewModel: ProfileViewModel) {
+fun HomeScreen(navController: NavController, profileViewModel: ProfileViewModel, productViewModel: ProductViewModel = viewModel()) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val allProducts by productViewModel.products.collectAsState()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                // Añadimos un Box con ancho fijo o maximo para evitar problemas de layout
                 Box(modifier = Modifier.fillMaxWidth(0.8f)) {
                     ClientNavigationDrawer(
                         navController = navController,
@@ -71,7 +73,7 @@ fun HomeScreen(navController: NavController, profileViewModel: ProfileViewModel)
                 }
             }
         },
-        gesturesEnabled = true // Asegura que los gestos funcionen
+        gesturesEnabled = true
     ) {
         Scaffold { paddingValues ->
             var searchText by remember { mutableStateOf("") }
@@ -82,7 +84,7 @@ fun HomeScreen(navController: NavController, profileViewModel: ProfileViewModel)
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.White)
-                    .padding(paddingValues) // Usamos el paddingValues del Scaffold
+                    .padding(paddingValues)
             ) {
                 // BAR
                 Row(
@@ -214,14 +216,25 @@ fun ProductItemRow(product: Product, navController: NavController) {
             .clickable { navController.navigate("product/${product.id}") },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(id = product.imageRes),
-            contentDescription = product.title,
-            modifier = Modifier
-                .size(64.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            contentScale = ContentScale.Crop
-        )
+        if (product.imageUri != null) {
+            AsyncImage(
+                model = product.imageUri,
+                contentDescription = product.title,
+                modifier = Modifier
+                    .size(64.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Crop
+            )
+        } else {
+            Image(
+                painter = painterResource(id = product.imageRes),
+                contentDescription = product.title,
+                modifier = Modifier
+                    .size(64.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Crop
+            )
+        }
         Spacer(modifier = Modifier.width(16.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(text = product.title, fontWeight = FontWeight.Bold)

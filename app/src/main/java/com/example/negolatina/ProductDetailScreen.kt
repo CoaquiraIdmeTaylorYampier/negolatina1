@@ -28,6 +28,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.negolatina.ui.theme.NegolatinaTheme
+import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,10 +41,8 @@ fun ProductDetailScreen(navController: NavController, productId: String, product
     var snackbarMessage by remember { mutableStateOf("") }
     val snackbarHostState = remember { SnackbarHostState() }
 
-    // Estado de favorito
     var isFavorite by remember { mutableStateOf(FavoritesManager.isFavorite(product.id)) }
 
-    // Mostrar snackbar cuando se agrega al carrito o favoritos
     LaunchedEffect(showSnackbar) {
         if (showSnackbar) {
             snackbarHostState.showSnackbar(
@@ -69,7 +68,6 @@ fun ProductDetailScreen(navController: NavController, productId: String, product
                     }
                 },
                 actions = {
-                    // Botón de favoritos en el AppBar
                     IconButton(
                         onClick = {
                             FavoritesManager.toggleFavorite(product)
@@ -125,7 +123,6 @@ fun ProductDetailScreen(navController: NavController, productId: String, product
                     }
                     Button(
                         onClick = {
-                            // Agregar al carrito
                             CartManager.addProduct(product, quantity)
                             snackbarMessage = "Producto agregado al carrito"
                             showSnackbar = true
@@ -164,12 +161,21 @@ fun ProductDetailScreen(navController: NavController, productId: String, product
                         .fillMaxHeight(0.5f),
                     contentAlignment = Alignment.Center
                 ) {
-                    Image(
-                        painter = painterResource(id = product.imageRes),
-                        contentDescription = product.title,
-                        modifier = Modifier.size(300.dp),
-                        contentScale = ContentScale.Fit
-                    )
+                    if (product.imageUri != null) {
+                        AsyncImage(
+                            model = product.imageUri,
+                            contentDescription = product.title,
+                            modifier = Modifier.size(300.dp),
+                            contentScale = ContentScale.Fit
+                        )
+                    } else {
+                        Image(
+                            painter = painterResource(id = product.imageRes),
+                            contentDescription = product.title,
+                            modifier = Modifier.size(300.dp),
+                            contentScale = ContentScale.Fit
+                        )
+                    }
                     Surface(
                         modifier = Modifier
                             .align(Alignment.TopEnd)
@@ -189,7 +195,6 @@ fun ProductDetailScreen(navController: NavController, productId: String, product
                         )
                     }
 
-                    // Badge de descuento
                     product.discount?.let { discount ->
                         Surface(
                             modifier = Modifier

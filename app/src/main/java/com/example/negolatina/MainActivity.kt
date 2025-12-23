@@ -31,11 +31,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            // Instanciamos el ViewModel de configuración aquí para que el estado sea global
             val settingsViewModel: SettingsViewModel = viewModel()
+            val productViewModel: ProductViewModel = viewModel()
             val isEcoMode by settingsViewModel.isEcoModeEnabled
-            
-            // Si el modo eco está activo, forzamos el tema oscuro (o la lógica que prefieras)
+
             val useDarkTheme = isEcoMode || isSystemInDarkTheme()
 
             NegolatinaTheme(darkTheme = useDarkTheme) {
@@ -59,8 +58,7 @@ class MainActivity : ComponentActivity() {
                     composable("onboarding_sell") { OnboardingSellScreen(navController) }
                     composable("onboarding_buy") { OnboardingBuyScreen(navController) }
 
-                    // CONECTAMOS EL VIEWMODEL A LAS PANTALLAS
-                    composable("home") { HomeScreen(navController, profileViewModel) }
+                    composable("home") { HomeScreen(navController, profileViewModel, productViewModel) }
                     composable("client_account") { ClientAccountScreen(navController, profileViewModel) }
                     composable("edit_profile") { EditProfileScreen(navController, profileViewModel) }
                     composable("avatar_picker") { AvatarPickerScreen(navController, profileViewModel) }
@@ -71,7 +69,7 @@ class MainActivity : ComponentActivity() {
                         arguments = listOf(navArgument("productId") { type = NavType.StringType })
                     ) { entry ->
                         val productId = entry.arguments?.getString("productId") ?: "c1"
-                        ProductDetailScreen(navController, productId)
+                        ProductDetailScreen(navController, productId, productViewModel)
                     }
 
                     // Categorías
@@ -116,7 +114,6 @@ class MainActivity : ComponentActivity() {
 
                     // Flujo de compra
                     composable("checkout") { CheckoutScreen(navController) }
-                    // AGREGA ESTAS 4 RUTAS NUEVAS:
                     composable(
                         "payment_card/{address}",
                         arguments = listOf(navArgument("address") { type = NavType.StringType })
@@ -156,14 +153,14 @@ class MainActivity : ComponentActivity() {
 
                     // Usuario y Admin
                     composable("admin_account") { AdminAccountScreen(navController) }
-                    composable("add_product") { AddProductScreen(navController) }
+                    composable("add_product") { AddProductScreen(navController, productViewModel) }
                     composable(
                         "edit_product/{productId}",
                         arguments = listOf(navArgument("productId") { type = NavType.StringType })
                     ) { backStackEntry ->
                         val productId = backStackEntry.arguments?.getString("productId")
                         if (productId != null) {
-                            EditProductScreen(navController, productId)
+                            EditProductScreen(navController, productId, productViewModel)
                         }
                     }
 
@@ -172,8 +169,7 @@ class MainActivity : ComponentActivity() {
                     composable("notifications") { NotificationsScreen(navController) }
                     composable("offers") { OffersScreen(navController) }
                     composable("sell") { SellScreen(navController) }
-                    
-                    // Modificamos cómo se llama a EcoModeScreen
+
                     composable("eco_mode") { 
                         EcoModeScreen(navController = navController) 
                     }
