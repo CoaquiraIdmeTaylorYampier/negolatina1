@@ -28,7 +28,7 @@ import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EcoModeScreen(navController: NavController, ecoViewModel: EcoViewModel = viewModel()) {
+fun EcoModeScreen(navController: NavController, ecoViewModel: EcoViewModel = viewModel(), profileViewModel: ProfileViewModel = viewModel()) {
     val currentPoints by ecoViewModel.currentPoints
     val currentLevel by ecoViewModel.currentLevel
     val treeProgress by ecoViewModel.treeProgress
@@ -72,7 +72,7 @@ fun EcoModeScreen(navController: NavController, ecoViewModel: EcoViewModel = vie
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ProfileHeader()
+            ProfileHeader(profileViewModel)
             Spacer(modifier = Modifier.height(16.dp))
             TreeSection(treeProgress, currentLevel)
             Spacer(modifier = Modifier.height(16.dp))
@@ -86,7 +86,12 @@ fun EcoModeScreen(navController: NavController, ecoViewModel: EcoViewModel = vie
 }
 
 @Composable
-fun ProfileHeader() {
+fun ProfileHeader(profileViewModel: ProfileViewModel) {
+    val name by profileViewModel.name
+    val email by profileViewModel.email
+    val address by profileViewModel.address // Asumiendo que el número se guarda en address o similar, o simplemente mostrando el email como en el diseño original
+    val profileImageRes by profileViewModel.profileImageRes
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -98,17 +103,23 @@ fun ProfileHeader() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
+                painter = painterResource(id = profileImageRes),
                 contentDescription = "Avatar",
                 modifier = Modifier
                     .size(64.dp)
-                    .clip(CircleShape)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column {
-                Text("Taylor Smith Watson", fontWeight = FontWeight.Bold)
-                Text("Smith23@gmail.com")
-                Text("+51 900691234")
+                Text(name, fontWeight = FontWeight.Bold)
+                Text(email)
+                // Si tienes un campo de teléfono en ProfileViewModel úsalo, si no, puedes usar address o dejarlo vacío por ahora si no existe
+                // Por ahora uso address como placeholder si es que ahí guardas info adicional, o puedes quitar esta línea si solo quieres nombre y email.
+                // Viendo ProfileViewModel, tienes 'address'. Si el usuario no guarda teléfono, no se mostrará.
+                if (address.isNotEmpty()) {
+                    Text(address)
+                }
             }
         }
     }
