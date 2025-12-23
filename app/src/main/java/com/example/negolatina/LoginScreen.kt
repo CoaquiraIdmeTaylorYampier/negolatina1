@@ -62,7 +62,11 @@ fun LoginScreen(
         when (val state = loginState) {
             is LoginState.Success -> {
                 Toast.makeText(context, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
-                navController.navigate("home") { popUpTo("welcome") { inclusive = true } }
+                if (state.user.isAdmin) {
+                    navController.navigate("admin_account") { popUpTo("welcome") { inclusive = true } }
+                } else {
+                    navController.navigate("home") { popUpTo("welcome") { inclusive = true } }
+                }
                 authViewModel.resetLoginState()
             }
             is LoginState.Error -> {

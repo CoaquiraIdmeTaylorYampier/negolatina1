@@ -154,8 +154,18 @@ class MainActivity : ComponentActivity() {
                     composable("all_categories") { AllCategoriesScreen(navController) }
                     composable("all_products") { AllProductsScreen(navController) }
 
-                    // Usuario
+                    // Usuario y Admin
                     composable("admin_account") { AdminAccountScreen(navController) }
+                    composable("add_product") { AddProductScreen(navController) }
+                    composable(
+                        "edit_product/{productId}",
+                        arguments = listOf(navArgument("productId") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        val productId = backStackEntry.arguments?.getString("productId")
+                        if (productId != null) {
+                            EditProductScreen(navController, productId)
+                        }
+                    }
 
                     // Extras
                     composable("search") { SearchScreen(navController) }

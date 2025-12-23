@@ -19,7 +19,7 @@ sealed class RegistrationState {
 sealed class LoginState {
     object Idle : LoginState()
     object Loading : LoginState()
-    object Success : LoginState()
+    data class Success(val user: User) : LoginState()
     data class Error(val message: String) : LoginState()
 }
 
@@ -62,7 +62,8 @@ class AuthViewModel : ViewModel() {
             "fullname" to fullname,
             "email" to email,
             "address" to "",
-            "avatar_id" to R.drawable.logo_pollito
+            "avatar_id" to R.drawable.logo_pollito,
+            "isAdmin" to false // Add isAdmin flag for new users
         )
 
         db.collection("users").document(uid)
@@ -93,7 +94,28 @@ class AuthViewModel : ViewModel() {
         auth.signInWithEmailAndPassword(email, pass)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    _loginState.value = LoginState.Success
+                    val firebaseUser = auth.currentUser
+                    firebaseUser?.let { fbUser ->
+                        db.collection("users").document(fbUser.uid).get()
+                            .addOnSuccessListener { document ->
+                                if (document != null && document.exists()) {
+                                    val user = User(
+                                        id = fbUser.uid,
+                                        name = document.getString("fullname") ?: "",
+                                        email = document.getString("email") ?: "",
+                                        isAdmin = document.getBoolean("isAdmin") ?: false
+                                    )
+                                    _loginState.value = LoginState.Success(user)
+                                } else {
+                                    _loginState.value = LoginState.Error("No se encontró el perfil del usuario.")
+                                }
+                            }
+                            .addOnFailureListener { e ->
+                                _loginState.value = LoginState.Error("Error al obtener el perfil: ${e.message}")
+                            }
+                    } ?: run {
+                        _loginState.value = LoginState.Error("No se pudo obtener el usuario.")
+                    }
                 } else {
                     val errorMessage = task.exception?.message ?: "Credenciales incorrectas."
                     _loginState.value = LoginState.Error(errorMessage)

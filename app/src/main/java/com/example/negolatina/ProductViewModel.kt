@@ -4,12 +4,33 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class ProductViewModel : ViewModel() {
 
     // 1. Conexión a los servicios de Firebase
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    // StateFlow para mantener la lista de productos
+    private val _products = MutableStateFlow<List<Product>>(emptyList())
+    val products: StateFlow<List<Product>> = _products.asStateFlow()
+
+    init {
+        // Cargar los productos iniciales de la lista estática en Data.kt
+        _products.value = allProducts
+    }
+
+    /**
+     * Busca un producto por su ID.
+     * @param productId El ID del producto a buscar.
+     * @return El objeto Product si se encuentra, o null si no.
+     */
+    fun getProductById(productId: String): Product? {
+        return _products.value.find { it.id == productId }
+    }
 
     /**
      * Guarda o actualiza la puntuación que un usuario le da a un producto.
@@ -42,6 +63,29 @@ class ProductViewModel : ViewModel() {
             .addOnFailureListener { e ->
                 Log.e("ProductViewModel", "Error al guardar la puntuación", e)
             }
+    }
+
+    // --- Funciones de gestión de productos ---
+
+    fun addProduct(product: Product) {
+        // Por ahora, solo actualizamos la lista local.
+        // Más adelante, esto se actualizará para añadir a Firestore.
+        _products.value = _products.value + product
+        Log.d("ProductViewModel", "Producto añadido: ${product.title}")
+    }
+
+    fun updateProduct(updatedProduct: Product) {
+        // Por ahora, solo actualizamos la lista local.
+        _products.value = _products.value.map {
+            if (it.id == updatedProduct.id) updatedProduct else it
+        }
+        Log.d("ProductViewModel", "Producto actualizado: ${updatedProduct.title}")
+    }
+
+    fun deleteProduct(productId: String) {
+        // Por ahora, solo actualizamos la lista local.
+        _products.value = _products.value.filter { it.id != productId }
+        Log.d("ProductViewModel", "Producto eliminado: $productId")
     }
 
     // Aquí, en el futuro, podríamos añadir funciones como:

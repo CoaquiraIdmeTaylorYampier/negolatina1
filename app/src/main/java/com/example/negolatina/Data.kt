@@ -40,8 +40,9 @@ data class User(
 
 // Base d usuarios
 val allUsers = listOf(
-    User(id = "1", name = "Vidal", email = "vidal@cliente.com", isAdmin = false),
-    User(id = "2", name = "admin", email = "admin@negolatina.com", isAdmin = true)
+    User(id = "1", name = "Vidal", email = "vidal@cliente.com", isAdmin = true),
+    User(id = "2", name = "lentes migajerazo", email = "lentes@gmail.com", isAdmin = false),
+    User(id = "3", name = "Taylor", email = "coaquiraidmetaylor@gmail.com", isAdmin = true)
 )
 
 val allCategories = listOf(
