@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.negolatina"
+    namespace = "com.negolatina.app"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.negolatina"
+        applicationId = "com.negolatina.app"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

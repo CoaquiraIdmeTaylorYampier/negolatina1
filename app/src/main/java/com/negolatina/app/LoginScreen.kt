@@ -1,0 +1,160 @@
+package com.negolatina.app
+
+import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.negolatina.app.ui.theme.NegolatinaTheme
+
+
+@Preview(showBackground = true, name = "Login screen")
+@Composable
+fun LoginScreenPreview() {
+    NegolatinaTheme {
+        LoginScreen(navController = rememberNavController())
+    }
+}
+@Composable
+fun LoginScreen(
+    navController: NavController,
+    authViewModel: AuthViewModel = viewModel()
+) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
+
+    val loginState by authViewModel.loginState.collectAsState()
+    val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
+
+    LaunchedEffect(loginState) {
+        when (val state = loginState) {
+            is LoginState.Success -> {
+                Toast.makeText(context, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
+                if (state.user.isAdmin) {
+                    navController.navigate("admin_account") { popUpTo("welcome") { inclusive = true } }
+                } else {
+                    navController.navigate("home") { popUpTo("welcome") { inclusive = true } }
+                }
+                authViewModel.resetLoginState()
+            }
+            is LoginState.Error -> {
+                Toast.makeText(context, "Error: ${state.message}", Toast.LENGTH_LONG).show()
+                authViewModel.resetLoginState()
+            }
+            else -> Unit
+        }
+    }
+    
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 32.dp, vertical = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Image(painter = painterResource(id = R.drawable.iniciar_sesion),
+                contentDescription = "imagen de venta ",
+                modifier = Modifier.size(250.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                "Iniciar sesión",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 24.dp)
+            )
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("Correo electrónico") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                )
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Contraseña") },
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        focusManager.clearFocus()
+                        authViewModel.loginUser(email, password)
+                    }
+                ),
+                trailingIcon = {
+                    val image = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                    val description = if (passwordVisible) "Ocultar contraseña" else "Mostrar contraseña"
+
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(imageVector = image, contentDescription = description)
+                    }
+                }
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Button(
+                onClick = { authViewModel.loginUser(email, password) },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE31E24)),
+                modifier = Modifier.fillMaxWidth().height(50.dp),
+                enabled = loginState != LoginState.Loading
+            ) {
+                if (loginState == LoginState.Loading) {
+                    CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
+                } else {
+                    Text("INICIAR SESIÓN", fontWeight = FontWeight.Bold)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Text("¿No tienes cuenta?")
+            Button(onClick = { navController.navigate("register") },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
+                modifier = Modifier.fillMaxWidth().height(50.dp)
+            ) {
+                Text("REGÍSTRATE")
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+    }
+}
