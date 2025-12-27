@@ -73,38 +73,38 @@ class MainActivity : ComponentActivity() {
 
                     // Categorías
                     composable("snacks") {
-                        CategoryProductsScreen(navController, "Snacks", "Snacks y Golosinas")
+                        CategoryProductsScreen(navController, "Snacks", "Snacks y Golosinas", productViewModel)
                     }
 
                     composable("drinks") {
-                        CategoryProductsScreen(navController, "Bebidas", "Bebidas")
+                        CategoryProductsScreen(navController, "Bebidas", "Bebidas", productViewModel)
                     }
 
                     composable("fruits_vegetables") {
-                        CategoryProductsScreen(navController, "Frutas y Verduras", "Frutas y Verduras")
+                        CategoryProductsScreen(navController, "Frutas y Verduras", "Frutas y Verduras", productViewModel)
                     }
 
                     composable("dairy_eggs") {
-                        CategoryProductsScreen(navController, "Lácteos", "Lácteos y Huevos")
+                        CategoryProductsScreen(navController, "Lácteos", "Lácteos y Huevos", productViewModel)
                     }
 
                     composable("meats_sausages") {
-                        CategoryProductsScreen(navController, "Carnes", "Carnes y Embutidos")
+                        CategoryProductsScreen(navController, "Carnes", "Carnes y Embutidos", productViewModel)
                     }
 
                     composable("cleaning_home") {
-                        CategoryProductsScreen(navController, "Limpieza", "Limpieza y Hogar")
+                        CategoryProductsScreen(navController, "Limpieza", "Limpieza y Hogar", productViewModel)
                     }
 
                     composable("grains_groceries") {
-                        CategoryProductsScreen(navController, "Abarrotes", "Granos y Abarrotes")
+                        CategoryProductsScreen(navController, "Abarrotes", "Granos y Abarrotes", productViewModel)
                     }
 
                     composable("bakery") {
-                        CategoryProductsScreen(navController, "Panadería", "Panadería")
+                        CategoryProductsScreen(navController, "Panadería", "Panadería", productViewModel)
                     }
                     composable("Local_Emprend"){
-                        CategoryProductsScreen(navController,"Emprendedores Locales","Emprendedores Locales")
+                        CategoryProductsScreen(navController,"Emprendedores Locales","Emprendedores Locales", productViewModel)
                     }
 
                     // Especiales
@@ -118,7 +118,7 @@ class MainActivity : ComponentActivity() {
                         arguments = listOf(navArgument("address") { type = NavType.StringType })
                     ) { backStackEntry ->
                         val address = backStackEntry.arguments?.getString("address") ?: ""
-                        CardPaymentScreen(navController, address)
+                        CardPaymentScreen(navController, address, productViewModel)
                     }
 
                     composable(
@@ -126,7 +126,7 @@ class MainActivity : ComponentActivity() {
                         arguments = listOf(navArgument("address") { type = NavType.StringType })
                     ) { backStackEntry ->
                         val address = backStackEntry.arguments?.getString("address") ?: ""
-                        YapePaymentScreen(navController, address)
+                        YapePaymentScreen(navController, address, productViewModel)
                     }
 
                     composable(
@@ -134,7 +134,7 @@ class MainActivity : ComponentActivity() {
                         arguments = listOf(navArgument("address") { type = NavType.StringType })
                     ) { backStackEntry ->
                         val address = backStackEntry.arguments?.getString("address") ?: ""
-                        PlinPaymentScreen(navController, address)
+                        PlinPaymentScreen(navController, address, productViewModel)
                     }
 
                     composable(
@@ -142,13 +142,13 @@ class MainActivity : ComponentActivity() {
                         arguments = listOf(navArgument("address") { type = NavType.StringType })
                     ) { backStackEntry ->
                         val address = backStackEntry.arguments?.getString("address") ?: ""
-                        CashOnDeliveryScreen(navController, address)
+                        CashOnDeliveryScreen(navController, address, productViewModel)
                     }
                     composable("purchase_success") { PurchaseSuccessScreen(navController) }
 
                     // Listados
                     composable("all_categories") { AllCategoriesScreen(navController) }
-                    composable("all_products") { AllProductsScreen(navController) }
+                    composable("all_products") { AllProductsScreen(navController, productViewModel) }
                     composable("inventory_categories") { InventoryCategoriesScreen(navController) }
                     composable(
                         "inventory_product_list/{categoryName}",

@@ -104,47 +104,58 @@ fun ProductDetailScreen(navController: NavController, productId: String, product
             )
         },
         bottomBar = {
-            BottomAppBar(
-                containerColor = Color(0xFFF0F0F0),
-                modifier = Modifier.height(70.dp)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+            if (product.cantidad > 0) {
+                BottomAppBar(
+                    containerColor = Color(0xFFF0F0F0),
+                    modifier = Modifier.height(70.dp)
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("Cantidad", fontWeight = FontWeight.Medium)
-                        Spacer(modifier = Modifier.width(16.dp))
-                        IconButton(onClick = { if (quantity > 1) quantity-- }) {
-                            Icon(Icons.Default.Remove, contentDescription = "Restar")
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("Cantidad", fontWeight = FontWeight.Medium)
+                            Spacer(modifier = Modifier.width(16.dp))
+                            IconButton(onClick = { if (quantity > 1) quantity-- }) {
+                                Icon(Icons.Default.Remove, contentDescription = "Restar")
+                            }
+                            Text(
+                                quantity.toString(),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 18.sp
+                            )
+                            IconButton(onClick = { quantity++ }) {
+                                Icon(Icons.Default.Add, contentDescription = "Añadir")
+                            }
                         }
-                        Text(
-                            quantity.toString(),
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp
-                        )
-                        IconButton(onClick = { quantity++ }) {
-                            Icon(Icons.Default.Add, contentDescription = "Añadir")
+                        Button(
+                            onClick = {
+                                CartManager.addProduct(product, quantity)
+                                snackbarMessage = "Producto agregado al carrito"
+                                showSnackbar = true
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFFFF0000)
+                            ),
+                            shape = RoundedCornerShape(8.dp)
+                        ) {
+                            Text(
+                                "Añadir al carrito",
+                                modifier = Modifier.padding(vertical = 4.dp)
+                            )
                         }
                     }
-                    Button(
-                        onClick = {
-                            CartManager.addProduct(product, quantity)
-                            snackbarMessage = "Producto agregado al carrito"
-                            showSnackbar = true
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFFF0000)
-                        ),
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Text(
-                            "Añadir al carrito",
-                            modifier = Modifier.padding(vertical = 4.dp)
-                        )
+                }
+            } else {
+                BottomAppBar(
+                    containerColor = Color.Gray.copy(alpha = 0.5f),
+                    modifier = Modifier.height(70.dp)
+                ) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Text("Producto Agotado", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
                     }
                 }
             }

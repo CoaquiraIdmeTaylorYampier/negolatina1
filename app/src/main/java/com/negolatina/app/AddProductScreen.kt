@@ -140,7 +140,7 @@ fun AddProductScreen(
             Button(
                 onClick = {
                     val newProduct = Product(
-                        id = UUID.randomUUID().toString(),
+                        id = "",
                         title = title,
                         description = description,
                         price = price,

@@ -22,40 +22,28 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
-/**
- * Pantalla unificada para mostrar productos por categoría
- *
- * Esta pantalla reemplaza las siguientes pantallas individuales:
- * - DrinksScreen (Bebidas)
- * - FruitsAndVegetablesScreen (Frutas y Verduras)
- * - DairyAndEggsScreen (Lácteos y Huevos)
- * - MeatsAndSausagesScreen (Carnes y Embutidos)
- * - CleaningAndHomeScreen (Limpieza y Hogar)
- * - BakeryScreen (Panadería)
- * - SnacksScreen (Snacks y Golosinas)
- *
- * @param navController Controlador de navegación
- * @param categoryName Nombre de la categoría a filtrar (debe coincidir con Product.category)
- * @param displayTitle Título a mostrar en la barra superior
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryProductsScreen(
     navController: NavController,
     categoryName: String,
-    displayTitle: String = categoryName
+    displayTitle: String = categoryName,
+    productViewModel: ProductViewModel = viewModel()
 ) {
-    // Filtrar productos por categoría (ignora mayúsculas/minúsculas)
-    val productosCategoria = allProducts.filter {
+    val products by productViewModel.products.collectAsState()
+    val productosCategoria = products.filter {
         it.category.equals(categoryName, ignoreCase = true)
     }
 
@@ -85,10 +73,8 @@ fun CategoryProductsScreen(
         }
     ) { paddingValues ->
         if (productosCategoria.isEmpty()) {
-            // Mostrar mensaje cuando no hay productos en la categoría
             MensajeEstadoVacio()
         } else {
-            // Mostrar grid de productos
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier
@@ -106,9 +92,6 @@ fun CategoryProductsScreen(
     }
 }
 
-/**
- * Componente que muestra un mensaje cuando no hay productos disponibles
- */
 @Composable
 private fun MensajeEstadoVacio() {
     Box(
@@ -133,8 +116,6 @@ private fun MensajeEstadoVacio() {
         }
     }
 }
-
-// ========== PREVIEWS ==========
 
 @Preview(showSystemUi = true, name = "Categoría con productos")
 @Composable

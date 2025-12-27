@@ -58,7 +58,7 @@ val promotions = listOf(
 fun HomeScreen(navController: NavController, profileViewModel: ProfileViewModel, productViewModel: ProductViewModel = viewModel()) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val allProducts by productViewModel.products.collectAsState()
+    val products by productViewModel.products.collectAsState()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -77,7 +77,7 @@ fun HomeScreen(navController: NavController, profileViewModel: ProfileViewModel,
     ) {
         Scaffold { paddingValues ->
             var searchText by remember { mutableStateOf("") }
-            val productsWithDiscount = allProducts.filter { it.discount != null }
+            val productsWithDiscount = products.filter { it.discount != null }
             val categoriesForHome = allCategories.take(3)
 
             Column(

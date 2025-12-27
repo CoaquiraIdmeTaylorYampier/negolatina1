@@ -1,7 +1,9 @@
 package com.negolatina.app
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+
 @Composable
 fun ProductCard(product: Product, navController: NavController) {
     Card(
@@ -37,61 +40,64 @@ fun ProductCard(product: Product, navController: NavController) {
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(16.dp)
         ) {
-            // Imagen del producto
-            if (product.imageUri != null) {
-                AsyncImage(
-                    model = product.imageUri,
-                    contentDescription = product.title,
-                    modifier = Modifier
-                        .height(120.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop
-                )
-            } else {
-                Image(
-                    painter = painterResource(id = product.imageRes),
-                    contentDescription = product.title,
-                    modifier = Modifier
-                        .height(120.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop
-                )
+            Box {
+                // Imagen del producto
+                if (product.imageUri != null) {
+                    AsyncImage(
+                        model = product.imageUri,
+                        contentDescription = product.title,
+                        modifier = Modifier
+                            .height(120.dp)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
+                        contentScale = ContentScale.Crop
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(id = product.imageRes),
+                        contentDescription = product.title,
+                        modifier = Modifier
+                            .height(120.dp)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+
+                // Badge de descuento (si existe)
+                product.discount?.let { descuento ->
+                    Text(
+                        text = "-$descuento",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 12.sp,
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .background(
+                                color = Color.Red,
+                                shape = RoundedCornerShape(bottomStart = 8.dp)
+                            )
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                    )
+                }
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // Título del producto
-            Text(
-                text = product.title,
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
-                modifier = Modifier.align(Alignment.Start)
-            )
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            // Precio del producto
-            Text(
-                text = product.price,
-                color = Color.Red,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.align(Alignment.Start)
-            )
-
-            // Badge de descuento (si existe)
-            product.discount?.let { descuento ->
-                Spacer(modifier = Modifier.height(4.dp))
+            Column(modifier = Modifier.padding(16.dp)) {
+                // Título del producto
                 Text(
-                    text = "-$descuento",
-                    color = Color.White,
+                    text = product.title,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 12.sp,
-                    modifier = Modifier
-                        .align(Alignment.End)
-                        .clip(RoundedCornerShape(4.dp))
-                        .padding(horizontal = 6.dp, vertical = 2.dp)
+                    fontSize = 16.sp
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                // Precio del producto
+                Text(
+                    text = product.price,
+                    color = Color.Red,
+                    fontWeight = FontWeight.SemiBold
                 )
             }
         }

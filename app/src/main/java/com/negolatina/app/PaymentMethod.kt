@@ -27,7 +27,11 @@ import androidx.navigation.NavController
 // ============= PANTALLA PAGO CON TARJETA =============
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CardPaymentScreen(navController: NavController, address: String) {
+fun CardPaymentScreen(
+    navController: NavController, 
+    address: String, 
+    productViewModel: ProductViewModel
+) {
     var cardNumber by remember { mutableStateOf("") }
     var cardName by remember { mutableStateOf("") }
     var expiryDate by remember { mutableStateOf("") }
@@ -184,6 +188,7 @@ fun CardPaymentScreen(navController: NavController, address: String) {
             // Botón pagar
             Button(
                 onClick = {
+                    productViewModel.purchaseProducts(CartManager.items)
                     CartManager.clear()
                     navController.navigate("purchase_success") {
                         popUpTo("checkout") { inclusive = true }
@@ -210,7 +215,7 @@ fun CardPaymentScreen(navController: NavController, address: String) {
 // ============= PANTALLA PAGO CON YAPE =============
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun YapePaymentScreen(navController: NavController, address: String) {
+fun YapePaymentScreen(navController: NavController, address: String, productViewModel: ProductViewModel) {
     var phoneNumber by remember { mutableStateOf("") }
 
     Scaffold(
@@ -355,6 +360,7 @@ fun YapePaymentScreen(navController: NavController, address: String) {
             // Botón confirmar
             Button(
                 onClick = {
+                    productViewModel.purchaseProducts(CartManager.items)
                     CartManager.clear()
                     navController.navigate("purchase_success") {
                         popUpTo("checkout") { inclusive = true }
@@ -378,7 +384,7 @@ fun YapePaymentScreen(navController: NavController, address: String) {
 // ============= PANTALLA PAGO CON PLIN =============
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlinPaymentScreen(navController: NavController, address: String) {
+fun PlinPaymentScreen(navController: NavController, address: String, productViewModel: ProductViewModel) {
     var phoneNumber by remember { mutableStateOf("") }
 
     Scaffold(
@@ -523,6 +529,7 @@ fun PlinPaymentScreen(navController: NavController, address: String) {
             // Botón confirmar
             Button(
                 onClick = {
+                    productViewModel.purchaseProducts(CartManager.items)
                     CartManager.clear()
                     navController.navigate("purchase_success") {
                         popUpTo("checkout") { inclusive = true }
@@ -546,7 +553,7 @@ fun PlinPaymentScreen(navController: NavController, address: String) {
 // ============= PANTALLA CONTRA ENTREGA =============
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CashOnDeliveryScreen(navController: NavController, address: String) {
+fun CashOnDeliveryScreen(navController: NavController, address: String, productViewModel: ProductViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -686,6 +693,7 @@ fun CashOnDeliveryScreen(navController: NavController, address: String) {
             // Botón confirmar
             Button(
                 onClick = {
+                    productViewModel.purchaseProducts(CartManager.items)
                     CartManager.clear()
                     navController.navigate("purchase_success") {
                         popUpTo("checkout") { inclusive = true }
