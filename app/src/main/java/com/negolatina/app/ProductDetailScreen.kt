@@ -16,6 +16,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -33,7 +34,16 @@ import coil.compose.AsyncImage
 @Composable
 fun ProductDetailScreen(navController: NavController, productId: String, productViewModel: ProductViewModel= viewModel()) {
 
-    val product = allProducts.find { it.id == productId } ?: allProducts.first()
+    val products by productViewModel.products.collectAsState()
+    val product = products.find { it.id == productId }
+
+    if (product == null) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+        return
+    }
+
     var quantity by remember { mutableStateOf(1) }
     var userRating by remember { mutableStateOf(product.rating) }
     var showSnackbar by remember { mutableStateOf(false) }
@@ -89,7 +99,7 @@ fun ProductDetailScreen(navController: NavController, productId: String, product
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFFE31E24)
+                    containerColor = Color(0xFFFF0000)
                 )
             )
         },
@@ -127,7 +137,7 @@ fun ProductDetailScreen(navController: NavController, productId: String, product
                             showSnackbar = true
                         },
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFE31E24)
+                            containerColor = Color(0xFFFF0000)
                         ),
                         shape = RoundedCornerShape(8.dp)
                     ) {
@@ -190,7 +200,7 @@ fun ProductDetailScreen(navController: NavController, productId: String, product
                                 vertical = 6.dp
                             ),
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFFE31E24)
+                            color = Color(0xFFFF0000)
                         )
                     }
 
@@ -200,7 +210,7 @@ fun ProductDetailScreen(navController: NavController, productId: String, product
                                 .align(Alignment.TopStart)
                                 .padding(16.dp),
                             shape = RoundedCornerShape(8.dp),
-                            color = Color(0xFFE31E24),
+                            color = Color(0xFFFF0000),
                             shadowElevation = 4.dp
                         ) {
                             Text(
@@ -250,7 +260,9 @@ fun ProductDetailScreen(navController: NavController, productId: String, product
                             rating = userRating,
                             onRatingChanged = { newRating ->
                                 userRating = newRating
-                            productViewModel.rateProduct(productId,newRating)})
+                                productViewModel.rateProduct(productId,newRating)
+                            }
+                        )
                     }
                 }
             }

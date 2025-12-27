@@ -24,8 +24,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,16 +31,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.negolatina.app.ui.theme.NegolatinaTheme
 
 @Composable
-fun AdminAccountScreen(navController: NavController, productViewModel: ProductViewModel = viewModel()) {
-    val products by productViewModel.products.collectAsState()
-
+fun AdminAccountScreen(
+    navController: NavController,
+    products: List<Product>,
+    onDeleteProduct: (String) -> Unit
+) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = { navController.navigate("add_product") }) {
@@ -57,14 +59,14 @@ fun AdminAccountScreen(navController: NavController, productViewModel: ProductVi
                 .padding(16.dp)
         ) {
             item {
-                Text("Gestión de Productos", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                Text("Inventario", fontSize = 24.sp, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(16.dp))
             }
             items(products) { product ->
                 ProductRowAdmin(product = product, onEdit = {
                     navController.navigate("edit_product/${product.id}")
                 }, onDelete = {
-                    productViewModel.deleteProduct(product.id)
+                    onDeleteProduct(product.id)
                 })
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -115,5 +117,23 @@ fun ProductRowAdmin(product: Product, onEdit: () -> Unit, onDelete: () -> Unit) 
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true, name = "Admin Account Screen")
+@Composable
+fun AdminAccountScreenPreview() {
+    val fakeProducts = listOf(
+        Product("p1", "Pollo Entero", "", "S/ 12.50", 4, R.drawable.carnes_pollo, "Carnes"),
+        Product("p2", "Leche Gloria", "", "S/ 3.90", 5, R.drawable.lacteos_leche, "Lácteos"),
+        Product("p3", "Manzana Roja", "", "S/ 5.40 x Kg", 4, R.drawable.frutverd_manzana, "Frutas y Verduras", discount = "10%")
+    )
+    
+    NegolatinaTheme {
+        AdminAccountScreen(
+            navController = rememberNavController(),
+            products = fakeProducts,
+            onDeleteProduct = {}
+        )
     }
 }

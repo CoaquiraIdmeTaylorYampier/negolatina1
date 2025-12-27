@@ -12,22 +12,29 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.negolatina.app.ui.theme.NegolatinaTheme
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddProductScreen(navController: NavController, productViewModel: ProductViewModel = viewModel()) {
+fun AddProductScreen(
+    navController: NavController, 
+    onAddProduct: (Product) -> Unit
+) {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var price by remember { mutableStateOf("") }
     var category by remember { mutableStateOf("") }
     var discount by remember { mutableStateOf("") }
+    var cantidad by remember { mutableStateOf("0") }
     var imageUri by remember { mutableStateOf("") }
 
     var expanded by remember { mutableStateOf(false) }
@@ -41,9 +48,16 @@ fun AddProductScreen(navController: NavController, productViewModel: ProductView
         }
     )
 
+    val brandRed = Color(0xFFFF0000)
+
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Añadir Nuevo Producto") })
+            TopAppBar(
+                title = { Text("Añadir Nuevo Producto", color = Color.White) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = brandRed
+                )
+            )
         }
     ) {
         Column(
@@ -72,7 +86,8 @@ fun AddProductScreen(navController: NavController, productViewModel: ProductView
                         PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                     )
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(containerColor = brandRed.copy(alpha = 0.8f))
             ) {
                 Text(if (imageUri.isEmpty()) "Seleccionar Imagen de Galería" else "Cambiar Imagen")
             }
@@ -109,6 +124,14 @@ fun AddProductScreen(navController: NavController, productViewModel: ProductView
                     }
                 }
             }
+            
+            OutlinedTextField(
+                value = cantidad,
+                onValueChange = { cantidad = it },
+                label = { Text("Cantidad en Stock") }, 
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                modifier = Modifier.fillMaxWidth()
+            )
 
             OutlinedTextField(value = discount, onValueChange = { discount = it }, label = { Text("Descuento (opcional)") }, modifier = Modifier.fillMaxWidth())
 
@@ -125,15 +148,25 @@ fun AddProductScreen(navController: NavController, productViewModel: ProductView
                         imageRes = R.drawable.logo_pollito,
                         category = category,
                         discount = discount.takeIf { d -> d.isNotBlank() },
-                        imageUri = imageUri.takeIf { d -> d.isNotBlank() }
+                        imageUri = imageUri.takeIf { d -> d.isNotBlank() },
+                        cantidad = cantidad.toIntOrNull() ?: 0
                     )
-                    productViewModel.addProduct(newProduct)
+                    onAddProduct(newProduct)
                     navController.popBackStack()
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(containerColor = brandRed)
             ) {
                 Text("Guardar Producto")
             }
         }
+    }
+}
+
+@Preview(showBackground = true, name = "Add Product Screen")
+@Composable
+fun AddProductScreenPreview() {
+    NegolatinaTheme {
+        AddProductScreen(navController = rememberNavController(), onAddProduct = {  })
     }
 }

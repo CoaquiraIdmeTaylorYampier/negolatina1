@@ -149,18 +149,55 @@ class MainActivity : ComponentActivity() {
                     // Listados
                     composable("all_categories") { AllCategoriesScreen(navController) }
                     composable("all_products") { AllProductsScreen(navController) }
+                    composable("inventory_categories") { InventoryCategoriesScreen(navController) }
+                    composable(
+                        "inventory_product_list/{categoryName}",
+                        arguments = listOf(navArgument("categoryName") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        val categoryName = backStackEntry.arguments?.getString("categoryName") ?: ""
+                        val products by productViewModel.products.collectAsState()
+                        val filteredProducts = products.filter { it.category == categoryName }
+                        InventoryProductListScreen(
+                            navController = navController,
+                            categoryName = categoryName,
+                            products = filteredProducts,
+                            onDeleteProduct = { productId ->
+                                productViewModel.deleteProduct(productId)
+                            }
+                        )
+                    }
+
 
                     // Usuario y Admin
-                    composable("admin_account") { AdminAccountScreen(navController) }
-                    composable("add_product") { AddProductScreen(navController, productViewModel) }
+                    composable("admin_dashboard") { AdminDashboardScreen(navController, profileViewModel, productViewModel) }
+                    composable("admin_account") {
+                        val products by productViewModel.products.collectAsState()
+                        AdminAccountScreen(
+                            navController = navController,
+                            products = products,
+                            onDeleteProduct = { productId ->
+                                productViewModel.deleteProduct(productId)
+                            }
+                        )
+                    }
+                    composable("add_product") {
+                        AddProductScreen(navController = navController, onAddProduct = {
+                            productViewModel.addProduct(it)
+                        })
+                    }
                     composable(
                         "edit_product/{productId}",
                         arguments = listOf(navArgument("productId") { type = NavType.StringType })
                     ) { backStackEntry ->
                         val productId = backStackEntry.arguments?.getString("productId")
-                        if (productId != null) {
-                            EditProductScreen(navController, productId, productViewModel)
-                        }
+                        val product = productId?.let { productViewModel.getProductById(it) }
+                        EditProductScreen(
+                            navController = navController,
+                            product = product,
+                            onUpdateProduct = {
+                                productViewModel.updateProduct(it)
+                            }
+                        )
                     }
 
                     // Extras
@@ -175,6 +212,7 @@ class MainActivity : ComponentActivity() {
                     
                     composable("help") { HelpScreen(navController) }
                     composable("favorites") { FavoritesScreen(navController) }
+                    composable("admin_navigation") { AdminDashboardScreen(navController, profileViewModel, productViewModel) }
                    }
             }
         }

@@ -37,12 +37,12 @@ fun AllCategoriesScreen(navController: NavController) {
                     Icon(Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Atrás", tint = Color.White)
                 } },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFFE31E24))
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFFFF0000))
             )
         }
     ) { paddingValues ->
         LazyVerticalGrid(
-            columns = GridCells.Fixed(3), // 3 columnas para categorías
+            columns = GridCells.Fixed(3),
             modifier = Modifier.fillMaxSize().padding(paddingValues),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
