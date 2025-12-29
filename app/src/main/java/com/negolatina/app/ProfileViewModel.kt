@@ -54,17 +54,26 @@ class ProfileViewModel : ViewModel() {
                     _name.value = document.getString("fullname") ?: "Sin nombre"
                     _email.value = document.getString("email") ?: "Sin correo"
                     _address.value = document.getString("address") ?: ""
-                    _profileImageRes.intValue = (document.getLong("avatar_id")?.toInt() ?: R.drawable.avatar_de_usuario_)
+
+                    // Corrección: Manejo seguro del tipo de dato
+                    val avatarId = document.get("avatar_id")
+                    if (avatarId is Long) { // Verificar si el campo es un Long
+                        _profileImageRes.intValue = avatarId.toInt()
+                    } else {
+                        _profileImageRes.intValue = R.drawable.avatar_de_usuario_
+                    }
+
                 } else {
                     Log.d("ProfileViewModel", "Perfil no encontrado para ${firebaseUser.uid}. Creando uno nuevo.")
                     val newName = firebaseUser.displayName ?: "Nuevo Usuario"
                     val newEmail = firebaseUser.email ?: ""
 
+                    // Corrección: Guardar el avatar_id como Long para consistencia
                     val newUserProfile = hashMapOf(
                         "fullname" to newName,
                         "email" to newEmail,
                         "address" to "",
-                        "avatar_id" to R.drawable.avatar_de_usuario_
+                        "avatar_id" to R.drawable.avatar_de_usuario_.toLong()
                     )
 
                     db.collection("users").document(firebaseUser.uid).set(newUserProfile)
@@ -111,7 +120,8 @@ class ProfileViewModel : ViewModel() {
         _profileImageRes.intValue = newImageRes
         
         val firebaseUser = auth.currentUser ?: return
-        val updatedData = mapOf("avatar_id" to newImageRes)
+        // Corrección: Guardar como Long al actualizar también
+        val updatedData = mapOf("avatar_id" to newImageRes.toLong())
 
         db.collection("users").document(firebaseUser.uid)
             .update(updatedData)

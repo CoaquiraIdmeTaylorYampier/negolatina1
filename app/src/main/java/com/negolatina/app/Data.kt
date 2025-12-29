@@ -63,7 +63,7 @@ val allCategories = listOf(
 
 val allProducts = listOf(
     // Carnes
-    Product("c1", "Chuletas", "Chuleta de carne de cerdo, ideales para parrillas, guisos y recetas caseras.", "S/.16.90 x Kg", 3, R.drawable.carnes_chuletacerdo, "Carnes", "5%", cantidad = 10),
+    Product("c1_test", "Chuletas", "Chuleta de carne de cerdo, ideales para parrillas, guisos y recetas caseras.", "S/.16.90 x Kg", 3, R.drawable.carnes_chuletacerdo, "Carnes", "5%", cantidad = 10),
     Product("c2", "Pollo Entero", "Pollo fresco y de granja, listo para hornear o trozar para tus guisos.", "S/.12.50 x Kg", 4, R.drawable.carnes_pollo, "Carnes", cantidad = 10),
     Product("c3", "Bisteck de Res", "Finos cortes de res para freír, apanar o para un delicioso lomo saltado.", "S/.22.00 x Kg", 5, R.drawable.carnes_bisteck, "Carnes", cantidad = 10),
     Product("c4", "Salchichas", "Pack de salchichas de la marca San Bernardo 10Ud, ideal para preparar hot dogs.", "S/.8.00", 3, R.drawable.carnes_hotdog, "Carnes", "5%", cantidad = 10),

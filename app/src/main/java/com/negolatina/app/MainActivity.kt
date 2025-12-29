@@ -67,8 +67,9 @@ class MainActivity : ComponentActivity() {
                         "product/{productId}",
                         arguments = listOf(navArgument("productId") { type = NavType.StringType })
                     ) { entry ->
-                        val productId = entry.arguments?.getString("productId") ?: "c1"
-                        ProductDetailScreen(navController, productId, productViewModel)
+                        entry.arguments?.getString("productId")?.let {
+                            ProductDetailScreen(navController, it, productViewModel)
+                        }
                     }
 
                     // Categorías
