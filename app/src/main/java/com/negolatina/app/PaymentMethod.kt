@@ -188,7 +188,7 @@ fun CardPaymentScreen(
             // Botón pagar
             Button(
                 onClick = {
-                    productViewModel.purchaseProducts(CartManager.items)
+                    productViewModel.createOrder(CartManager.items, address, CartManager.total + 5)
                     CartManager.clear()
                     navController.navigate("purchase_success") {
                         popUpTo("checkout") { inclusive = true }
@@ -360,7 +360,7 @@ fun YapePaymentScreen(navController: NavController, address: String, productView
             // Botón confirmar
             Button(
                 onClick = {
-                    productViewModel.purchaseProducts(CartManager.items)
+                    productViewModel.createOrder(CartManager.items, address, CartManager.total + 5)
                     CartManager.clear()
                     navController.navigate("purchase_success") {
                         popUpTo("checkout") { inclusive = true }
@@ -529,7 +529,7 @@ fun PlinPaymentScreen(navController: NavController, address: String, productView
             // Botón confirmar
             Button(
                 onClick = {
-                    productViewModel.purchaseProducts(CartManager.items)
+                    productViewModel.createOrder(CartManager.items, address, CartManager.total + 5)
                     CartManager.clear()
                     navController.navigate("purchase_success") {
                         popUpTo("checkout") { inclusive = true }
@@ -693,7 +693,7 @@ fun CashOnDeliveryScreen(navController: NavController, address: String, productV
             // Botón confirmar
             Button(
                 onClick = {
-                    productViewModel.purchaseProducts(CartManager.items)
+                    productViewModel.createOrder(CartManager.items, address, CartManager.total + 5)
                     CartManager.clear()
                     navController.navigate("purchase_success") {
                         popUpTo("checkout") { inclusive = true }

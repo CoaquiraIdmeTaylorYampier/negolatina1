@@ -67,21 +67,10 @@ fun PurchaseSuccessScreen(navController: NavController) {
 
             // Mensaje
             Text(
-                text = "Su compra se ha realizado exitosamente",
+                text = "Su pedido ha sido recibido",
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
                 color = Color.Gray,
-                modifier = Modifier.padding(horizontal = 24.dp)
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Información adicional
-            Text(
-                text = "Recibirá un correo con los detalles de su pedido",
-                fontSize = 14.sp,
-                textAlign = TextAlign.Center,
-                color = Color.LightGray,
                 modifier = Modifier.padding(horizontal = 24.dp)
             )
 
@@ -113,7 +102,7 @@ fun PurchaseSuccessScreen(navController: NavController) {
 
             // Botón ver pedidos
             Button(
-                onClick = { /* TODO: Navegar a historial de pedidos */ },
+                onClick = { navController.navigate("my_orders") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp)

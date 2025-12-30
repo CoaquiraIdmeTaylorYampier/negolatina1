@@ -32,6 +32,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val settingsViewModel: SettingsViewModel = viewModel()
             val productViewModel: ProductViewModel = viewModel()
+            val orderViewModel: OrderViewModel = viewModel()
             val isEcoMode by settingsViewModel.isEcoModeEnabled
 
             val useDarkTheme = isEcoMode || isSystemInDarkTheme()
@@ -150,6 +151,7 @@ class MainActivity : ComponentActivity() {
                     // Listados
                     composable("all_categories") { AllCategoriesScreen(navController) }
                     composable("all_products") { AllProductsScreen(navController, productViewModel) }
+                    composable("my_orders") { MyOrdersScreen(navController, orderViewModel) } // Nueva ruta
                     composable("inventory_categories") { InventoryCategoriesScreen(navController) }
                     composable(
                         "inventory_product_list/{categoryName}",
@@ -171,6 +173,7 @@ class MainActivity : ComponentActivity() {
 
                     // Usuario y Admin
                     composable("admin_dashboard") { AdminDashboardScreen(navController, profileViewModel, productViewModel) }
+                    composable("admin_orders") { AdminOrdersScreen(navController, orderViewModel) }
                     composable("admin_account") {
                         val products by productViewModel.products.collectAsState()
                         AdminAccountScreen(

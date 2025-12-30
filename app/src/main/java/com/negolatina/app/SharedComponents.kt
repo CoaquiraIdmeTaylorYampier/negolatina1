@@ -27,6 +27,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun ProductCard(product: Product, navController: NavController) {
@@ -102,6 +105,11 @@ fun ProductCard(product: Product, navController: NavController) {
             }
         }
     }
+}
+
+fun formatTimestamp(timestamp: Long): String {
+    val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+    return sdf.format(Date(timestamp))
 }
 
 @Preview(showBackground = true, name = "Tarjeta de Producto")

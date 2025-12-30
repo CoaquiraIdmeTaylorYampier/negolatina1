@@ -54,6 +54,7 @@ fun AdminDashboardScreen(
                             selectedItem = index
                             when (title) {
                                 "Inventario" -> navController.navigate("inventory_categories") 
+                                "Pedidos" -> navController.navigate("admin_orders")
                             }
                         },
                         modifier = Modifier.weight(1f)
