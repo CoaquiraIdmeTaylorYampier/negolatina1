@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -40,6 +41,20 @@ fun AdminDashboardScreen(
     val products by productViewModel.products.collectAsState()
     val adminProfileImage by profileViewModel.profileImageRes
     var selectedItem by remember { mutableIntStateOf(0) }
+    
+    var showLogoutDialog by remember { mutableStateOf(false) }
+
+    if (showLogoutDialog) {
+        LogoutConfirmationDialog(
+            onConfirm = {
+                showLogoutDialog = false
+                navController.navigate("welcome") {
+                    popUpTo("admin_dashboard") { inclusive = true }
+                }
+            },
+            onDismiss = { showLogoutDialog = false }
+        )
+    }
 
     Scaffold(
         bottomBar = {
@@ -54,7 +69,6 @@ fun AdminDashboardScreen(
                             selectedItem = index
                             when (title) {
                                 "Inventario" -> navController.navigate("inventory_categories") 
-                                "Pedidos" -> navController.navigate("admin_orders")
                             }
                         },
                         modifier = Modifier.weight(1f)
@@ -84,6 +98,7 @@ fun AdminDashboardScreen(
                 .verticalScroll(rememberScrollState())
         ) {
 
+            // HEADER
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -100,12 +115,14 @@ fun AdminDashboardScreen(
                             .clip(CircleShape)
                     )
                     Spacer(modifier = Modifier.width(10.dp))
-                    Column {
+                    Column(modifier = Modifier.weight(1f)) {
                         Text("Hola, Admin", color = Color.White)
                         Text(adminName, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                     }
-                    Spacer(modifier = Modifier.weight(1f))
-                    Icon(Icons.Default.Notifications, contentDescription = null, tint = Color.White)
+                    // Botón de Cerrar Sesión
+                    IconButton(onClick = { showLogoutDialog = true }) {
+                        Icon(Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "Cerrar Sesión", tint = Color.White)
+                    }
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 

@@ -2,6 +2,8 @@ package com.negolatina.app
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
@@ -10,13 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,7 +33,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.negolatina.app.ui.theme.NegolatinaTheme
 
-
 @Preview(showBackground = true, name = "Login screen")
 @Composable
 fun LoginScreenPreview() {
@@ -45,6 +40,7 @@ fun LoginScreenPreview() {
         LoginScreen(navController = rememberNavController())
     }
 }
+
 @Composable
 fun LoginScreen(
     navController: NavController,
@@ -54,6 +50,8 @@ fun LoginScreen(
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
 
+    var showResetDialog by remember { mutableStateOf(false) }
+
     val loginState by authViewModel.loginState.collectAsState()
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
@@ -61,7 +59,7 @@ fun LoginScreen(
     LaunchedEffect(loginState) {
         when (val state = loginState) {
             is LoginState.Success -> {
-                Toast.makeText(context, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "¡Bienvenido ${state.user.name}!", Toast.LENGTH_SHORT).show()
                 if (state.user.isAdmin) {
                     navController.navigate("admin_dashboard") { popUpTo("welcome") { inclusive = true } }
                 } else {
@@ -70,14 +68,17 @@ fun LoginScreen(
                 authViewModel.resetLoginState()
             }
             is LoginState.Error -> {
-                Toast.makeText(context, "Error: ${state.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, (loginState as LoginState.Error).message, Toast.LENGTH_SHORT).show()
                 authViewModel.resetLoginState()
             }
             else -> Unit
         }
     }
-    
-    Box(modifier = Modifier.fillMaxSize()) {
+
+    Box(
+        modifier = Modifier.fillMaxSize().background(Color.White),
+        contentAlignment = Alignment.Center
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -86,16 +87,22 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Image(painter = painterResource(id = R.drawable.iniciar_sesion),
-                contentDescription = "imagen de venta ",
-                modifier = Modifier.size(250.dp))
+            Image(
+                painter = painterResource(id = R.drawable.iniciar_sesion),
+                contentDescription = "imagen de venta",
+                modifier = Modifier.size(250.dp)
+            )
+
             Spacer(modifier = Modifier.height(16.dp))
+
             Text(
-                "Iniciar sesión",
+                text = "Iniciar sesión",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 24.dp)
+                modifier = Modifier.padding(bottom = 24.dp),
+                color = Color.Black
             )
+
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
@@ -103,11 +110,11 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                )
+                keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) })
             )
+
             Spacer(modifier = Modifier.height(8.dp))
+
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
@@ -116,30 +123,45 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        focusManager.clearFocus()
-                        authViewModel.loginUser(email, password)
-                    }
-                ),
+                keyboardActions = KeyboardActions(onDone = { 
+                    focusManager.clearFocus()
+                    authViewModel.loginUser(email, password) 
+                }),
                 trailingIcon = {
                     val image = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
-                    val description = if (passwordVisible) "Ocultar contraseña" else "Mostrar contraseña"
-
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(imageVector = image, contentDescription = description)
+                        Icon(imageVector = image, contentDescription = if (passwordVisible) "Ocultar" else "Mostrar")
                     }
                 }
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                Text(
+                    text = "¿Olvidaste tu contraseña?",
+                    color = Color(0xFFE31E24),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clickable { showResetDialog = true }
+                )
+            }
+
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
-                onClick = { authViewModel.loginUser(email, password) },
+                onClick = {
+                    focusManager.clearFocus()
+                    authViewModel.loginUser(email, password)
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE31E24)),
                 modifier = Modifier.fillMaxWidth().height(50.dp),
-                enabled = loginState != LoginState.Loading
+                enabled = loginState !is LoginState.Loading
             ) {
-                if (loginState == LoginState.Loading) {
+                if (loginState is LoginState.Loading) {
                     CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
                 } else {
                     Text("INICIAR SESIÓN", fontWeight = FontWeight.Bold)
@@ -147,14 +169,74 @@ fun LoginScreen(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-            Text("¿No tienes cuenta?")
-            Button(onClick = { navController.navigate("register") },
+            Text("¿No tienes cuenta?", color = Color.Gray)
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                onClick = { navController.navigate("register") },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
                 modifier = Modifier.fillMaxWidth().height(50.dp)
             ) {
-                Text("REGÍSTRATE")
+                Text("REGÍSTRATE", fontWeight = FontWeight.Bold)
             }
-            Spacer(modifier = Modifier.height(16.dp))
         }
     }
+
+    if (showResetDialog) {
+        ForgotPasswordDialog(
+            onDismiss = { showResetDialog = false },
+            onSend = { emailToSend ->
+                authViewModel.sendPasswordResetEmail(
+                    email = emailToSend,
+                    onSuccess = {
+                        Toast.makeText(context, "Correo enviado. Revisa tu bandeja.", Toast.LENGTH_LONG).show()
+                        showResetDialog = false
+                    },
+                    onError = { errorMsg ->
+                        Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
+        )
+    }
+}
+
+@Composable
+fun ForgotPasswordDialog(
+    onDismiss: () -> Unit,
+    onSend: (String) -> Unit
+) {
+    var emailRecuperacion by remember { mutableStateOf("") }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Recuperar contraseña") },
+        text = {
+            Column {
+                Text("Ingresa tu correo electrónico y te enviaremos un enlace para crear una nueva contraseña.")
+                Spacer(modifier = Modifier.height(16.dp))
+                OutlinedTextField(
+                    value = emailRecuperacion,
+                    onValueChange = { emailRecuperacion = it },
+                    label = { Text("Correo electrónico") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = { onSend(emailRecuperacion) },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE31E24))
+            ) {
+                Text("Enviar")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancelar", color = Color.Gray)
+            }
+        },
+        containerColor = Color.White
+    )
 }

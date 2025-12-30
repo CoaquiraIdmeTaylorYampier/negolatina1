@@ -1,6 +1,7 @@
 package com.negolatina.app
 
 import android.util.Log
+import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,7 +27,6 @@ sealed class LoginState {
 class AuthViewModel : ViewModel() {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    // obtener instancia
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     // Logica de registro
@@ -63,7 +63,7 @@ class AuthViewModel : ViewModel() {
             "email" to email,
             "address" to "",
             "avatar_id" to R.drawable.logo_pollito,
-            "isAdmin" to false // Add isAdmin flag for new users
+            "isAdmin" to false
         )
 
         db.collection("users").document(uid)
@@ -125,5 +125,36 @@ class AuthViewModel : ViewModel() {
 
     fun resetLoginState() {
         _loginState.value = LoginState.Idle
+    }
+    
+    fun sendPasswordResetEmail(email: String,onSuccess: ()-> Unit,onError: (String)->Unit){
+        if (email.isEmpty()){
+            onError("Porfavor, ingrese su correo electronico")
+            return
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            onError("El formato del corrreo no es valido")
+            return
+        }
+        auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful){
+                    onSuccess()
+                }else{
+                    onError(task.exception?.message ?: "Error al enviar el correo")
+                }
+            }
+    }
+    
+    fun isUserLoggedIn():Boolean{
+        return auth.currentUser != null
+    }
+    
+    fun getCurrentUserId(): String? {
+        return auth.currentUser?.uid
+    }
+    
+    fun signOut(){
+        auth.signOut()
     }
 }

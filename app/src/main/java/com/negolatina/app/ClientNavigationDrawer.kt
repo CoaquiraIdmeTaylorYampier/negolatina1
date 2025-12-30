@@ -11,10 +11,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,7 +28,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.negolatina.app.ui.theme.NegolatinaTheme
 
-
 @Preview(showBackground = true, name = "Client Navigation Preview")
 @Composable
 fun ClientNavigationDrawerPreview() {
@@ -45,10 +42,26 @@ fun ClientNavigationDrawer(
     closeDrawer: () -> Unit,
     profileViewModel: ProfileViewModel
 ) {
+    var showLogoutDialog by remember { mutableStateOf(false) }
+
+    if (showLogoutDialog) {
+        LogoutConfirmationDialog(
+            onConfirm = {
+                showLogoutDialog = false
+                closeDrawer()
+                navController.navigate("welcome") {
+                    popUpTo("home") { inclusive = true }
+                }
+            },
+            onDismiss = { showLogoutDialog = false }
+        )
+    }
+
     val menuItems = listOf(
         DrawerMenuItem("home", "Inicio", Icons.Filled.Home),
         DrawerMenuItem("search", "Buscar", Icons.Filled.Search),
         DrawerMenuItem("notifications", "Notificaciones", Icons.Filled.Notifications),
+        DrawerMenuItem("my_orders", "Mis compras", Icons.Filled.ShoppingBasket),
         DrawerMenuItem("favorites", "Favoritos", Icons.Filled.Favorite),
         DrawerMenuItem("offers", "Ofertas", Icons.Filled.Star),
         DrawerMenuItem("client_account", "Mi cuenta", Icons.Filled.AccountCircle),
@@ -56,11 +69,9 @@ fun ClientNavigationDrawer(
         DrawerMenuItem("all_products", "Productos", Icons.AutoMirrored.Filled.List),
         DrawerMenuItem("eco_mode", "Modo ecologico", Icons.Filled.EnergySavingsLeaf),
         DrawerMenuItem("help", "Ayuda", Icons.Filled.Help),
-        DrawerMenuItem("welcome", "Cerrar sesión", Icons.AutoMirrored.Filled.ExitToApp)
     )
 
     Column(modifier = Modifier.fillMaxSize()) {
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -72,9 +83,7 @@ fun ClientNavigationDrawer(
                 painter = painterResource(id = profileViewModel.profileImageRes.value),
                 contentDescription = "foto de perfil",
                 contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(80.dp)
-                    .clip(CircleShape)
+                modifier = Modifier.size(80.dp).clip(CircleShape)
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -91,35 +100,38 @@ fun ClientNavigationDrawer(
         }
 
         LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .background(MaterialTheme.colorScheme.surface)
+            modifier = Modifier.fillMaxWidth().weight(1f).background(MaterialTheme.colorScheme.surface)
         ) {
             items(menuItems) { menuItem ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            closeDrawer()
-                            if (menuItem.route == "welcome") {
-                                navController.navigate("welcome") {
-                                    popUpTo("home") { inclusive = true }
-                                }
-                            } else {
-                                navController.navigate(menuItem.route) {
-                                    launchSingleTop = true
-                                }
-                            }
-                        }
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(imageVector = menuItem.icon, contentDescription = menuItem.title)
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Text(menuItem.title, style = MaterialTheme.typography.bodyLarge)
-                }
+                DrawerItemRow(menuItem = menuItem, onClick = {
+                    closeDrawer()
+                    navController.navigate(menuItem.route) { launchSingleTop = true }
+                })
+            }
+            item {
+                 Divider(modifier = Modifier.padding(vertical = 8.dp)) 
+            }
+            item {
+                DrawerItemRow(
+                    menuItem = DrawerMenuItem("logout", "Cerrar sesión", Icons.AutoMirrored.Filled.ExitToApp),
+                    onClick = { showLogoutDialog = true }
+                )
             }
         }
+    }
+}
+
+@Composable
+private fun DrawerItemRow(menuItem: DrawerMenuItem, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(imageVector = menuItem.icon, contentDescription = menuItem.title)
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(menuItem.title, style = MaterialTheme.typography.bodyLarge)
     }
 }
