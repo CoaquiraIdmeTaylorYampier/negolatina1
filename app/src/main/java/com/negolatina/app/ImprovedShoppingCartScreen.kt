@@ -139,7 +139,6 @@ fun CartItemRow(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val imageToShow = if (item.product.imageRes != 0) item.product.imageRes else R.drawable.logo_pollito
             
             if (item.product.imageUri != null) {
                 AsyncImage(
@@ -150,9 +149,18 @@ fun CartItemRow(
                         .clip(RoundedCornerShape(8.dp)),
                     contentScale = ContentScale.Crop
                 )
+            } else if (item.product.imageRes != 0) {
+                 AsyncImage(
+                    model = item.product.imageRes,
+                    contentDescription = item.product.title,
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop
+                )
             } else {
-                Image(
-                    painter = painterResource(id = imageToShow),
+                AsyncImage(
+                    model = R.drawable.logo_pollito,
                     contentDescription = item.product.title,
                     modifier = Modifier
                         .size(80.dp)

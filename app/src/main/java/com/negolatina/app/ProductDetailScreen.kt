@@ -188,9 +188,16 @@ fun ProductDetailScreen(navController: NavController, productId: String, product
                             modifier = Modifier.size(300.dp),
                             contentScale = ContentScale.Fit
                         )
+                    } else if (product.imageRes != 0) {
+                        AsyncImage(
+                            model = product.imageRes,
+                            contentDescription = product.title,
+                            modifier = Modifier.size(300.dp),
+                            contentScale = ContentScale.Fit
+                        )
                     } else {
-                        Image(
-                            painter = painterResource(id = product.imageRes),
+                         AsyncImage(
+                            model = R.drawable.logo_pollito,
                             contentDescription = product.title,
                             modifier = Modifier.size(300.dp),
                             contentScale = ContentScale.Fit

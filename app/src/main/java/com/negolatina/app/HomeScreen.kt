@@ -47,10 +47,10 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
 
-data class Promotion(val imageRes: Int)
+data class Promotion(val imageRes: Int, val route: String)
 val promotions = listOf(
-    Promotion(R.drawable.banner_oferta),
-    Promotion(R.drawable.banner_carne)
+    Promotion(R.drawable.banner_oferta, "client_offers"),
+    Promotion(R.drawable.banner_carne, "meats_sausages")
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -183,7 +183,8 @@ fun HomeScreenContent(
                                 contentDescription = null,
                                 modifier = Modifier
                                     .height(150.dp)
-                                    .clip(RoundedCornerShape(12.dp)),
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .clickable { navController.navigate(promotion.route) },
                                 contentScale = ContentScale.Crop
                             )
                         }
@@ -220,7 +221,7 @@ fun HomeScreenContent(
                         ) {
                             Text(text = "Productos en Oferta", fontSize = 20.sp, fontWeight = FontWeight.Bold)
                             Text(text = "Ver mas", fontSize = 14.sp, color = Color.Gray,
-                                modifier = Modifier.clickable { navController.navigate("all_products") })
+                                modifier = Modifier.clickable { navController.navigate("client_offers") })
                         }
                     }
                 }
@@ -267,7 +268,6 @@ fun ProductItemRow(product: Product, navController: NavController) {
             .clickable { navController.navigate("product/${product.id}") },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val imageToShow = if (product.imageRes != 0) product.imageRes else R.drawable.logo_pollito
 
         if (product.imageUri != null) {
             AsyncImage(
@@ -278,9 +278,18 @@ fun ProductItemRow(product: Product, navController: NavController) {
                     .clip(RoundedCornerShape(8.dp)),
                 contentScale = ContentScale.Crop
             )
+        } else if (product.imageRes != 0) {
+            AsyncImage(
+                model = product.imageRes,
+                contentDescription = product.title,
+                modifier = Modifier
+                    .size(64.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Crop
+            )
         } else {
-            Image(
-                painter = painterResource(id = imageToShow),
+             AsyncImage(
+                model = R.drawable.logo_pollito,
                 contentDescription = product.title,
                 modifier = Modifier
                     .size(64.dp)

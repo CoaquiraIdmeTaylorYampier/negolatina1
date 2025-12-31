@@ -9,6 +9,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -35,10 +38,15 @@ fun DiscountProductsScreen(navController: NavController, productViewModel: Produ
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Productos en Oferta", color = Color.White) },
+                title = { Text("Administrar Ofertas", color = Color.White) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Atrás", tint = Color.White)
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { navController.navigate("add_product") }) {
+                        Icon(Icons.Default.Add, contentDescription = "Agregar Producto", tint = Color.White)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFFE31E24))
@@ -61,8 +69,12 @@ fun DiscountProductsScreen(navController: NavController, productViewModel: Produ
                     .padding(paddingValues)
                     .background(Color(0xFFF5F5F5))
             ) {
-                items(discountProducts) { product ->
-                    DiscountProductItem(product = product, navController = navController)
+                items(discountProducts, key = { it.id }) { product ->
+                    AdminDiscountProductItem(
+                        product = product, 
+                        navController = navController,
+                        onDelete = { productViewModel.deleteProduct(product.id) }
+                    )
                 }
             }
         }
@@ -70,12 +82,12 @@ fun DiscountProductsScreen(navController: NavController, productViewModel: Produ
 }
 
 @Composable
-fun DiscountProductItem(product: Product, navController: NavController) {
+fun AdminDiscountProductItem(product: Product, navController: NavController, onDelete: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clickable { navController.navigate("product/${product.id}") },
+            .clickable { navController.navigate("edit_product/${product.id}") },
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(2.dp)
     ) {
@@ -85,7 +97,6 @@ fun DiscountProductItem(product: Product, navController: NavController) {
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val imageToShow = if (product.imageRes != 0) product.imageRes else R.drawable.logo_pollito
             
             if (product.imageUri != null) {
                 AsyncImage(
@@ -96,9 +107,18 @@ fun DiscountProductItem(product: Product, navController: NavController) {
                         .clip(RoundedCornerShape(8.dp)),
                     contentScale = ContentScale.Crop
                 )
+            } else if (product.imageRes != 0) {
+                 AsyncImage(
+                    model = product.imageRes,
+                    contentDescription = product.title,
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop
+                )
             } else {
-                Image(
-                    painter = painterResource(id = imageToShow),
+                AsyncImage(
+                    model = R.drawable.logo_pollito,
                     contentDescription = product.title,
                     modifier = Modifier
                         .size(80.dp)
@@ -146,6 +166,15 @@ fun DiscountProductItem(product: Product, navController: NavController) {
                             )
                         }
                     }
+                }
+            }
+            
+            Column {
+                IconButton(onClick = { navController.navigate("edit_product/${product.id}") }) {
+                    Icon(Icons.Default.Edit, contentDescription = "Editar", tint = Color.Gray)
+                }
+                IconButton(onClick = onDelete) {
+                    Icon(Icons.Default.Delete, contentDescription = "Eliminar", tint = Color.Red)
                 }
             }
         }

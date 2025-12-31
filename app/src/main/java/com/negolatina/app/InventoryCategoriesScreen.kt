@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.negolatina.app.ui.theme.NegolatinaTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -97,8 +98,8 @@ fun CategoryGridCard(
                     .background(category.color),
                 contentAlignment = Alignment.Center
             ) {
-                Image(
-                    painter = painterResource(id = category.imageRes),
+                AsyncImage(
+                    model = category.imageRes,
                     contentDescription = category.name,
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.size(60.dp)

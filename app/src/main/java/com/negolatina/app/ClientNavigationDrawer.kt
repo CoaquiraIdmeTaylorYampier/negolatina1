@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.negolatina.app.ui.theme.NegolatinaTheme
 
 @Preview(showBackground = true, name = "Client Navigation Preview")
@@ -62,7 +63,7 @@ fun ClientNavigationDrawer(
         DrawerMenuItem("notifications", "Notificaciones", Icons.Filled.Notifications),
         DrawerMenuItem("my_orders", "Mis compras", Icons.Filled.ShoppingBasket),
         DrawerMenuItem("favorites", "Favoritos", Icons.Filled.Favorite),
-        DrawerMenuItem("offers", "Ofertas", Icons.Filled.Star),
+        DrawerMenuItem("client_offers", "Ofertas", Icons.Filled.Star),
         DrawerMenuItem("client_account", "Mi cuenta", Icons.Filled.AccountCircle),
         DrawerMenuItem("all_categories", "Categorias", Icons.Filled.Category),
         DrawerMenuItem("all_products", "Productos", Icons.AutoMirrored.Filled.List),
@@ -78,8 +79,8 @@ fun ClientNavigationDrawer(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(id = profileViewModel.profileImageRes.value),
+            AsyncImage(
+                model = profileViewModel.profileImageRes.value,
                 contentDescription = "foto de perfil",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.size(80.dp).clip(CircleShape)
@@ -108,7 +109,7 @@ fun ClientNavigationDrawer(
                 })
             }
             item {
-                 Divider(modifier = Modifier.padding(vertical = 8.dp)) 
+                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             }
             item {
                 DrawerItemRow(

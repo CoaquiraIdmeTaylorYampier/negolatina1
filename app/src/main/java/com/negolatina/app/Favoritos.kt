@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.negolatina.app.ui.theme.NegolatinaTheme
 
 // ============================================
@@ -195,15 +196,37 @@ fun FavoriteItemCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Imagen del producto
-            Image(
-                painter = painterResource(id = product.imageRes),
-                contentDescription = product.title,
-                modifier = Modifier
-                    .size(80.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(Color(0xFFF5F5F5)),
-                contentScale = ContentScale.Fit
-            )
+            if (product.imageUri != null) {
+                AsyncImage(
+                    model = product.imageUri,
+                    contentDescription = product.title,
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(Color(0xFFF5F5F5)),
+                    contentScale = ContentScale.Fit
+                )
+            } else if (product.imageRes != 0) {
+                 AsyncImage(
+                    model = product.imageRes,
+                    contentDescription = product.title,
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(Color(0xFFF5F5F5)),
+                    contentScale = ContentScale.Fit
+                )
+            } else {
+                AsyncImage(
+                    model = R.drawable.logo_pollito,
+                    contentDescription = product.title,
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(Color(0xFFF5F5F5)),
+                    contentScale = ContentScale.Fit
+                )
+            }
 
             Spacer(modifier = Modifier.width(12.dp))
 

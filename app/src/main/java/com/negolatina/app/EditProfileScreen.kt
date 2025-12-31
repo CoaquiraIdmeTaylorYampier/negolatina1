@@ -22,6 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.negolatina.app.ui.theme.NegolatinaTheme
+import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -121,8 +122,8 @@ fun EditProfileScreen(navController: NavController, profileViewModel: ProfileVie
 @Composable
 private fun EditableProfileHeader(profileViewModel: ProfileViewModel, navController: NavController) {
     Box {
-        Image(
-            painter = painterResource(id = profileViewModel.profileImageRes.value),
+        AsyncImage(
+            model = profileViewModel.profileImageRes.value,
             contentDescription = "Foto de Perfil",
             modifier = Modifier
                 .size(120.dp)

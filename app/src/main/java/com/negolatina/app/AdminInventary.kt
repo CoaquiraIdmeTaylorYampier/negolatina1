@@ -93,9 +93,18 @@ fun ProductRowAdmin(product: Product, onEdit: () -> Unit, onDelete: () -> Unit) 
                         .clip(RoundedCornerShape(8.dp)),
                     contentScale = ContentScale.Crop
                 )
+            } else if (product.imageRes != 0) {
+                 AsyncImage(
+                    model = product.imageRes,
+                    contentDescription = product.title,
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop
+                )
             } else {
-                Image(
-                    painter = painterResource(id = product.imageRes),
+                 AsyncImage(
+                    model = R.drawable.logo_pollito,
                     contentDescription = product.title,
                     modifier = Modifier
                         .size(60.dp)

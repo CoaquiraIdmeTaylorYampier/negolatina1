@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -26,7 +25,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -91,8 +89,8 @@ fun ProductCard(product: Product, navController: NavController) {
                         contentScale = ContentScale.Crop
                     )
                 } else if (product.imageRes != 0) {
-                    Image(
-                        painter = painterResource(id = product.imageRes),
+                    AsyncImage(
+                        model = product.imageRes,
                         contentDescription = product.title,
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop
