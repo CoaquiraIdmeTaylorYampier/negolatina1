@@ -95,7 +95,17 @@ fun HomeScreenContent(
     onMenuClick: () -> Unit
 ) {
     var searchText by remember { mutableStateOf("") }
-    val productsWithDiscount = products.filter { it.discount != null }
+
+    val filteredProducts = if (searchText.isBlank()) {
+        products
+    } else {
+        products.filter { 
+            it.title.contains(searchText, ignoreCase = true) || 
+            it.description.contains(searchText, ignoreCase = true)
+        }
+    }
+
+    val productsWithDiscount = filteredProducts.filter { it.discount != null }
     val categoriesForHome = allCategories.take(3)
 
     Column(
@@ -137,62 +147,87 @@ fun HomeScreenContent(
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
 
-            // PROMOCION
-            item {
-                LazyRow(
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    items(promotions) { promotion ->
-                        Image(
-                            painter = painterResource(id = promotion.imageRes),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .height(150.dp)
-                                .clip(RoundedCornerShape(12.dp)),
-                            contentScale = ContentScale.Crop
-                        )
+            if (searchText.isNotBlank()) {
+                item {
+                    Text(
+                        text = "Resultados de búsqueda:",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+                
+                if (filteredProducts.isEmpty()) {
+                    item {
+                        Box(
+                            modifier = Modifier.fillMaxWidth().padding(32.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("No se encontraron productos.", color = Color.Gray)
+                        }
+                    }
+                } else {
+                    items(filteredProducts) { product ->
+                        ProductItemRow(product = product, navController = navController)
                     }
                 }
-            }
-
-            item {
-                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+            } else {
+                item {
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        Text(text = "Categorias", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                        Text(text = "Ver mas", fontSize = 14.sp, color = Color.Gray,
-                            modifier = Modifier.clickable { navController.navigate("all_categories") })
-                    }
-                    Spacer(modifier = Modifier.height(12.dp))
-                    LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        items(categoriesForHome) { category ->
-                            CategoryCard(category = category, navController = navController)
+                        items(promotions) { promotion ->
+                            Image(
+                                painter = painterResource(id = promotion.imageRes),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .height(150.dp)
+                                    .clip(RoundedCornerShape(12.dp)),
+                                contentScale = ContentScale.Crop
+                            )
                         }
                     }
                 }
-            }
 
-            item {
-                Column(modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp, top = 24.dp, bottom = 16.dp)) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = "Productos", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                        Text(text = "Ver mas", fontSize = 14.sp, color = Color.Gray,
-                            modifier = Modifier.clickable { navController.navigate("all_products") })
+                item {
+                    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(text = "Categorias", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                            Text(text = "Ver mas", fontSize = 14.sp, color = Color.Gray,
+                                modifier = Modifier.clickable { navController.navigate("all_categories") })
+                        }
+                        Spacer(modifier = Modifier.height(12.dp))
+                        LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                            items(categoriesForHome) { category ->
+                                CategoryCard(category = category, navController = navController)
+                            }
+                        }
                     }
                 }
-            }
 
-            items(productsWithDiscount) { product ->
-                ProductItemRow(product = product, navController = navController)
+                item {
+                    Column(modifier = Modifier
+                        .padding(start = 16.dp, end = 16.dp, top = 24.dp, bottom = 16.dp)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(text = "Productos en Oferta", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                            Text(text = "Ver mas", fontSize = 14.sp, color = Color.Gray,
+                                modifier = Modifier.clickable { navController.navigate("all_products") })
+                        }
+                    }
+                }
+
+                items(productsWithDiscount) { product ->
+                    ProductItemRow(product = product, navController = navController)
+                }
             }
         }
     }
@@ -232,7 +267,6 @@ fun ProductItemRow(product: Product, navController: NavController) {
             .clickable { navController.navigate("product/${product.id}") },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Corrección: Añadir un fallback para la imagen
         val imageToShow = if (product.imageRes != 0) product.imageRes else R.drawable.logo_pollito
 
         if (product.imageUri != null) {
@@ -280,7 +314,7 @@ fun HomeScreenPreview() {
     Scaffold {
         HomeScreenContent(
             navController = rememberNavController(),
-            products = allProducts, // Usamos la lista estática para la vista previa
+            products = allProducts,
             paddingValues = it,
             onMenuClick = {}
         )

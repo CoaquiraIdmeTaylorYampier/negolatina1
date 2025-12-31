@@ -74,6 +74,7 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.4")
 
     // 2. AÑADIMOS LAS DEPENDENCIAS DE FIREBASE
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))

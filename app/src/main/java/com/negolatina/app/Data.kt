@@ -40,30 +40,20 @@ data class User(
     val isAdmin: Boolean = false
 )
 
-// --- Modelo de Pedidos ---
-
-/**
- * Define los posibles estados de un pedido.
- */
 enum class OrderStatus {
-    PENDING,  // Pendiente de aprobación por el admin
-    ACCEPTED, // Aceptado y en preparación
-    REJECTED, // Rechazado por el admin
-    COMPLETED // Completado y entregado
+    PENDING,
+    ACCEPTED,
+    REJECTED,
+    COMPLETED
 }
 
-/**
- * Representa un solo ítem dentro de un pedido.
- */
 data class OrderItem(
     val productId: String = "",
     val title: String = "",
-    val quantity: Int = 0
+    val quantity: Int = 0,
+    val price: Double = 0.0
 )
 
-/**
- * Representa un pedido completo de un usuario.
- */
 data class Order(
     val id: String = "",
     val userId: String = "",
@@ -71,7 +61,9 @@ data class Order(
     val address: String = "",
     val total: Double = 0.0,
     val timestamp: Long = 0L,
-    val status: String = OrderStatus.PENDING.name
+    val status: String = OrderStatus.PENDING.name,
+    val paymentMethod: String = "", 
+    val paymentCode: String? = null 
 )
 
 

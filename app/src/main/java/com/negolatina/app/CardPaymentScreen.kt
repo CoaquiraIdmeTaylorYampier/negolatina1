@@ -22,15 +22,15 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
-// ============= PANTALLA PAGO CON TARJETA =============
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardPaymentScreen(
     navController: NavController, 
     address: String, 
-    productViewModel: ProductViewModel
+    productViewModel: ProductViewModel = viewModel()
 ) {
     var cardNumber by remember { mutableStateOf("") }
     var cardName by remember { mutableStateOf("") }
@@ -64,7 +64,6 @@ fun CardPaymentScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Imagen de la tarjeta
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -82,7 +81,6 @@ fun CardPaymentScreen(
 
             Spacer(Modifier.height(24.dp))
 
-            // Total a pagar
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -105,7 +103,6 @@ fun CardPaymentScreen(
 
             Spacer(Modifier.height(24.dp))
 
-            // Formulario
             OutlinedTextField(
                 value = cardNumber,
                 onValueChange = {
@@ -185,13 +182,17 @@ fun CardPaymentScreen(
 
             Spacer(Modifier.height(32.dp))
 
-            // Botón pagar
             Button(
                 onClick = {
-                    productViewModel.createOrder(CartManager.items, address, CartManager.total + 5)
+                    val orderId = productViewModel.createOrder(
+                        cartItems = CartManager.items, 
+                        address = address, 
+                        total = CartManager.total + 5,
+                        paymentMethod = "Tarjeta"
+                    )
                     CartManager.clear()
-                    navController.navigate("purchase_success") {
-                        popUpTo("checkout") { inclusive = true }
+                    navController.navigate("invoice/$orderId") {
+                        popUpTo("home") { inclusive = false }
                     }
                 },
                 modifier = Modifier
@@ -212,7 +213,6 @@ fun CardPaymentScreen(
     }
 }
 
-// ============= PANTALLA PAGO CON YAPE =============
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun YapePaymentScreen(navController: NavController, address: String, productViewModel: ProductViewModel) {
@@ -245,7 +245,6 @@ fun YapePaymentScreen(navController: NavController, address: String, productView
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Total a pagar
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -268,7 +267,6 @@ fun YapePaymentScreen(navController: NavController, address: String, productView
 
             Spacer(Modifier.height(24.dp))
 
-            // Instrucciones
             Text(
                 "Escanea el código QR con tu app Yape",
                 fontSize = 16.sp,
@@ -278,7 +276,6 @@ fun YapePaymentScreen(navController: NavController, address: String, productView
 
             Spacer(Modifier.height(16.dp))
 
-            // QR Code
             Card(
                 modifier = Modifier
                     .size(280.dp),
@@ -304,7 +301,6 @@ fun YapePaymentScreen(navController: NavController, address: String, productView
 
             Spacer(Modifier.height(24.dp))
 
-            // Info adicional
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -337,7 +333,6 @@ fun YapePaymentScreen(navController: NavController, address: String, productView
 
             Spacer(Modifier.height(20.dp))
 
-            // Campo de teléfono
             OutlinedTextField(
                 value = phoneNumber,
                 onValueChange = {
@@ -357,13 +352,17 @@ fun YapePaymentScreen(navController: NavController, address: String, productView
 
             Spacer(Modifier.height(32.dp))
 
-            // Botón confirmar
             Button(
                 onClick = {
-                    productViewModel.createOrder(CartManager.items, address, CartManager.total + 5)
+                    val orderId = productViewModel.createOrder(
+                        cartItems = CartManager.items, 
+                        address = address, 
+                        total = CartManager.total + 5,
+                        paymentMethod = "Yape"
+                    )
                     CartManager.clear()
-                    navController.navigate("purchase_success") {
-                        popUpTo("checkout") { inclusive = true }
+                    navController.navigate("invoice/$orderId") { 
+                        popUpTo("home") { inclusive = false }
                     }
                 },
                 modifier = Modifier
@@ -380,8 +379,6 @@ fun YapePaymentScreen(navController: NavController, address: String, productView
         }
     }
 }
-
-// ============= PANTALLA PAGO CON PLIN =============
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlinPaymentScreen(navController: NavController, address: String, productViewModel: ProductViewModel) {
@@ -414,7 +411,6 @@ fun PlinPaymentScreen(navController: NavController, address: String, productView
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Total a pagar
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -437,7 +433,6 @@ fun PlinPaymentScreen(navController: NavController, address: String, productView
 
             Spacer(Modifier.height(24.dp))
 
-            // Instrucciones
             Text(
                 "Escanea el código QR con tu app Plin",
                 fontSize = 16.sp,
@@ -447,7 +442,6 @@ fun PlinPaymentScreen(navController: NavController, address: String, productView
 
             Spacer(Modifier.height(16.dp))
 
-            // QR Code (mismo que Yape)
             Card(
                 modifier = Modifier
                     .size(280.dp),
@@ -473,7 +467,6 @@ fun PlinPaymentScreen(navController: NavController, address: String, productView
 
             Spacer(Modifier.height(24.dp))
 
-            // Info adicional
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -506,7 +499,6 @@ fun PlinPaymentScreen(navController: NavController, address: String, productView
 
             Spacer(Modifier.height(20.dp))
 
-            // Campo de teléfono
             OutlinedTextField(
                 value = phoneNumber,
                 onValueChange = {
@@ -526,13 +518,17 @@ fun PlinPaymentScreen(navController: NavController, address: String, productView
 
             Spacer(Modifier.height(32.dp))
 
-            // Botón confirmar
             Button(
                 onClick = {
-                    productViewModel.createOrder(CartManager.items, address, CartManager.total + 5)
+                    val orderId = productViewModel.createOrder(
+                        cartItems = CartManager.items,
+                        address = address, 
+                        total = CartManager.total + 5,
+                        paymentMethod = "Plin"
+                    )
                     CartManager.clear()
-                    navController.navigate("purchase_success") {
-                        popUpTo("checkout") { inclusive = true }
+                    navController.navigate("invoice/$orderId") { 
+                        popUpTo("home") { inclusive = false }
                     }
                 },
                 modifier = Modifier
@@ -550,7 +546,6 @@ fun PlinPaymentScreen(navController: NavController, address: String, productView
     }
 }
 
-// ============= PANTALLA CONTRA ENTREGA =============
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CashOnDeliveryScreen(navController: NavController, address: String, productViewModel: ProductViewModel) {
@@ -583,7 +578,6 @@ fun CashOnDeliveryScreen(navController: NavController, address: String, productV
         ) {
             Spacer(Modifier.height(20.dp))
 
-            // Icono grande
             Icon(
                 Icons.Default.LocalShipping,
                 contentDescription = "Entrega",
@@ -602,7 +596,6 @@ fun CashOnDeliveryScreen(navController: NavController, address: String, productV
 
             Spacer(Modifier.height(24.dp))
 
-            // Dirección
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -632,7 +625,6 @@ fun CashOnDeliveryScreen(navController: NavController, address: String, productV
 
             Spacer(Modifier.height(16.dp))
 
-            // Total
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -655,7 +647,6 @@ fun CashOnDeliveryScreen(navController: NavController, address: String, productV
 
             Spacer(Modifier.height(24.dp))
 
-            // Información importante
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -690,13 +681,17 @@ fun CashOnDeliveryScreen(navController: NavController, address: String, productV
 
             Spacer(Modifier.height(32.dp))
 
-            // Botón confirmar
             Button(
                 onClick = {
-                    productViewModel.createOrder(CartManager.items, address, CartManager.total + 5)
+                    val orderId = productViewModel.createOrder(
+                        cartItems = CartManager.items,
+                        address = address, 
+                        total = CartManager.total + 5,
+                        paymentMethod = "Contra entrega"
+                    )
                     CartManager.clear()
-                    navController.navigate("purchase_success") {
-                        popUpTo("checkout") { inclusive = true }
+                    navController.navigate("invoice/$orderId") { 
+                        popUpTo("home") { inclusive = false }
                     }
                 },
                 modifier = Modifier

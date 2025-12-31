@@ -59,7 +59,6 @@ fun ClientNavigationDrawer(
 
     val menuItems = listOf(
         DrawerMenuItem("home", "Inicio", Icons.Filled.Home),
-        DrawerMenuItem("search", "Buscar", Icons.Filled.Search),
         DrawerMenuItem("notifications", "Notificaciones", Icons.Filled.Notifications),
         DrawerMenuItem("my_orders", "Mis compras", Icons.Filled.ShoppingBasket),
         DrawerMenuItem("favorites", "Favoritos", Icons.Filled.Favorite),

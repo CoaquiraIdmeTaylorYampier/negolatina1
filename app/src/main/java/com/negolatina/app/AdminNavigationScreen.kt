@@ -68,7 +68,8 @@ fun AdminDashboardScreen(
                         onClick = {
                             selectedItem = index
                             when (title) {
-                                "Inventario" -> navController.navigate("inventory_categories") 
+                                "Inventario" -> navController.navigate("inventory_categories")
+                                "Pedidos" -> navController.navigate("admin_orders")
                             }
                         },
                         modifier = Modifier.weight(1f)
@@ -119,7 +120,6 @@ fun AdminDashboardScreen(
                         Text("Hola, Admin", color = Color.White)
                         Text(adminName, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                     }
-                    // Botón de Cerrar Sesión
                     IconButton(onClick = { showLogoutDialog = true }) {
                         Icon(Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "Cerrar Sesión", tint = Color.White)
                     }
@@ -246,7 +246,8 @@ fun AdminDashboardScreen(
                 Card(
                     modifier = Modifier
                         .size(100.dp)
-                        .padding(end = 10.dp),
+                        .padding(end = 10.dp)
+                        .clickable { navController.navigate("discount_products") },
                     colors = CardDefaults.cardColors(containerColor = Color.White)
                 ) {
                     Column(
@@ -259,6 +260,8 @@ fun AdminDashboardScreen(
                     }
                 }
 
+                /*
+                // aun no por ahora (scaner)
                 Card(
                     modifier = Modifier
                         .size(100.dp)
@@ -274,6 +277,7 @@ fun AdminDashboardScreen(
                         Text("Escanear", fontSize = 12.sp)
                     }
                 }
+                */
                 
                 Card(
                     modifier = Modifier.size(100.dp),

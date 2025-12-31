@@ -16,7 +16,7 @@ class ProductViewModel : ViewModel() {
 
     private val db = FirebaseFirestore.getInstance()
     private val productsCollection = db.collection("products")
-    private val ordersCollection = db.collection("orders") // Nueva colección
+    private val ordersCollection = db.collection("orders")
     private val auth = FirebaseAuth.getInstance()
 
     private val _products = MutableStateFlow<List<Product>>(emptyList())
@@ -102,15 +102,28 @@ class ProductViewModel : ViewModel() {
         return _products.value.find { it.id == productId }
     }
 
-    fun createOrder(cartItems: List<CartItem>, address: String, total: Double) {
-        val currentUser = auth.currentUser ?: return
+    fun createOrder(
+        cartItems: List<CartItem>, 
+        address: String, 
+        total: Double,
+        paymentMethod: String
+    ): String {
+        val currentUser = auth.currentUser ?: return ""
         val orderId = ordersCollection.document().id
 
         val orderItems = cartItems.map { item ->
+            val priceString = item.product.price
+                .replace("S/.", "")
+                .replace("x Kg", "")
+                .replace("x Ud", "")
+                .trim()
+            val price = priceString.toDoubleOrNull() ?: 0.0
+            
             OrderItem(
                 productId = item.product.id,
                 title = item.product.title,
-                quantity = item.quantity
+                quantity = item.quantity,
+                price = price
             )
         }
 
@@ -121,12 +134,15 @@ class ProductViewModel : ViewModel() {
             address = address,
             total = total,
             timestamp = System.currentTimeMillis(),
-            status = OrderStatus.PENDING.name
+            status = OrderStatus.PENDING.name,
+            paymentMethod = paymentMethod
         )
 
         ordersCollection.document(orderId).set(order)
             .addOnSuccessListener { Log.d("ProductViewModel", "Pedido creado con éxito: $orderId") }
             .addOnFailureListener { e -> Log.e("ProductViewModel", "Error al crear el pedido", e) }
+        
+        return orderId
     }
 
     fun addProduct(product: Product) {

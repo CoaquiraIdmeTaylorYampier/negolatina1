@@ -19,6 +19,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -39,7 +40,7 @@ import androidx.navigation.NavController
 @Composable
 fun AdminOrdersScreen(navController: NavController, orderViewModel: OrderViewModel = viewModel()) {
     val orders by orderViewModel.orders.collectAsState()
-    val userNames by orderViewModel.userNames.collectAsState() // Obtenemos el mapa de nombres
+    val userNames by orderViewModel.userNames.collectAsState()
 
     DisposableEffect(orderViewModel) {
         orderViewModel.listenToAllOrders()
@@ -67,15 +68,14 @@ fun AdminOrdersScreen(navController: NavController, orderViewModel: OrderViewMod
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(orders) { order ->
-                // Pasamos el mapa de nombres a la tarjeta
-                OrderCard(order = order, orderViewModel = orderViewModel, userNames = userNames)
+                OrderCard(order = order, orderViewModel = orderViewModel, userNames = userNames, navController = navController)
             }
         }
     }
 }
 
 @Composable
-fun OrderCard(order: Order, orderViewModel: OrderViewModel, userNames: Map<String, String>) {
+fun OrderCard(order: Order, orderViewModel: OrderViewModel, userNames: Map<String, String>, navController: NavController) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(4.dp),
@@ -90,9 +90,13 @@ fun OrderCard(order: Order, orderViewModel: OrderViewModel, userNames: Map<Strin
         Column(modifier = Modifier.padding(16.dp)) {
             Text("Pedido #${order.id.take(6).uppercase()}", fontWeight = FontWeight.Bold)
             
-            // Mostramos el nombre del cliente
             val clientName = userNames[order.userId] ?: "Usuario Desconocido"
             Text("Cliente: $clientName")
+            
+            Spacer(modifier = Modifier.height(8.dp))
+            
+            Text("Dirección: ${order.address}", fontWeight = FontWeight.Medium)
+            Text("Método de Pago: ${order.paymentMethod}", fontWeight = FontWeight.Medium)
             
             Spacer(modifier = Modifier.height(8.dp))
             Text("Estado: ${order.status}", fontWeight = FontWeight.SemiBold)
@@ -104,9 +108,18 @@ fun OrderCard(order: Order, orderViewModel: OrderViewModel, userNames: Map<Strin
                     Text(item.title)
                 }
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedButton(
+                onClick = { navController.navigate("invoice/${order.id}") },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Ver Boleta de Venta")
+            }
             
             if (order.status == OrderStatus.PENDING.name) {
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(), 
                     horizontalArrangement = Arrangement.End

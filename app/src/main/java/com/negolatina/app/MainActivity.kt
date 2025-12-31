@@ -140,6 +140,13 @@ class MainActivity : ComponentActivity() {
                         CashOnDeliveryScreen(navController, address, productViewModel)
                     }
                     composable("purchase_success") { PurchaseSuccessScreen(navController) }
+                    composable(
+                        "invoice/{orderId}",
+                        arguments = listOf(navArgument("orderId") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        val orderId = backStackEntry.arguments?.getString("orderId") ?: ""
+                        InvoiceScreen(navController, orderId)
+                    }
 
                     // Listados
                     composable("all_categories") { AllCategoriesScreen(navController) }
@@ -162,7 +169,9 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     }
-
+                    
+                    composable("discount_products") { DiscountProductsScreen(navController, productViewModel) }
+                    composable("client_offers") { ClientOffersScreen(navController, productViewModel) } // Nueva ruta para cliente
 
                     // Usuario y Admin
                     composable("admin_dashboard") { AdminDashboardScreen(navController, profileViewModel, productViewModel) }
@@ -199,8 +208,8 @@ class MainActivity : ComponentActivity() {
 
                     // Extras
                     composable("search") { SearchScreen(navController) }
-                    composable("notifications") { NotificationsScreen(navController) }
-                    composable("offers") { OffersScreen(navController) }
+                    composable("notifications") { NotificationsScreen(navController, orderViewModel) }
+                    composable("offers") { OffersScreen(navController) } // Placeholder original, se mantiene por si acaso
                     composable("sell") { SellScreen(navController) }
 
                     composable("eco_mode") { 
@@ -218,7 +227,6 @@ class MainActivity : ComponentActivity() {
 
 // Placeholder
 @Composable fun SearchScreen(navController: NavController) { CenterText("Pantalla de Búsqueda - En desarrollo") }
-@Composable fun NotificationsScreen(navController: NavController) { CenterText("Notificaciones - En desarrollo") }
 @Composable fun OffersScreen(navController: NavController) { CenterText("Ofertas - En desarrollo") }
 @Composable fun SellScreen(navController: NavController) { CenterText("Vender Producto - En desarrollo") }
 @Composable
